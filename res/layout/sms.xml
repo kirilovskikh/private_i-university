@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:orientation="horizontal"
+              android:layout_width="fill_parent"
+              android:layout_height="fill_parent" android:paddingTop="4dp" android:paddingLeft="16dp"
+              android:paddingRight="16dp" android:paddingBottom="4dp">
+
+
+
+    <ImageView
+                android:layout_width="48dp"
+                android:layout_height="48dp"
+                android:id="@+id/imageView"
+                android:src="@drawable/face_icon"
+                android:layout_gravity="center_horizontal|top"/>
+    <LinearLayout
+            android:orientation="vertical"
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent" android:paddingLeft="8dp">
+        <LinearLayout
+                android:orientation="vertical"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content" android:paddingBottom="4dp">
+            <TextView
+                    android:layout_width="fill_parent"
+                    android:layout_height="fill_parent"
+                    android:text="New Text"
+                    android:id="@+id/textView"/>
+        </LinearLayout>
+        <LinearLayout
+                android:orientation="horizontal"
+                android:layout_width="fill_parent"
+                android:layout_height="fill_parent" android:layout_weight="1" android:weightSum="1"
+                android:paddingTop="4dp">
+            <TextView
+                    android:layout_width="fill_parent"
+                    android:layout_height="fill_parent"
+                    android:text="New Text"
+                    android:id="@+id/textView1" android:layout_weight="0.3" android:paddingRight="4dp"/>
+            <TextView
+                    android:layout_width="fill_parent"
+                    android:layout_height="fill_parent"
+                    android:text="5.07.2013"
+                    android:id="@+id/textView2"
+                    android:layout_weight="0.7" android:paddingRight="4dp"
+                    android:gravity="right"/>
+        </LinearLayout>
+    </LinearLayout>
+
+</LinearLayout>

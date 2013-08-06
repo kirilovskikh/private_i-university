@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:orientation="vertical"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent" android:padding="16dp">
+
+    <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content" android:paddingBottom="8dp" android:weightSum="1">
+        <LinearLayout
+                android:orientation="vertical"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" android:layout_weight="0.3">
+            <ImageView
+                    android:layout_width="100dp"
+                    android:layout_height="100dp"
+                    android:id="@+id/imageView"
+                    android:src="@drawable/face_icon"/>
+        </LinearLayout>
+        <LinearLayout
+                android:orientation="vertical"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" android:layout_weight="0.7">
+            <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Студент"
+                    android:id="@+id/textView" android:paddingBottom="8dp"
+                    android:textAppearance="@android:style/TextAppearance.Large"/>
+            <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="БИ - 103"
+                    android:id="@+id/textView1" android:paddingBottom="8dp"
+                    android:textAppearance="@android:style/TextAppearance.Large"/>
+            <Button
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Перейти в диалог"
+                    android:id="@+id/openDialog"/>
+        </LinearLayout>
+    </LinearLayout>
+    <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content" android:paddingBottom="8dp">
+        <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Телефон: "
+                android:id="@+id/textView2" android:paddingRight="8dp"
+                android:gravity="center"
+                android:textAppearance="@android:style/TextAppearance.Large"/>
+        <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="+791100000"
+                android:id="@+id/textView3" android:layout_gravity="center" android:textIsSelectable="false"
+                android:textAppearance="@android:style/TextAppearance.Large"/>
+    </LinearLayout>
+    <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content" android:paddingBottom="8dp">
+        <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Почта:"
+                android:id="@+id/textView2" android:paddingRight="8dp"
+                android:textAppearance="@android:style/TextAppearance.Large"/>
+        <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="someemail@gmail.com"
+                android:id="@+id/textView3" android:layout_gravity="center" android:textIsSelectable="false"
+                android:textAppearance="@android:style/TextAppearance.Large"/>
+    </LinearLayout>
+</LinearLayout>

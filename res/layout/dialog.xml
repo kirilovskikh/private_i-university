@@ -1,0 +1,209 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:orientation="vertical"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent">
+
+    <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" android:paddingBottom="8dp"
+            android:weightSum="1" android:layout_gravity="center_horizontal|bottom|right">
+        <TableLayout
+                android:layout_width="fill_parent"
+                android:layout_height="fill_parent">
+            <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="привет"
+                    android:id="@+id/textView"
+                    android:layout_gravity="center"
+                    android:paddingLeft="8dp"
+                    android:textSize="13sp" android:layout_weight="1" android:paddingRight="8dp"
+                    android:textAppearance="@android:style/TextAppearance.Medium"/>
+            <DigitalClock
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/digitalClock" android:layout_gravity="right|center_vertical"/>
+        </TableLayout>
+        <ImageView
+                android:layout_width="48dp"
+                android:layout_height="48dp"
+                android:id="@+id/imageView"
+                android:src="@drawable/face_icon"
+                />
+    </LinearLayout>
+
+    <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" android:paddingBottom="8dp"
+            android:weightSum="1" android:layout_gravity="center_horizontal|bottom|left">
+        <ImageView
+                android:layout_width="48dp"
+                android:layout_height="48dp"
+                android:id="@+id/imageView"
+                android:src="@drawable/face_icon"
+                />
+        <TableLayout
+                android:layout_width="fill_parent"
+                android:layout_height="fill_parent">
+            <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="привет"
+                    android:id="@+id/textView"
+                    android:layout_gravity="center"
+                    android:paddingLeft="8dp"
+                    android:textSize="13sp" android:layout_weight="1" android:paddingRight="8dp"
+                    android:textAppearance="@android:style/TextAppearance.Medium"/>
+            <DigitalClock
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/digitalClock" android:layout_gravity="right|center_vertical"/>
+        </TableLayout>
+
+
+    </LinearLayout>
+
+
+    <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" android:paddingBottom="8dp"
+            android:weightSum="1" android:layout_gravity="center_horizontal|bottom|right">
+        <TableLayout
+                android:layout_width="fill_parent"
+                android:layout_height="fill_parent">
+            <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="как дела?"
+                    android:id="@+id/textView"
+                    android:layout_gravity="center"
+                    android:paddingLeft="8dp"
+                    android:textSize="13sp" android:layout_weight="1" android:paddingRight="8dp"
+                    android:textAppearance="@android:style/TextAppearance.Medium"/>
+            <DigitalClock
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/digitalClock" android:layout_gravity="right|center_vertical"/>
+        </TableLayout>
+        <ImageView
+                android:layout_width="48dp"
+                android:layout_height="48dp"
+                android:id="@+id/imageView"
+                android:src="@drawable/face_icon"
+                />
+
+
+    </LinearLayout>
+
+
+
+
+
+    <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" android:paddingBottom="8dp"
+            android:weightSum="1" android:layout_gravity="center_horizontal|bottom|left">
+        <ImageView
+                android:layout_width="48dp"
+                android:layout_height="48dp"
+                android:id="@+id/imageView"
+                android:src="@drawable/face_icon"
+                />
+        <TableLayout
+                android:layout_width="fill_parent"
+                android:layout_height="fill_parent">
+            <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="хорошо. а у тебя?"
+                    android:id="@+id/textView"
+                    android:layout_gravity="center"
+                    android:paddingLeft="8dp"
+                    android:textSize="13sp" android:layout_weight="1" android:paddingRight="8dp"
+                    android:textAppearance="@android:style/TextAppearance.Medium"/>
+            <DigitalClock
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/digitalClock" android:layout_gravity="right|center_vertical"/>
+        </TableLayout>
+
+
+    </LinearLayout>
+
+
+
+
+
+
+    <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" android:paddingBottom="8dp"
+            android:weightSum="1" android:layout_gravity="center_horizontal|bottom|right">
+        <TableLayout
+                android:layout_width="fill_parent"
+                android:layout_height="fill_parent">
+            <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="тоже не плохо"
+                    android:id="@+id/textView"
+                    android:layout_gravity="center"
+                    android:paddingLeft="8dp"
+                    android:textSize="13sp" android:layout_weight="1" android:paddingRight="8dp"
+                    android:textAppearance="@android:style/TextAppearance.Medium"/>
+            <DigitalClock
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/digitalClock" android:layout_gravity="right|center_vertical"/>
+        </TableLayout>
+        <ImageView
+                android:layout_width="48dp"
+                android:layout_height="48dp"
+                android:id="@+id/imageView"
+                android:src="@drawable/face_icon"
+                />
+
+
+    </LinearLayout>
+
+
+
+    <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" android:paddingBottom="8dp"
+            android:weightSum="1" android:layout_gravity="center_horizontal|bottom|right">
+        <TableLayout
+                android:layout_width="fill_parent"
+                android:layout_height="fill_parent">
+            <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="перешли мне вопросы теста"
+                    android:id="@+id/textView"
+                    android:layout_gravity="center"
+                    android:paddingLeft="8dp"
+                    android:textSize="13sp" android:layout_weight="1" android:paddingRight="8dp"
+                    android:textAppearance="@android:style/TextAppearance.Medium"/>
+            <DigitalClock
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/digitalClock" android:layout_gravity="right|center_vertical"/>
+        </TableLayout>
+        <ImageView
+                android:layout_width="48dp"
+                android:layout_height="48dp"
+                android:id="@+id/imageView"
+                android:src="@drawable/face_icon"
+                />
+
+
+    </LinearLayout>
+</LinearLayout>
