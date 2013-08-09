@@ -35,14 +35,11 @@ public class AuthorizationActivity extends SherlockActivity {
             @Override
             public void onClick(View v) {
 
-
                 EditText email = (EditText) findViewById(R.id.editText);
                 EditText password = (EditText) findViewById(R.id.editText1);
 
                 Authorize authorize = new Authorize(
                         "",       //server
-//                        "",       //email
-//                        ""        //password
                         String.valueOf(email.getText()),
                         String.valueOf(password.getText())
                 );
@@ -50,14 +47,12 @@ public class AuthorizationActivity extends SherlockActivity {
 
                 try {
                     authorize.get();
-
                 }
                 catch (Exception ex){
                     Log.e("EXCEPTION", ex.toString());
                 }
+
                 if (authorize.authorized){
-                    //Log.v("TOKEN", authorize.getToken());
-                    //Toast.makeText(getApplicationContext(), authorize.getToken(), Toast.LENGTH_LONG).show();
                     startActivity(new Intent(getApplicationContext(), MainActivity.class));
                     try{
                         SharedPreferences.Editor editor = AuthorizationActivity.preferences.edit();
@@ -66,9 +61,8 @@ public class AuthorizationActivity extends SherlockActivity {
                     } catch (Exception ex){
                         Log.v("EXCEPTION", ex.toString());
                     }
-
-                    //
-                }else {
+                }
+                else{
                     Toast.makeText(getApplicationContext(), "Имя пользователя или пароль не верны", Toast.LENGTH_LONG).show();
                 }
                 //To change body of implemented methods use File | Settings | File Templates.
