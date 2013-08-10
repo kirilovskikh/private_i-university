@@ -21,11 +21,20 @@ import com.students.I_university.dialogActivity;
  */
 public class MessengerList extends SherlockFragment {
 
+    String funcName;
+    String web_way = "http://university.shiva.vps-private.net/webservice/rest/server.php?";
+
+
+
+
+
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.listview_layout, null);
 
         final String[] kontakt = new String[] {"Старикова Анастасия Константиновна", "Сидоров Петр Сергеевич", "Петров Алексей Федорович", "Сидорова Дарья Ивановна"};
+
         final String[] sms = new String[] {"Hello","Hi","Привет","Ура"};
 
         ListView kontaktList = (ListView) view.findViewById(R.id.listView);
