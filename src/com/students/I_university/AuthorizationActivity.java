@@ -63,7 +63,7 @@ public class AuthorizationActivity extends SherlockActivity {
                     }
                 }
                 else{
-                    Toast.makeText(getApplicationContext(), "Имя пользователя или пароль не верны", Toast.LENGTH_LONG).show();
+                    Toast.makeText(getApplicationContext(), "РРјСЏ РїРѕР»СЊР·РѕРІР°С‚РµР»СЏ РёР»Рё РїР°СЂРѕР»СЊ РЅРµ РІРµСЂРЅС‹", Toast.LENGTH_LONG).show();
                 }
                 //To change body of implemented methods use File | Settings | File Templates.
             }
