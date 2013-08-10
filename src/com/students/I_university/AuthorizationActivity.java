@@ -16,7 +16,6 @@ import com.students.I_university.SlidingMenu.MainActivity;
  */
 public class AuthorizationActivity extends SherlockActivity {
 
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);    //To change body of overridden methods use File | Settings | File Templates.
