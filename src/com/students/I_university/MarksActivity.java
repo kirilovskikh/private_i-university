@@ -23,7 +23,6 @@ public class MarksActivity extends SherlockActivity {
     private String[] marks = new String[] {"5,0", "2,9", "1,0", "4,9", "3,1", "4,1"};
 
     ListView lvMain;
-    ArrayList<MessageDetailsActivity> details;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -36,22 +35,14 @@ public class MarksActivity extends SherlockActivity {
 
 
         lvMain = (ListView) findViewById(R.id.listView);
-        details = new ArrayList<MessageDetailsActivity>();
 
-        for (int i=0;i<6;++i){
-            MessageDetailsActivity Detail;
-            Detail = new MessageDetailsActivity();
-            Detail.setSub(subjs[i]);
-            Detail.setMark(marks[i]);
-            details.add(Detail);
-        }
-
-        lvMain.setAdapter(new CustomAdapterMarks(details , this));
+        lvMain.setAdapter(new CustomAdapterMarks(R.layout.main_marks_listview_item, R.id.subject, R.id.mark,
+                            subjs, marks, this));
 
         lvMain.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                Toast.makeText(getApplicationContext(), "It is your mark, dude...", Toast.LENGTH_LONG).show();
+                Toast.makeText(getApplicationContext(), "The Force is string with you, young Padawan...", Toast.LENGTH_LONG).show();
                 //To change body of implemented methods use File | Settings | File Templates.
             }
         });
