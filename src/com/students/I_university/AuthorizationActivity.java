@@ -28,6 +28,11 @@ public class AuthorizationActivity extends SherlockActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);    //To change body of overridden methods use File | Settings | File Templates.
+        preferences = getPreferences(MODE_PRIVATE);
+        String s = preferences.getString("token","");
+        if (s.length() > 0){
+            startActivity(new Intent(getApplicationContext(), MainActivity.class));
+        }
         setContentView(R.layout.auth);
 
         Button button = (Button) findViewById(R.id.button);
@@ -55,6 +60,7 @@ public class AuthorizationActivity extends SherlockActivity {
                 if (authorize.authorized){
                     startActivity(new Intent(getApplicationContext(), MainActivity.class));
                     try{
+                        preferences = getPreferences(MODE_PRIVATE);
                         SharedPreferences.Editor editor = AuthorizationActivity.preferences.edit();
                         editor.putString("token",authorize.getToken());
                         editor.commit();

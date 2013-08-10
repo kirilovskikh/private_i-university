@@ -23,7 +23,7 @@
         </activity>
 
         <activity
-            android:name=".ContactActivity">
+            android:name=".Contacts.ContactActivity">
         </activity>
 
         <activity
