@@ -27,6 +27,13 @@ public class ContactActivity extends SherlockActivity implements CallReturnDownl
     private Context mContext;
     private ListView listView;
 
+    /**
+     * Для работы корректой работы Activity необходимо:
+     *
+     * 1) Передать id пользотеля в системе Moodle.
+     * 2) Передать fullname.
+     */
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);    //To change body of overridden methods use File | Settings | File Templates.
@@ -34,12 +41,14 @@ public class ContactActivity extends SherlockActivity implements CallReturnDownl
 
         mContext = this;
 
-        getSupportActionBar().setTitle("Иванов Иван Иванович");
+        int userId = getIntent().getExtras().getInt("userId");
+        String fullname = getIntent().getExtras().getString("fullname");
+
+        getSupportActionBar().setTitle(fullname);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         listView = (ListView) findViewById(R.id.listView);
 
-        int userId = getIntent().getExtras().getInt("userId");
         AsyncTaskGetContactInfo asyncTaskGetContactInfo = new AsyncTaskGetContactInfo(this);
         asyncTaskGetContactInfo.returnDownload = this;
         asyncTaskGetContactInfo.execute(userId);
@@ -51,7 +60,6 @@ public class ContactActivity extends SherlockActivity implements CallReturnDownl
                 Toast.makeText(getApplicationContext(), "Открывается диалог", Toast.LENGTH_SHORT).show();
             }
         });
-
     }
 
     @Override
@@ -90,4 +98,5 @@ public class ContactActivity extends SherlockActivity implements CallReturnDownl
         CustomAdapterContact customAdapterContact = new CustomAdapterContact(mContext, R.layout.contact_info_list_view_item, s, infMap);
         listView.setAdapter(customAdapterContact);
     }
+
 }
