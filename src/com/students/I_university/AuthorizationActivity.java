@@ -30,9 +30,11 @@ public class AuthorizationActivity extends SherlockActivity {
         super.onCreate(savedInstanceState);    //To change body of overridden methods use File | Settings | File Templates.
         preferences = getPreferences(MODE_PRIVATE);
         String s = preferences.getString("token","");
-        if (s.length() > 0){
+        String s1 = preferences.getString("iutoken","");        //временный токен
+        if (s.length() > 0 && s1.length() > 0){                 //необходимо будет удалить
             startActivity(new Intent(getApplicationContext(), MainActivity.class));
         }
+
         setContentView(R.layout.auth);
 
         Button button = (Button) findViewById(R.id.button);
@@ -43,10 +45,42 @@ public class AuthorizationActivity extends SherlockActivity {
                 EditText email = (EditText) findViewById(R.id.editText);
                 EditText password = (EditText) findViewById(R.id.editText1);
 
-                Authorize authorize = new Authorize(
-                        "",       //server
+                /*      +++      +++      +++      +++      +++      +++*/
+                /*          Временное решение (второй токен)            */
+                /*          после вынесения функций в плагин            */
+                /*          этот блок кода не будет нужен               */
+                Authorize special = new Authorize(
+                        "",
                         String.valueOf(email.getText()),
-                        String.valueOf(password.getText())
+                        String.valueOf(password.getText()),
+                        "iuniversity"  /*эту строку необходимо будет переставить
+                                         в следующий вызов конструктора (authorize)*/
+                );
+                special.execute();
+                try {
+                    special.get();
+                }
+                catch (Exception ex){
+                    Log.e("EXCEPTION", ex.toString());
+                }
+                if (special.authorized){
+                    try {
+                        preferences = getPreferences(MODE_PRIVATE);
+                        SharedPreferences.Editor ed = preferences.edit();
+                        ed.putString("iutoken", special.getToken());
+                        ed.commit();
+                    }
+                    catch (Exception ex){
+                        Log.e("EXCEPTION", ex.toString());
+                    }
+                }
+                /*      +++      +++      +++      +++      +++      +++*/
+
+                Authorize authorize = new Authorize(
+                        "",         //server
+                        String.valueOf(email.getText()),
+                        String.valueOf(password.getText()),
+                        ""          //service
                 );
                 authorize.execute();
 
@@ -65,7 +99,7 @@ public class AuthorizationActivity extends SherlockActivity {
                         editor.putString("token",authorize.getToken());
                         editor.commit();
                     } catch (Exception ex){
-                        Log.v("EXCEPTION", ex.toString());
+                        Log.e("EXCEPTION", ex.toString());
                     }
                 }
                 else{

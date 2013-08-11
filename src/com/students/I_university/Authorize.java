@@ -32,6 +32,7 @@ public class Authorize extends AsyncTask <Void, Void, Void> {
 
     private String protocol;
     private String server;
+    private String service;
     private String token;
     private String user;
     private String password;
@@ -39,7 +40,7 @@ public class Authorize extends AsyncTask <Void, Void, Void> {
     public boolean authorized;
 
     //Для подключения к тестовому серверу указываем пустую строку в первом параметре
-    public Authorize(String server, String user, String password){
+    public Authorize(String server, String user, String password, String service){
         this.protocol = "http://";
         this.token = "";
         this.authorized = false;
@@ -56,6 +57,10 @@ public class Authorize extends AsyncTask <Void, Void, Void> {
             this.password = password;
         else this.password = "Testuser1.";
 
+        if (!service.isEmpty())
+            this.service = service;
+        else this.service = "moodle_mobile_app";
+
     }
 
     @Override
@@ -71,7 +76,7 @@ public class Authorize extends AsyncTask <Void, Void, Void> {
 
             list.add(new BasicNameValuePair("username", this.user));
             list.add(new BasicNameValuePair("password", this.password));
-            list.add(new BasicNameValuePair("service", "moodle_mobile_app"));
+            list.add(new BasicNameValuePair("service", this.service));
 
             httpPost.setEntity(new UrlEncodedFormEntity(list, "UTF-8"));
             HttpResponse httpResponse = httpClient.execute(httpPost);
