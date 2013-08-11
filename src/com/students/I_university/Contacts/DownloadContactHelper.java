@@ -27,9 +27,8 @@ import java.util.List;
  */
 public class DownloadContactHelper  {
 
-    public static HashMap<Integer, ContactInfo> DownloadContactsInfo (List<String> listId) {
+    public static HashMap DownloadContactsInfo (List<String> listId) {
         HashMap<Integer, ContactInfo> hashMap = new HashMap<Integer, ContactInfo>();
-
         try {
             String token = "ac072b83ec6761808d3994dc446557f9";
             String url = "http://university.shiva.vps-private.net/webservice/rest/server.php?";
@@ -79,6 +78,44 @@ public class DownloadContactHelper  {
         }
 
         return hashMap;
+    }
+
+    public static HashMap<Integer, ContactInfo> oneObject (Integer id) {
+        String token = "ac072b83ec6761808d3994dc446557f9";
+        String url = "http://university.shiva.vps-private.net/webservice/rest/server.php?";
+
+        HttpClient httpClient = new DefaultHttpClient();
+        HttpPost httpPost = new HttpPost(url);
+
+        List<NameValuePair> list = new ArrayList<NameValuePair>();
+        list.add(new BasicNameValuePair("wstoken", token));
+        list.add(new BasicNameValuePair("wsfunction", "moodle_user_get_users_by_id"));
+        list.add(new BasicNameValuePair("userids[0]", Integer.toString(id)));
+
+        list.add(new BasicNameValuePair("moodlewsrestformat", "json"));
+        try {
+            httpPost.setEntity(new UrlEncodedFormEntity(list, "UTF-8"));
+            HttpResponse httpResponse = httpClient.execute(httpPost);
+            if (httpResponse != null) {
+                InputStream in = httpResponse.getEntity().getContent();
+                String str = Utils.convertStreamToString(in);
+
+                JSONArray jsonArray = new JSONArray(str);
+                JSONObject oneObject = jsonArray.getJSONObject(0);
+
+                ContactInfo contactInfo = new ContactInfo(0, null, null);
+                contactInfo.createMoreInfMap(oneObject);
+
+                HashMap<Integer, ContactInfo> hashMap = new HashMap<Integer, ContactInfo>();
+                hashMap.put(0, contactInfo);
+                return hashMap;
+            }
+        } catch (JSONException e) {
+
+        } catch (IOException e) {
+            e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
+        }
+        return null;
     }
 
 }
