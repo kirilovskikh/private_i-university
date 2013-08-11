@@ -59,13 +59,16 @@ public class DownloadContactHelper  {
                     int id = jsonObject.getInt("id");
                     String fullName = jsonObject.getString("fullname");
                     String phone;
+                    String smallImageUrl = jsonObject.getString("profileimageurlsmall");
+
                     try {
                         phone = jsonObject.getString("phone1");
                     }
                     catch (JSONException e){
                         phone = null;
-                    }
-                    ContactInfo contactInfo = new ContactInfo(id, fullName, phone);
+                    } // переделать получение телефона. Учесть, что их может быть несколько.
+
+                    ContactInfo contactInfo = new ContactInfo(id, fullName, phone, smallImageUrl);
                     hashMap.put(i, contactInfo);
                 }
                 return hashMap;
@@ -103,8 +106,11 @@ public class DownloadContactHelper  {
                 JSONArray jsonArray = new JSONArray(str);
                 JSONObject oneObject = jsonArray.getJSONObject(0);
 
-                ContactInfo contactInfo = new ContactInfo(0, null, null);
+                ContactInfo contactInfo = new ContactInfo();
                 contactInfo.createMoreInfMap(oneObject);
+
+                String normalImageUrl = oneObject.getString("profileimageurlnormal");
+                contactInfo.setNormalImgUrl(normalImageUrl);
 
                 HashMap<Integer, ContactInfo> hashMap = new HashMap<Integer, ContactInfo>();
                 hashMap.put(0, contactInfo);

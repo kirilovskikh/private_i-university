@@ -20,13 +20,24 @@ public class ContactInfo {
     private String fullName;
     private String phoneNumber;
     private HashMap<String, String> moreInfMap;
+    private String smallImgUrl;
+    private String normalImgUrl;
 
-    public ContactInfo (int id, String fullName, String phoneNumber) {
+    public ContactInfo (int id, String fullName, String phoneNumber, String smallImgUrl) {
         setId(id);
         setFullName(fullName);
         setPhoneNumber(phoneNumber);
+        setSmallImgUrl(smallImgUrl);
 
         moreInfMap = new HashMap<String, String>();
+    }
+
+    public ContactInfo() {
+        moreInfMap = new HashMap<String, String>();
+    }
+
+    public void setSmallImgUrl (String smallImgUrl) {
+        this.smallImgUrl = smallImgUrl;
     }
 
     public void setId (int id) {
@@ -70,6 +81,10 @@ public class ContactInfo {
         catch (JSONException e) {
         }
 
+    }
+
+    public void setNormalImgUrl (String url) {
+        this.normalImgUrl = url;
     }
 
     public HashMap<String, String> getMoreInfMap () {
