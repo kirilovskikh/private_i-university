@@ -1,12 +1,18 @@
 package com.students.I_university.Contacts;
 
+import android.content.Context;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ListView;
 import android.widget.Toast;
 import com.actionbarsherlock.app.SherlockActivity;
 import com.actionbarsherlock.view.MenuItem;
+import com.students.I_university.CustomAdapter.CustomAdapterContact;
+import com.students.I_university.LogD;
 import com.students.I_university.R;
+
+import java.util.HashMap;
 
 /**
  * Created with IntelliJ IDEA.
@@ -15,15 +21,28 @@ import com.students.I_university.R;
  * Time: 3:08
  * To change this template use File | Settings | File Templates.
  */
-public class ContactActivity extends SherlockActivity{
+
+public class ContactActivity extends SherlockActivity implements CallReturnDownload{
+
+    private Context mContext;
+    private ListView listView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);    //To change body of overridden methods use File | Settings | File Templates.
         setContentView(R.layout.contact);
 
+        mContext = this;
+
         getSupportActionBar().setTitle("Иванов Иван Иванович");
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
+        listView = (ListView) findViewById(R.id.listView);
+
+        int userId = getIntent().getExtras().getInt("userId");
+        AsyncTaskGetContactInfo asyncTaskGetContactInfo = new AsyncTaskGetContactInfo(this);
+        asyncTaskGetContactInfo.returnDownload = this;
+        asyncTaskGetContactInfo.execute(userId);
 
         Button openDialog = (Button) findViewById(R.id.openDialog);
         openDialog.setOnClickListener(new View.OnClickListener() {
@@ -57,5 +76,18 @@ public class ContactActivity extends SherlockActivity{
                 break;
         }
         return super.onOptionsItemSelected(item);    //To change body of overridden methods use File | Settings | File Templates.
+    }
+
+    @Override
+    public void returnResult(HashMap<Integer, ContactInfo> map) {
+        if (map == null)
+            return;
+
+        ContactInfo contactInfo = map.get(0);
+        HashMap<String, String> infMap = contactInfo.getMoreInfMap();
+        String[] s = new String[infMap.size()];
+
+        CustomAdapterContact customAdapterContact = new CustomAdapterContact(mContext, R.layout.contact_info_list_view_item, s, infMap);
+        listView.setAdapter(customAdapterContact);
     }
 }

@@ -1,5 +1,12 @@
 package com.students.I_university.Contacts;
 
+import com.students.I_university.LogD;
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.util.HashMap;
+
 /**
  * Created with IntelliJ IDEA.
  * User: kirilovskikh
@@ -12,11 +19,14 @@ public class ContactInfo {
     private int id;
     private String fullName;
     private String phoneNumber;
+    private HashMap<String, String> moreInfMap;
 
     public ContactInfo (int id, String fullName, String phoneNumber) {
         setId(id);
         setFullName(fullName);
         setPhoneNumber(phoneNumber);
+
+        moreInfMap = new HashMap<String, String>();
     }
 
     public void setId (int id) {
@@ -41,6 +51,29 @@ public class ContactInfo {
 
     public String getPhoneNumber () {
         return phoneNumber;
+    }
+
+    public void createMoreInfMap (JSONObject jsonObject) {
+        String[] needRow = new String[] {"email", "phone1", "phone2", "icq", "skype"};
+        JSONArray namesAllRow = jsonObject.names();
+
+        try {
+            for (int i = 0; i < namesAllRow.length(); ++i) {
+                String nameRow = namesAllRow.getString(i);
+                if ((nameRow.equals(needRow[0])) || nameRow.equals(needRow[1]) || nameRow.equals(needRow[2]) ||
+                        nameRow.equals(needRow[3]) || nameRow.equals(needRow[4])) {
+                    String s = jsonObject.getString(nameRow);
+                    moreInfMap.put(nameRow, s);
+                }
+            }
+        }
+        catch (JSONException e) {
+        }
+
+    }
+
+    public HashMap<String, String> getMoreInfMap () {
+        return moreInfMap;
     }
 
 }

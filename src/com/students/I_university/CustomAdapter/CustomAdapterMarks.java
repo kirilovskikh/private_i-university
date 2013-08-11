@@ -46,17 +46,18 @@ public class CustomAdapterMarks extends BaseAdapter {
 
     public View getView(int position, View convertView, ViewGroup parent) {
         // TODO Auto-generated method stub
-         View v;
-         LayoutInflater vi = (LayoutInflater)mContext.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-         v = vi.inflate(R.layout.main_marks_listview_item, parent, false);
+        View v;
+        LayoutInflater vi = (LayoutInflater)mContext.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+        v = vi.inflate(R.layout.main_marks_listview_item, parent, false);
 
-         TextView markView = (TextView)v.findViewById(R.id.mark);
-         TextView subView = (TextView)v.findViewById(R.id.subject);
+        TextView markView = (TextView)v.findViewById(R.id.mark);
+        TextView subView = (TextView)v.findViewById(R.id.subject);
 
-         MessageDetailsActivity msg = data.get(position);
-         markView.setText(msg.mark);
-         subView.setText(msg.sub);
+        MessageDetailsActivity msg = data.get(position);
+        markView.setText(msg.mark);
+        subView.setText(msg.sub);
 
         return v;
     }
+
 }
