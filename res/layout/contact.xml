@@ -2,8 +2,8 @@
 
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
               android:orientation="vertical"
-              android:layout_width="match_parent"
-              android:layout_height="match_parent" android:padding="16dp">
+              android:layout_width="fill_parent"
+              android:layout_height="fill_parent" android:padding="16dp">
 
     <LinearLayout
             android:orientation="horizontal"
@@ -46,35 +46,9 @@
             android:orientation="horizontal"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content" android:paddingBottom="8dp">
-        <TextView
-                android:layout_width="wrap_content"
+        <ListView
+                android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
-                android:text="Телефон: "
-                android:id="@+id/textView2" android:paddingRight="8dp"
-                android:gravity="center"
-                android:textAppearance="@android:style/TextAppearance.Large"/>
-        <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="+791100000"
-                android:id="@+id/textView3" android:layout_gravity="center" android:textIsSelectable="false"
-                android:textAppearance="@android:style/TextAppearance.Large"/>
-    </LinearLayout>
-    <LinearLayout
-            android:orientation="horizontal"
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content" android:paddingBottom="8dp">
-        <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Почта:"
-                android:id="@+id/textView2" android:paddingRight="8dp"
-                android:textAppearance="@android:style/TextAppearance.Large"/>
-        <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="someemail@gmail.com"
-                android:id="@+id/textView3" android:layout_gravity="center" android:textIsSelectable="false"
-                android:textAppearance="@android:style/TextAppearance.Large"/>
+                android:id="@+id/listView"/>
     </LinearLayout>
 </LinearLayout>
