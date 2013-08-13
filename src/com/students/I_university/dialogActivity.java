@@ -37,12 +37,12 @@ public class dialogActivity extends SherlockActivity {
         //getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         //ListView contactList = (ListView)findViewById(R.id.listView);
-        try
+/*        try
         {
             //moodleRequest.execute();
             //moodleRequest.get();
 
-/*            if(moodleRequest.isSuccess())
+            if(moodleRequest.isSuccess())
             {
                 messages = moodleRequest.getMessageChain();
                 contactList.setAdapter(new CustomAdapterMessageChain(getBaseContext(), R.layout.message_chain, messages));
@@ -51,11 +51,10 @@ public class dialogActivity extends SherlockActivity {
             {
                 Toast.makeText(getApplicationContext(), moodleRequest.getErrorMessage(), Toast.LENGTH_LONG).show();
             }
-*/
         }
         catch (Exception e)
         {
             Toast.makeText(getApplicationContext(), e.toString(), Toast.LENGTH_LONG).show();
-        }
+        }*/
     }
 }
