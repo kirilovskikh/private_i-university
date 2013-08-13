@@ -1,8 +1,16 @@
 package com.students.I_university;
 
+
 import android.os.Bundle;
+import android.widget.ListView;
+import android.widget.Toast;
+
 import com.actionbarsherlock.app.SherlockActivity;
-import com.actionbarsherlock.view.MenuItem;
+import com.students.I_university.CustomAdapter.CustomAdapterMessageChain;
+import com.students.I_university.Entity.Message;
+
+import java.sql.Timestamp;
+import java.util.ArrayList;
 
 /**
  * Created with IntelliJ IDEA.
@@ -12,22 +20,30 @@ import com.actionbarsherlock.view.MenuItem;
  * To change this template use File | Settings | File Templates.
  */
 public class dialogActivity extends SherlockActivity {
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);    //To change body of overridden methods use File | Settings | File Templates.
-        setContentView(R.layout.dialog);
+        setContentView(R.layout.listview_layout);
 
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-    }
 
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()) {
-            case android.R.id.home:
-                finish();
-                break;
+        final String[] kontakt = new String[] {"Старикова Анастасия Константиновна", "Сидоров Петр Сергеевич", "Петров Алексей Федорович", "Сидорова Дарья Ивановна"};
+        final String[] sms = new String[] {"Hello","Hi","Привет","Ура"};
+        final ArrayList<Message> messages = new ArrayList<Message>();
+        messages.add(new Message("Анастасия","Старикова","","Hello!", new Timestamp(2000000000)));
+        messages.add(new Message("Анастасия","Старикова","","Hello!", new Timestamp(2000000000)));
+        messages.add(new Message("Анастасия","Старикова","","Hello!", new Timestamp(2000000000)));
+        messages.add(new Message("Анастасия","Старикова","","Hello!", new Timestamp(2000000000)));
+
+        ListView kontaktList = (ListView)findViewById(R.id.listView);
+
+        try
+        {
+            kontaktList.setAdapter(new CustomAdapterMessageChain(getBaseContext(), R.layout.message_chain, messages));
         }
-        return super.onOptionsItemSelected(item);    //To change body of overridden methods use File | Settings | File Templates.
+        catch (Exception e)
+        {
+            Toast.makeText(getApplicationContext(), e.toString(), Toast.LENGTH_LONG).show();
+        }
     }
 }
