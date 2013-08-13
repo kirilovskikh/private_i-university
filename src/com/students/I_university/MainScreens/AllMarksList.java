@@ -10,10 +10,7 @@ import android.widget.ListView;
 import com.actionbarsherlock.app.SherlockFragment;
 import com.students.I_university.CustomAdapter.CustomAdapterMarks;
 import com.students.I_university.MarksActivity;
-import com.students.I_university.MessageDetailsActivity;
 import com.students.I_university.R;
-
-import java.util.ArrayList;
 
 /**
  * Created with IntelliJ IDEA.
@@ -28,23 +25,16 @@ public class AllMarksList extends SherlockFragment{
     String[] marks = new String[] {"5,0", "2,9", "1,0", "4,9", "3,1", "4,1"};
 
     ListView lvMain;
-    ArrayList<MessageDetailsActivity> details;
+    CustomAdapterMarks customAdapterMarks;
 
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.main_marks, null);
 
         lvMain = (ListView) view.findViewById(R.id.lvMain);
-        details = new ArrayList<MessageDetailsActivity>();
+        customAdapterMarks = new CustomAdapterMarks(R.layout.main_marks_listview_item, R.id.subject, R.id.mark,
+                                                    subjs, marks, getSherlockActivity());
 
-        for (int i=0;i<6;++i){
-            MessageDetailsActivity Detail;
-            Detail = new MessageDetailsActivity();
-            Detail.setSub(subjs[i]);
-            Detail.setMark(marks[i]);
-            details.add(Detail);
-        }
-
-        lvMain.setAdapter(new CustomAdapterMarks(details , getSherlockActivity()));
+        lvMain.setAdapter(customAdapterMarks);
 
         lvMain.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override

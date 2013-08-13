@@ -1,1 +1,2 @@
-token Поле в SharedPreferences, которое хранит токен.
+token - поле в SharedPreferences, которое хранит токен.
+iutoken - поле, которое хранит токен для функций из плагина iUniversity

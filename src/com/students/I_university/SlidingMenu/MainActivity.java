@@ -1,8 +1,11 @@
 package com.students.I_university.SlidingMenu;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.widget.Toast;
 import com.jeremyfeinstein.slidingmenu.lib.SlidingMenu;
+import com.students.I_university.AuthorizationActivity;
 import com.students.I_university.MainScreens.CoursesList;
 import com.students.I_university.R;
 
@@ -50,4 +53,12 @@ public class MainActivity extends BaseActivity {
 		getSlidingMenu().showContent();
 	}
 
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();    //To change body of overridden methods use File | Settings | File Templates.
+        Intent intent = new Intent(Intent.ACTION_MAIN);
+        intent.addCategory(Intent.CATEGORY_HOME);
+        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        startActivity(intent);
+    }
 }

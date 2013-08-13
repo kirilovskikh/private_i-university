@@ -4,12 +4,8 @@ import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.BaseAdapter;
+import android.widget.ArrayAdapter;
 import android.widget.TextView;
-import com.students.I_university.MessageDetailsActivity;
-import com.students.I_university.R;
-
-import java.util.ArrayList;
 
 /**
  * Created with IntelliJ IDEA.
@@ -19,43 +15,36 @@ import java.util.ArrayList;
  * To change this template use File | Settings | File Templates.
  */
 
-public class CustomAdapterMarks extends BaseAdapter {
+public class CustomAdapterMarks extends ArrayAdapter<String> {
 
-    private ArrayList<MessageDetailsActivity> data;
+    String[] course;
+    String[] mark;
     Context mContext;
+    int layout;
+    int layoutSubj;
+    int layoutMarks;
 
-    public CustomAdapterMarks(ArrayList<MessageDetailsActivity> data, Context c){
-        this.data = data;
+    public CustomAdapterMarks(int layout, int Lsubj, int Lmark, String[] course, String[] mark, Context c){
+        super(c, layout, course);
+        this.layout = layout;
+        this.layoutSubj = Lsubj;
+        this.layoutMarks = Lmark;
+        this.course = course;
+        this.mark = mark;
         this.mContext = c;
-    }
-
-    public int getCount() {
-        // TODO Auto-generated method stub
-        return data.size();
-    }
-
-    public Object getItem(int position) {
-        // TODO Auto-generated method stub
-        return data.get(position);
-    }
-
-    public long getItemId(int position) {
-        // TODO Auto-generated method stub
-        return position;
     }
 
     public View getView(int position, View convertView, ViewGroup parent) {
         // TODO Auto-generated method stub
          View v;
          LayoutInflater vi = (LayoutInflater)mContext.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-         v = vi.inflate(R.layout.main_marks_listview_item, parent, false);
+         v = vi.inflate(layout, parent, false);
 
-         TextView markView = (TextView)v.findViewById(R.id.mark);
-         TextView subView = (TextView)v.findViewById(R.id.subject);
+         TextView markView = (TextView)v.findViewById(layoutSubj);
+         TextView subView = (TextView)v.findViewById(layoutMarks);
 
-         MessageDetailsActivity msg = data.get(position);
-         markView.setText(msg.mark);
-         subView.setText(msg.sub);
+         markView.setText(mark[position]);
+         subView.setText(course[position]);
 
         return v;
     }
