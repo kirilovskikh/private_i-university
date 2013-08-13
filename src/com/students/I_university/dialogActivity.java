@@ -4,10 +4,12 @@ package com.students.I_university;
 import android.os.Bundle;
 import android.widget.ListView;
 import android.widget.Toast;
+import android.content.SharedPreferences;
 
 import com.actionbarsherlock.app.SherlockActivity;
 import com.students.I_university.CustomAdapter.CustomAdapterMessageChain;
 import com.students.I_university.Entity.Message;
+import com.students.I_university.MoodleRequest.MoodleRequestMessageChain;
 
 import java.sql.Timestamp;
 import java.util.ArrayList;
@@ -23,21 +25,28 @@ public class dialogActivity extends SherlockActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);    //To change body of overridden methods use File | Settings | File Templates.
+        final ArrayList<Message> messages;
+        SharedPreferences prefs = getPreferences(MODE_PRIVATE);
+        MoodleRequestMessageChain moodleRequest = new MoodleRequestMessageChain(prefs.getString("iutoken"), "5");
+
         setContentView(R.layout.listview_layout);
 
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-
-        final ArrayList<Message> messages = new ArrayList<Message>();
-        messages.add(new Message("Анастасия","Старикова","","Hello!", new Timestamp(2000000000)));
-        messages.add(new Message("Анастасия","Старикова","","Hello!", new Timestamp(2000000000)));
-        messages.add(new Message("Анастасия","Старикова","","Hello!", new Timestamp(2000000000)));
-        messages.add(new Message("Анастасия","Старикова","","Hello!", new Timestamp(2000000000)));
 
         ListView contactList = (ListView)findViewById(R.id.listView);
 
         try
         {
-            contactList.setAdapter(new CustomAdapterMessageChain(getBaseContext(), R.layout.message_chain, messages));
+            moodleRequest.execute();
+            if(moodleRequest.isSuccess())
+            {
+                messages = moodleRequest.getMessageChain();
+                contactList.setAdapter(new CustomAdapterMessageChain(getBaseContext(), R.layout.message_chain, messages));
+            }
+            else
+            {
+                Toast.makeText(getApplicationContext(), moodleRequest.getErrorMessage(), Toast.LENGTH_LONG).show();
+            }
         }
         catch (Exception e)
         {

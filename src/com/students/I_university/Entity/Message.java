@@ -10,20 +10,25 @@ import java.text.SimpleDateFormat;
  */
 public class Message {
     public String username;
-    public String surname;
+    public boolean own = false;
     public String imageURL;
     public String messageText;
     public Timestamp createTime;
 
     public Message() {};
 
-    public Message(String username, String surname, String imageURL, String messageText, Timestamp createTime)
+    public Message(String username, int input, String imageURL, String messageText, Timestamp createTime)
     {
         this.username = username;
-        this.surname = surname;
+        if(input == 1) this.own = true;
         this.imageURL = imageURL;
         this.messageText = messageText;
         this.createTime = createTime;
+    }
+
+    public void setOwn(int input)
+    {
+        if(input == 1) this.own = true;
     }
 
     public String GetCreateTime()

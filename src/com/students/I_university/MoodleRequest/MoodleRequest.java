@@ -29,7 +29,8 @@ public class MoodleRequest extends AsyncTask<Void, Void, Void> {
     private String pathToScript = "/webservice/rest/server.php";
     private List<NameValuePair> params;
     private String response;
-    private boolean success = false;
+    protected String errorMessage;
+    protected boolean success = false;
 
 
     public MoodleRequest() {};
@@ -64,6 +65,11 @@ public class MoodleRequest extends AsyncTask<Void, Void, Void> {
         return success;
     }
 
+    public String getErrorMessage()
+    {
+        return errorMessage;
+    }
+
     @Override
     protected Void doInBackground(Void... voids) {
         try {
@@ -80,7 +86,7 @@ public class MoodleRequest extends AsyncTask<Void, Void, Void> {
         }
         catch (Exception ex){
             success = false;
-            response = ex.getMessage();
+            errorMessage = ex.getMessage();
         }
         return null;
     }
