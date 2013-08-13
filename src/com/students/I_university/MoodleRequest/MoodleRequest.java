@@ -25,15 +25,18 @@ import java.util.List;
  */
 public class MoodleRequest extends AsyncTask<Void, Void, Void> {
 
-    private String server = "http://university.vps-private.net";
+    private String server = "http://university.shiva.vps-private.net";
     private String pathToScript = "/webservice/rest/server.php";
-    private List<NameValuePair> params;
+    private ArrayList<NameValuePair> params;
     private String response;
     protected String errorMessage;
     protected boolean success = false;
 
 
-    public MoodleRequest() {};
+    public MoodleRequest() {
+        params = new ArrayList<NameValuePair>();
+        params.add(new BasicNameValuePair("moodlewsrestformat", "json"));
+    };
 
     //Для подключения к тестовому серверу указываем пустую строку в первом параметре
     public MoodleRequest(String server, String pathToScript){
@@ -87,6 +90,7 @@ public class MoodleRequest extends AsyncTask<Void, Void, Void> {
         catch (Exception ex){
             success = false;
             errorMessage = ex.getMessage();
+            return null;
         }
         return null;
     }

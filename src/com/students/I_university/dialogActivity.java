@@ -4,6 +4,7 @@ package com.students.I_university;
 import android.os.Bundle;
 import android.widget.ListView;
 import android.widget.Toast;
+import android.widget.TextView;
 import android.content.SharedPreferences;
 
 import com.actionbarsherlock.app.SherlockActivity;
@@ -25,20 +26,23 @@ public class dialogActivity extends SherlockActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);    //To change body of overridden methods use File | Settings | File Templates.
-        final ArrayList<Message> messages;
-        SharedPreferences prefs = getPreferences(MODE_PRIVATE);
-        MoodleRequestMessageChain moodleRequest = new MoodleRequestMessageChain(prefs.getString("iutoken"), "5");
+
+        //final ArrayList<Message> messages;
+        //SharedPreferences prefs = getPreferences(MODE_PRIVATE);
+        //MoodleRequestMessageChain moodleRequest = new MoodleRequestMessageChain(prefs.getString("iutoken", ""), "5");
 
         setContentView(R.layout.listview_layout);
+        TextView errorText = (TextView) findViewById(R.id.ErrorText);
 
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
-        ListView contactList = (ListView)findViewById(R.id.listView);
-
+        //ListView contactList = (ListView)findViewById(R.id.listView);
         try
         {
-            moodleRequest.execute();
-            if(moodleRequest.isSuccess())
+            //moodleRequest.execute();
+            //moodleRequest.get();
+            errorText.setText("I love you!");
+/*            if(moodleRequest.isSuccess())
             {
                 messages = moodleRequest.getMessageChain();
                 contactList.setAdapter(new CustomAdapterMessageChain(getBaseContext(), R.layout.message_chain, messages));
@@ -47,6 +51,7 @@ public class dialogActivity extends SherlockActivity {
             {
                 Toast.makeText(getApplicationContext(), moodleRequest.getErrorMessage(), Toast.LENGTH_LONG).show();
             }
+*/
         }
         catch (Exception e)
         {

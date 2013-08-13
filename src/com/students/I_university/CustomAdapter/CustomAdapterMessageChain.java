@@ -37,7 +37,7 @@ public class CustomAdapterMessageChain extends ArrayAdapter<Message> {
         TextView date = (TextView)v.findViewById(R.id.Date);
         Message message = messages.get(position);
 
-        username.setText(message.username + " " + message.surname);
+        username.setText(message.username);
         messageText.setText(message.messageText);
         date.setText(message.GetCreateTime());
 
