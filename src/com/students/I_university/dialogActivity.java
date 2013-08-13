@@ -32,16 +32,16 @@ public class dialogActivity extends SherlockActivity {
         //MoodleRequestMessageChain moodleRequest = new MoodleRequestMessageChain(prefs.getString("iutoken", ""), "5");
 
         setContentView(R.layout.listview_layout);
-        TextView errorText = (TextView) findViewById(R.id.ErrorText);
-
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        TextView errorText = (TextView) findViewById(R.id.errorText);
+        errorText.setText("I love you!");
+        //getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         //ListView contactList = (ListView)findViewById(R.id.listView);
         try
         {
             //moodleRequest.execute();
             //moodleRequest.get();
-            errorText.setText("I love you!");
+
 /*            if(moodleRequest.isSuccess())
             {
                 messages = moodleRequest.getMessageChain();

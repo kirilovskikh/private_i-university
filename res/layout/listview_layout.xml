@@ -8,9 +8,10 @@
             android:layout_width="fill_parent"
             android:layout_height="fill_parent"
             android:text="Error Text"
-            android:id="@+id/ErrorText"
-            android:layout_weight="1"
-            android:paddingRight="4dp"/>
+            android:id="@+id/errorText"
+            android:textAppearance="@android:style/TextAppearance.Large"
+            android:paddingBottom="4dp"
+            />
     <ListView
             android:layout_width="fill_parent"
             android:layout_height="fill_parent"
