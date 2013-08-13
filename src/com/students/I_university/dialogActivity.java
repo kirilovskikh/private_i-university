@@ -19,7 +19,6 @@ public class dialogActivity extends SherlockActivity {
         setContentView(R.layout.dialog);
 
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-
     }
 
     @Override
