@@ -27,19 +27,17 @@ public class dialogActivity extends SherlockActivity {
 
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
-        final String[] kontakt = new String[] {"Старикова Анастасия Константиновна", "Сидоров Петр Сергеевич", "Петров Алексей Федорович", "Сидорова Дарья Ивановна"};
-        final String[] sms = new String[] {"Hello","Hi","Привет","Ура"};
         final ArrayList<Message> messages = new ArrayList<Message>();
         messages.add(new Message("Анастасия","Старикова","","Hello!", new Timestamp(2000000000)));
         messages.add(new Message("Анастасия","Старикова","","Hello!", new Timestamp(2000000000)));
         messages.add(new Message("Анастасия","Старикова","","Hello!", new Timestamp(2000000000)));
         messages.add(new Message("Анастасия","Старикова","","Hello!", new Timestamp(2000000000)));
 
-        ListView kontaktList = (ListView)findViewById(R.id.listView);
+        ListView contactList = (ListView)findViewById(R.id.listView);
 
         try
         {
-            kontaktList.setAdapter(new CustomAdapterMessageChain(getBaseContext(), R.layout.message_chain, messages));
+            contactList.setAdapter(new CustomAdapterMessageChain(getBaseContext(), R.layout.message_chain, messages));
         }
         catch (Exception e)
         {

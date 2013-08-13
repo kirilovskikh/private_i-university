@@ -15,6 +15,8 @@ public class Message {
     public String messageText;
     public Timestamp createTime;
 
+    public Message() {};
+
     public Message(String username, String surname, String imageURL, String messageText, Timestamp createTime)
     {
         this.username = username;
