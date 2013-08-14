@@ -28,6 +28,7 @@ public class CustomAdapterMessageChain extends ArrayAdapter<Message> {
     }
 
     public View getView(int position, View convertView, ViewGroup parent) {
+
         View v;
         LayoutInflater vi = (LayoutInflater)mContext.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         v = vi.inflate(layout, parent, false);

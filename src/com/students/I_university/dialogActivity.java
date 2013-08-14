@@ -31,8 +31,6 @@ public class dialogActivity extends SherlockActivity {
         MoodleRequestMessageChain moodleRequest = new MoodleRequestMessageChain(prefs.getString("iutoken", ""), "3");
 
         setContentView(R.layout.listview_layout);
-        TextView errorText = (TextView)findViewById(R.id.errorText);
-        errorText.setText("I love you!");
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         ListView contactList = (ListView)findViewById(R.id.listView);

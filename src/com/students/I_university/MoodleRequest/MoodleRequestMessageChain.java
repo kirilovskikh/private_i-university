@@ -45,6 +45,7 @@ public class MoodleRequestMessageChain extends MoodleRequest {
             jsonArray = new JSONArray(this.getResponse());
             arrayLength = jsonArray.length();
             if(arrayLength == 0) throw new Exception("No messages to show");
+
             for(int i = 0; i < arrayLength; i++)
             {
                 newMessage = new Message();

@@ -9,6 +9,7 @@ import java.text.SimpleDateFormat;
  * Created by Akella on 13.08.13.
  */
 public class Message {
+
     public String username;
     public boolean own = false;
     public String imageURL;

@@ -27,6 +27,7 @@ public class AuthorizationActivity extends SherlockActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+
         super.onCreate(savedInstanceState);    //To change body of overridden methods use File | Settings | File Templates.
         preferences = getSharedPreferences("Settings", MODE_PRIVATE);
         String s = preferences.getString("token","");

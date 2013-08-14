@@ -32,13 +32,11 @@ public class MoodleRequest extends AsyncTask<Void, Void, Void> {
     protected String errorMessage;
     protected boolean success = false;
 
-
     public MoodleRequest() {
         params = new ArrayList<NameValuePair>();
         params.add(new BasicNameValuePair("moodlewsrestformat", "json"));
     };
 
-    //Для подключения к тестовому серверу указываем пустую строку в первом параметре
     public MoodleRequest(String server, String pathToScript){
 
         if (!server.isEmpty())
