@@ -33,9 +33,9 @@ public class CustomAdapterMessageChain extends ArrayAdapter<Message> {
         LayoutInflater vi = (LayoutInflater)mContext.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         v = vi.inflate(layout, parent, false);
 
-        TextView username = (TextView)v.findViewById(R.id.UserName);
-        TextView messageText = (TextView)v.findViewById(R.id.MessageText);
-        TextView date = (TextView)v.findViewById(R.id.Date);
+        TextView username = (TextView)v.findViewById(R.id.name);
+        TextView messageText = (TextView)v.findViewById(R.id.text);
+        TextView date = (TextView)v.findViewById(R.id.date);
         Message message = messages.get(position);
 
         username.setText(message.username);
