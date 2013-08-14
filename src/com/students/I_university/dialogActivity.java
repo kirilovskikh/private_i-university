@@ -2,19 +2,16 @@ package com.students.I_university;
 
 
 import android.os.Bundle;
-import android.preference.PreferenceManager;
 import android.widget.ListView;
 import android.widget.Toast;
 import android.widget.TextView;
 import android.content.SharedPreferences;
-import android.preference.PreferenceManager;
 
 import com.actionbarsherlock.app.SherlockActivity;
 import com.students.I_university.CustomAdapter.CustomAdapterMessageChain;
 import com.students.I_university.Entity.Message;
 import com.students.I_university.MoodleRequest.MoodleRequestMessageChain;
 
-import java.sql.Timestamp;
 import java.util.ArrayList;
 
 /**
