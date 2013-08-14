@@ -109,8 +109,8 @@ public class DownloadContactHelper  {
                 ContactInfo contactInfo = new ContactInfo();
                 contactInfo.createMoreInfMap(oneObject);
 
-//                String normalImageUrl = oneObject.getString("profileimageurlnormal");
-//                contactInfo.setNormalImgUrl(normalImageUrl);
+                String normalImageUrl = oneObject.getString("profileimageurl");
+                contactInfo.setNormalImgUrl(normalImageUrl);
 
                 HashMap<Integer, ContactInfo> hashMap = new HashMap<Integer, ContactInfo>();
                 hashMap.put(0, contactInfo);

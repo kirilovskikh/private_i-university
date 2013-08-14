@@ -68,6 +68,10 @@ public class ContactInfo {
         return smallImgUrl;
     }
 
+    public String getNormalImgUrl() {
+        return normalImgUrl;
+    }
+
     public void createMoreInfMap (JSONObject jsonObject) {
         String[] needRow = new String[] {"email", "phone1", "phone2", "icq", "skype"};
         JSONArray namesAllRow = jsonObject.names();
