@@ -4,7 +4,6 @@ package com.students.I_university;
 import android.os.Bundle;
 import android.widget.ListView;
 import android.widget.Toast;
-import android.widget.TextView;
 import android.content.SharedPreferences;
 
 import com.actionbarsherlock.app.SherlockActivity;
@@ -45,7 +44,7 @@ public class dialogActivity extends SherlockActivity {
                 if(messages != null) contactList.setAdapter(
                             new CustomAdapterMessageChain(
                                         getBaseContext(),
-                                        R.layout.message_chain,
+                                        R.layout.message_chain_left,
                                         messages
                             )
                 );
