@@ -92,14 +92,10 @@ public class MoodleRequest extends AsyncTask<Void, Void, Void> {
             errorMessage = ex.getMessage();
             return null;
         }
+        success = true;
         return null;
     }
 
-    @Override
-    protected void onPostExecute(Void aVoid){
-        super.onPostExecute(aVoid);
-        success = true;
-    }
     private String convertStreamToString(InputStream is) {
         BufferedReader reader = new BufferedReader(new InputStreamReader(is));
         StringBuilder sb = new StringBuilder();

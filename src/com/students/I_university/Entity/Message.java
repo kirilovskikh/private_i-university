@@ -26,9 +26,9 @@ public class Message {
         this.createTime = createTime;
     }
 
-    public void setOwn(int input)
+    public void setOwn(boolean input)
     {
-        if(input == 1) this.own = true;
+        this.own = input;
     }
 
     public String GetCreateTime()

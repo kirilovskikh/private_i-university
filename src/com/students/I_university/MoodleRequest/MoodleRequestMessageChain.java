@@ -16,7 +16,6 @@ import org.json.JSONObject;
 public class MoodleRequestMessageChain extends MoodleRequest {
 
     private String wsfunction = "local_iuniversity_message_chain";
-    private ArrayList<Message> messages;
 
     public MoodleRequestMessageChain(String token, String userid)
     {
@@ -25,58 +24,63 @@ public class MoodleRequestMessageChain extends MoodleRequest {
         this.addParam("userid", userid);
     }
 
-/*    @Override
+    @Override
     protected void onPostExecute(Void aVoid){
         super.onPostExecute(aVoid);
+        return;
+    }
+    public ArrayList<Message> getMessageChain()
+    {
+        ArrayList<Message> messages;
+        Message newMessage;
+        String parameter;
+        JSONArray jsonArray;
+        int arrayLength;
 
-        ArrayList<Message> messages = new ArrayList<Message>();
-        if(!this.isSuccess()) return;
         try
         {
-            Message newMessage;
-            String parameter;
-            JSONArray jsonArray = new JSONArray(this.getResponse());
-            int arrayLength = jsonArray.length();
+            if(!this.isSuccess()) throw new Exception("Unsuccessful request!");
+
+            messages = new ArrayList<Message>();
+            jsonArray = new JSONArray(this.getResponse());
+            arrayLength = jsonArray.length();
+            if(arrayLength == 0) throw new Exception("No messages to show");
             for(int i = 0; i < arrayLength; i++)
             {
                 newMessage = new Message();
                 parameter = jsonArray.getJSONObject(i).getString("author");
                 if(!parameter.isEmpty()) newMessage.username = parameter;
-                //else throw new Exception("Incomplete data is received from the server");
+                else throw new Exception("Incomplete data is received from the server");
 
                 parameter = jsonArray.getJSONObject(i).getString("imageURL");
                 if(!parameter.isEmpty()) newMessage.imageURL = parameter;
-                //else throw new Exception("Incomplete data is received from the server");
+                else throw new Exception("Incomplete data is received from the server");
 
-                parameter = jsonArray.getJSONObject(i).getString("messageText");
+                parameter = jsonArray.getJSONObject(i).getString("fullmessage");
                 if(!parameter.isEmpty()) newMessage.messageText = parameter;
-                //else throw new Exception("Incomplete data is received from the server");
+                else throw new Exception("Incomplete data is received from the server");
 
-                parameter = jsonArray.getJSONObject(i).getString("createTime");
+                parameter = jsonArray.getJSONObject(i).getString("timecreated");
                 if(!parameter.isEmpty()) {
-                    newMessage.createTime = new Timestamp(Long.parseLong(parameter));
+                    newMessage.createTime = new Timestamp(Long.parseLong(parameter) * 1000);
                 }
-                //else throw new Exception("Incomplete data is received from the server");
+                else throw new Exception("Incomplete data is received from the server");
 
                 parameter = jsonArray.getJSONObject(i).getString("own");
                 if(!parameter.isEmpty()) {
-                    newMessage.setOwn(Integer.parseInt(parameter));
+                    newMessage.setOwn(Boolean.parseBoolean(parameter));
                 }
-                //else throw new Exception("Incomplete data is received from the server");
+                else throw new Exception("Incomplete data is received from the server");
 
                 messages.add(newMessage);
             }
-            success = true;
+            return messages;
         }
         catch(Exception e)
         {
             success = false;
             errorMessage = e.getMessage();
-            return;
+            return null;
         }
-    }*/
-    public ArrayList<Message> getMessageChain()
-    {
-        return messages;
     }
 }
