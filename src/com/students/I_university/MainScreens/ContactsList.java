@@ -1,12 +1,15 @@
 package com.students.I_university.MainScreens;
 
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ListView;
+import android.widget.Toast;
 import com.actionbarsherlock.app.SherlockFragment;
 import com.students.I_university.Contacts.AsyncTaskGetContacts;
 import com.students.I_university.Contacts.CallReturnDownload;
@@ -76,6 +79,5 @@ public class ContactsList extends SherlockFragment implements CallReturnDownload
 
         return name;  //To change body of created methods use File | Settings | File Templates.
     }
-
 
 }

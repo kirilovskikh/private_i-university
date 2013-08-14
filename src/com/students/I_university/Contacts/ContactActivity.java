@@ -60,6 +60,7 @@ public class ContactActivity extends SherlockActivity implements CallReturnDownl
                 Toast.makeText(getApplicationContext(), "Открывается диалог", Toast.LENGTH_SHORT).show();
             }
         });
+
     }
 
     @Override
