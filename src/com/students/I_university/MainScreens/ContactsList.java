@@ -11,7 +11,7 @@ import com.actionbarsherlock.app.SherlockFragment;
 import com.students.I_university.Contacts.AsyncTaskGetContacts;
 import com.students.I_university.Contacts.CallReturnDownload;
 import com.students.I_university.Contacts.ContactActivity;
-import com.students.I_university.Contacts.ContactInfo;
+import com.students.I_university.Helpers.ContactInfo;
 import com.students.I_university.CustomAdapter.ContactsListView;
 import com.students.I_university.R;
 
@@ -76,6 +76,5 @@ public class ContactsList extends SherlockFragment implements CallReturnDownload
 
         return name;  //To change body of created methods use File | Settings | File Templates.
     }
-
 
 }

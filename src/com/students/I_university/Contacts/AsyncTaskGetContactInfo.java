@@ -3,8 +3,9 @@ package com.students.I_university.Contacts;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.os.AsyncTask;
-import com.students.I_university.LogD;
-import org.json.JSONObject;
+import android.widget.ImageView;
+import com.students.I_university.Helpers.ContactInfo;
+import com.students.I_university.Helpers.DownloadContactHelper;
 
 import java.util.HashMap;
 
@@ -19,21 +20,21 @@ public class AsyncTaskGetContactInfo extends AsyncTask <Integer, Void, HashMap<I
     public CallReturnDownload returnDownload = null;
     private Context mContext;
     private ProgressDialog progressDialog;
+    private ImageView imageView;
 
-    public AsyncTaskGetContactInfo (Context context) {
+    public AsyncTaskGetContactInfo (Context context, ImageView imageView) {
         this.mContext = context;
+        this.imageView = imageView;
     }
 
     @Override
     protected void onPreExecute() {
         super.onPreExecute();    //To change body of overridden methods use File | Settings | File Templates.
-
         showProgressDialog();
     }
 
     @Override
     protected HashMap<Integer, ContactInfo> doInBackground(Integer... integers) {
-        // integers - id user for download
         return DownloadContactHelper.oneObject(integers[0]);
     }
 
@@ -43,6 +44,11 @@ public class AsyncTaskGetContactInfo extends AsyncTask <Integer, Void, HashMap<I
 
         if (progressDialog != null)
             progressDialog.dismiss();
+
+        if ((map != null) && (imageView != null)) {
+            AsyncTaskDownloadImage downloadImage = new AsyncTaskDownloadImage(imageView);
+            downloadImage.execute(map.get(0).getNormalImgUrl());
+        }
 
         returnDownload.returnResult(map);
     }

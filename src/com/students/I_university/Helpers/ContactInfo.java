@@ -1,4 +1,4 @@
-package com.students.I_university.Contacts;
+package com.students.I_university.Helpers;
 
 import com.students.I_university.LogD;
 import org.json.JSONArray;
@@ -62,6 +62,14 @@ public class ContactInfo {
 
     public String getPhoneNumber () {
         return phoneNumber;
+    }
+
+    public String getSmallImgUrl() {
+        return smallImgUrl;
+    }
+
+    public String getNormalImgUrl() {
+        return normalImgUrl;
     }
 
     public void createMoreInfMap (JSONObject jsonObject) {

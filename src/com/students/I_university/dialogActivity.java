@@ -1,8 +1,17 @@
 package com.students.I_university;
 
+
 import android.os.Bundle;
+import android.widget.ListView;
+import android.widget.Toast;
+import android.content.SharedPreferences;
+
 import com.actionbarsherlock.app.SherlockActivity;
-import com.actionbarsherlock.view.MenuItem;
+import com.students.I_university.CustomAdapter.CustomAdapterMessageChain;
+import com.students.I_university.Entity.Message;
+import com.students.I_university.MoodleRequest.MoodleRequestMessageChain;
+
+import java.util.ArrayList;
 
 /**
  * Created with IntelliJ IDEA.
@@ -12,23 +21,49 @@ import com.actionbarsherlock.view.MenuItem;
  * To change this template use File | Settings | File Templates.
  */
 public class dialogActivity extends SherlockActivity {
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);    //To change body of overridden methods use File | Settings | File Templates.
-        setContentView(R.layout.dialog);
 
+        final ArrayList<Message> messages;
+        SharedPreferences prefs = getSharedPreferences("Settings", MODE_PRIVATE);
+        MoodleRequestMessageChain moodleRequest = new MoodleRequestMessageChain(prefs.getString("iutoken", ""), "3");
+
+        setContentView(R.layout.listview_layout);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
-    }
+        ListView contactList = (ListView)findViewById(R.id.listView);
+        try
+        {
+            moodleRequest.execute();
+            moodleRequest.get();
+            //errorText.setText(moodleRequest.getResponse());
+            if(moodleRequest.isSuccess())
+            {
+                messages = moodleRequest.getMessageChain();
+                if(messages != null) contactList.setAdapter(
+                            new CustomAdapterMessageChain(
+                                        getBaseContext(),
+                                        R.layout.message_chain_left,
+                                        messages
+                            )
+                );
+                else Toast.makeText(
+                            getApplicationContext(),
+                            moodleRequest.getErrorMessage(),
+                            Toast.LENGTH_LONG
+                ).show();
 
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()) {
-            case android.R.id.home:
-                finish();
-                break;
+            }
+            else Toast.makeText(
+                    getApplicationContext(),
+                    moodleRequest.getErrorMessage(),
+                    Toast.LENGTH_LONG
+            ).show();
         }
-        return super.onOptionsItemSelected(item);    //To change body of overridden methods use File | Settings | File Templates.
+        catch (Exception e)
+        {
+            Toast.makeText(getApplicationContext(), e.toString(), Toast.LENGTH_LONG).show();
+        }
     }
 }

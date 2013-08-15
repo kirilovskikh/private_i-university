@@ -4,12 +4,13 @@ import android.content.Context;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.Toast;
 import com.actionbarsherlock.app.SherlockActivity;
 import com.actionbarsherlock.view.MenuItem;
 import com.students.I_university.CustomAdapter.CustomAdapterContact;
-import com.students.I_university.LogD;
+import com.students.I_university.Helpers.ContactInfo;
 import com.students.I_university.R;
 
 import java.util.HashMap;
@@ -22,10 +23,11 @@ import java.util.HashMap;
  * To change this template use File | Settings | File Templates.
  */
 
-public class ContactActivity extends SherlockActivity implements CallReturnDownload{
+public class ContactActivity extends SherlockActivity implements CallReturnDownload {
 
     private Context mContext;
     private ListView listView;
+    private ImageView imageView;
 
     /**
      * Для работы корректой работы Activity необходимо:
@@ -48,10 +50,13 @@ public class ContactActivity extends SherlockActivity implements CallReturnDownl
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         listView = (ListView) findViewById(R.id.listView);
+        imageView = (ImageView) findViewById(R.id.imageView);
 
-        AsyncTaskGetContactInfo asyncTaskGetContactInfo = new AsyncTaskGetContactInfo(this);
+        AsyncTaskGetContactInfo asyncTaskGetContactInfo = new AsyncTaskGetContactInfo(this, imageView);
         asyncTaskGetContactInfo.returnDownload = this;
         asyncTaskGetContactInfo.execute(userId);
+
+
 
         Button openDialog = (Button) findViewById(R.id.openDialog);
         openDialog.setOnClickListener(new View.OnClickListener() {
@@ -60,6 +65,7 @@ public class ContactActivity extends SherlockActivity implements CallReturnDownl
                 Toast.makeText(getApplicationContext(), "Открывается диалог", Toast.LENGTH_SHORT).show();
             }
         });
+
     }
 
     @Override

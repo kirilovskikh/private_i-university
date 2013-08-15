@@ -27,8 +27,9 @@ public class AuthorizationActivity extends SherlockActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+
         super.onCreate(savedInstanceState);    //To change body of overridden methods use File | Settings | File Templates.
-        preferences = getPreferences(MODE_PRIVATE);
+        preferences = getSharedPreferences("Settings", MODE_PRIVATE);
         String s = preferences.getString("token","");
         String s1 = preferences.getString("iutoken","");        //временный токен
         if (s.length() > 0 && s1.length() > 0){                 //необходимо будет удалить
@@ -65,7 +66,7 @@ public class AuthorizationActivity extends SherlockActivity {
                 }
                 if (special.authorized){
                     try {
-                        preferences = getPreferences(MODE_PRIVATE);
+                        preferences = getSharedPreferences("Settings", MODE_PRIVATE);
                         SharedPreferences.Editor ed = preferences.edit();
                         ed.putString("iutoken", special.getToken());
                         ed.commit();
@@ -94,7 +95,7 @@ public class AuthorizationActivity extends SherlockActivity {
                 if (authorize.authorized){
                     startActivity(new Intent(getApplicationContext(), MainActivity.class));
                     try{
-                        preferences = getPreferences(MODE_PRIVATE);
+                        preferences = getSharedPreferences("Settings", MODE_PRIVATE);
                         SharedPreferences.Editor editor = AuthorizationActivity.preferences.edit();
                         editor.putString("token",authorize.getToken());
                         editor.commit();

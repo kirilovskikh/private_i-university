@@ -8,8 +8,11 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.TextView;
-import com.students.I_university.Contacts.ContactInfo;
+import com.students.I_university.Contacts.AsyncTaskDownloadImage;
+import com.students.I_university.Helpers.ContactInfo;
+import com.students.I_university.LogD;
 import com.students.I_university.R;
 
 import java.util.HashMap;
@@ -38,6 +41,7 @@ public class ContactsListView extends ArrayAdapter<String> {
     public View getView(int position, View convertView, ViewGroup parent) {
         LayoutInflater inflater = (LayoutInflater) mContext.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         View rowView;
+
         if (map.get(position).getPhoneNumber() != null) {
             rowView = inflater.inflate(R.layout.contact_with_phone, parent, false);
 
@@ -53,12 +57,22 @@ public class ContactsListView extends ArrayAdapter<String> {
             });
 
         }
-        else
+        else {
             rowView = inflater.inflate(R.layout.contact_no_phone, parent, false);
+        }
 
         TextView textView = (TextView) rowView.findViewById(R.id.textView);
         textView.setText(strings[position]);
 
+        ImageView imageView = (ImageView) rowView.findViewById(R.id.imageView);
+
+        AsyncTaskDownloadImage asyncTaskDownloadImage = new AsyncTaskDownloadImage(imageView);
+
+        String url = map.get(position).getSmallImgUrl();
+        LogD.d(url);
+        asyncTaskDownloadImage.execute(url);
+
         return rowView;
     }
+
 }
