@@ -11,7 +11,7 @@ import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 import com.students.I_university.Contacts.AsyncTaskDownloadImage;
-import com.students.I_university.Contacts.ContactInfo;
+import com.students.I_university.Helpers.ContactInfo;
 import com.students.I_university.LogD;
 import com.students.I_university.R;
 
