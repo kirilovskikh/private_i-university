@@ -40,7 +40,7 @@ public class MessengerList extends SherlockFragment {
     String web_way = "http://university.shiva.vps-private.net/webservice/rest/server.php?";
 
     String str;
-    String token = "ac072b83ec6761808d3994dc446557f9";
+    String token = "03f57c6b674bc8280095dc09837cb170";
 
 
 
