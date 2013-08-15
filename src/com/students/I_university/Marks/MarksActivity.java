@@ -1,4 +1,4 @@
-package com.students.I_university;
+package com.students.I_university.Marks;
 
 import android.os.Bundle;
 import android.view.View;
@@ -8,6 +8,7 @@ import android.widget.Toast;
 import com.actionbarsherlock.app.SherlockActivity;
 import com.actionbarsherlock.view.MenuItem;
 import com.students.I_university.CustomAdapter.CustomAdapterMarks;
+import com.students.I_university.R;
 
 import java.util.ArrayList;
 
@@ -36,7 +37,7 @@ public class MarksActivity extends SherlockActivity {
 
         lvMain = (ListView) findViewById(R.id.listView);
 
-        lvMain.setAdapter(new CustomAdapterMarks(R.layout.main_marks_listview_item, R.id.subject, R.id.mark,
+        lvMain.setAdapter(new CustomAdapterMarks(R.layout.main_marks_listview_item, R.id.mark, R.id.subject,
                             subjs, marks, this));
 
         lvMain.setOnItemClickListener(new AdapterView.OnItemClickListener() {

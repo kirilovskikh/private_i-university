@@ -1,5 +1,7 @@
 package com.students.I_university.Contacts;
 
+import com.students.I_university.Helpers.ContactInfo;
+
 import java.util.HashMap;
 
 /**

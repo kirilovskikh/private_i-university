@@ -1,11 +1,10 @@
 package com.students.I_university.Contacts;
 
-import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.os.AsyncTask;
-import android.support.v4.app.FragmentActivity;
-import com.actionbarsherlock.app.SherlockActivity;
+import com.students.I_university.Helpers.ContactInfo;
+import com.students.I_university.Helpers.DownloadContactHelper;
 import com.students.I_university.Utils;
 import org.apache.http.HttpResponse;
 import org.apache.http.NameValuePair;

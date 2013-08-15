@@ -10,7 +10,7 @@ import android.widget.Toast;
 import com.actionbarsherlock.app.SherlockActivity;
 import com.actionbarsherlock.view.MenuItem;
 import com.students.I_university.CustomAdapter.CustomAdapterContact;
-import com.students.I_university.LogD;
+import com.students.I_university.Helpers.ContactInfo;
 import com.students.I_university.R;
 
 import java.util.HashMap;
@@ -23,7 +23,7 @@ import java.util.HashMap;
  * To change this template use File | Settings | File Templates.
  */
 
-public class ContactActivity extends SherlockActivity implements CallReturnDownload{
+public class ContactActivity extends SherlockActivity implements CallReturnDownload {
 
     private Context mContext;
     private ListView listView;
