@@ -11,36 +11,26 @@
             android:layout_height="wrap_content">
 
         <ImageView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_width="80dp"
+                android:layout_height="80dp"
                 android:id="@+id/imageView"
                 android:src="@drawable/face_icon"
                 android:layout_alignParentTop="true"
-                android:layout_alignParentRight="true"/>
+                android:layout_alignParentRight="true"
+                />
 
         <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentTop="true"
                 android:layout_toLeftOf="@+id/imageView"
-                android:orientation="horizontal"
+                android:orientation="vertical"
                 android:id="@+id/linearLayout"
                 android:gravity="right"
                 android:layout_alignParentLeft="true">
 
             <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="fill_parent"
-                    android:textAppearance="?android:attr/textAppearanceSmall"
-                    android:text="00.00.0000"
-                    android:id="@+id/date"
-                    android:textAlignment="gravity"
-                    android:padding="10dp"
-                    android:gravity="center_vertical|left"
-                    android:layout_gravity="left"/>
-
-            <TextView
-                    android:layout_width="190dp"
+                    android:layout_width="fill_parent"
                     android:layout_height="wrap_content"
                     android:textAppearance="?android:attr/textAppearanceLarge"
                     android:text="Alexander Miklukho-Maklay"
@@ -48,6 +38,18 @@
                     android:layout_gravity="center_vertical|right"
                     android:padding="10dp"
                     android:gravity="center_vertical|right"/>
+
+            <TextView
+                    android:layout_width="fill_parent"
+                    android:layout_height="fill_parent"
+                    android:textAppearance="?android:attr/textAppearanceSmall"
+                    android:text="00.00.0000"
+                    android:id="@+id/date"
+                    android:textAlignment="gravity"
+                    android:padding="5dp"
+                    android:gravity="center_vertical|right"
+                    android:layout_gravity="center_vertical|right"/>
+
         </LinearLayout>
 
         <TextView
@@ -55,11 +57,11 @@
                 android:layout_height="wrap_content"
                 android:text="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Praesent eget pharetra eros. Nulla vestibulum elit nec fringilla suscipit. Maecenas hendrerit facilisis mi ut commodo. Mauris nibh magna, lacinia quis urna id, ornare porta tellus. Proin interdum et lacus sit amet rhoncus. Maecenas vitae nisi id enim adipiscing rhoncus. Donec non feugiat turpis. Integer tincidunt leo sed commodo ullamcorper. Morbi ac massa sed leo imperdiet ullamcorper. Etiam ullamcorper porttitor porta. Quisque eu scelerisque diam. Aliquam scelerisque ipsum vitae scelerisque gravida. Vestibulum aliquam lacinia fermentum. Proin euismod leo sit amet sapien tempus, eu egestas est tempus."
                 android:id="@+id/text"
-                android:layout_below="@+id/linearLayout"
-                android:layout_toLeftOf="@+id/imageView"
                 android:textAlignment="gravity"
                 android:gravity="right"
-                android:paddingRight="10dp"
-                android:paddingLeft="10dp"/>
+                android:layout_below="@+id/imageView"
+                android:layout_alignParentRight="true"
+                android:padding="5dp"
+                android:textSize="12dp"/>
     </RelativeLayout>
 </LinearLayout>

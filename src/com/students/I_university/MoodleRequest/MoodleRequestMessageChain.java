@@ -1,6 +1,6 @@
 package com.students.I_university.MoodleRequest;
 
-import android.util.Log;
+import android.content.Context;
 
 import java.sql.Timestamp;
 import java.util.ArrayList;
@@ -17,8 +17,10 @@ public class MoodleRequestMessageChain extends MoodleRequest {
 
     private String wsfunction = "local_iuniversity_message_chain";
 
-    public MoodleRequestMessageChain(String token, String userid)
+    public MoodleRequestMessageChain(Context context, String token, String userid)
     {
+        super(context);
+
         this.addParam("wstoken", token);
         this.addParam("wsfunction", wsfunction);
         this.addParam("userid", userid);
@@ -29,6 +31,7 @@ public class MoodleRequestMessageChain extends MoodleRequest {
         super.onPostExecute(aVoid);
         return;
     }
+
     public ArrayList<Message> getMessageChain()
     {
         ArrayList<Message> messages;
