@@ -1,6 +1,8 @@
 package com.students.I_university.Contacts;
 
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
@@ -62,19 +64,19 @@ public class ContactActivity extends SherlockActivity implements CallReturnDownl
 
                     if (selectedKey.equals("phone1")) {
                         String number = map.get(0).getMoreInfMap().get("phone1");
-                        callContact(number);
+                        callDialog(number);
                         return;
                     }
 
                     if (selectedKey.equals("phone2"))  {
-                        String number = map.get(0).getMoreInfMap().get("phone1");
-                        callContact(number);
+                        String number = map.get(0).getMoreInfMap().get("phone2");
+                        callDialog(number);
                         return;
                     }
 
                     if (selectedKey.equals("email")) {
                         String email = map.get(0).getMoreInfMap().get("email");
-                        callEmail(email);
+                        emailDialog(email);
                         return;
                     }
                 }
@@ -167,6 +169,38 @@ public class ContactActivity extends SherlockActivity implements CallReturnDownl
         send.setData(uri);
 
         startActivity(Intent.createChooser(send, "Send mail..."));
+    }
+
+    /* -=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=- */
+
+    private void callDialog (final String number) {
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setTitle("Внимание");
+        builder.setMessage("Сейчас вы совершите звонок по номеру: " + number);
+        builder.setPositiveButton("Продолжить", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+                callContact(number);
+            }
+        });
+        builder.setNegativeButton("Отмена", null);
+        builder.show();
+    }
+
+    /* -=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=- */
+
+    private void emailDialog (final String email) {
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setTitle("Внимание");
+        builder.setMessage("Вы действительно хотите написать email на адрес: " + email);
+        builder.setPositiveButton("Да", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+                callEmail(email);
+            }
+        });
+        builder.setNegativeButton("Отмена", null);
+        builder.show();
     }
 
 }
