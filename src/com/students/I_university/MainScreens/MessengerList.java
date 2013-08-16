@@ -80,7 +80,7 @@ public class MessengerList extends SherlockFragment {
 
                    kontakt[i] = jsonObject.getString("firstname") + jsonObject.getString("lastname");
                    sms[i] = jsonObject.getString("smallmessage");
-                   //         String s3 = jsonObject.getString("timecreated");
+          //       String s3 = jsonObject.getString("timecreated");
                }
            }
            else{
@@ -89,8 +89,8 @@ public class MessengerList extends SherlockFragment {
                sms[0] = "hjbhj";
 
            }
-           //  return null;  //To change body of implemented methods use File | Settings | File Templates.
-  //         final String[] kontakt = new String[] {"Старикова Анастасия Константиновна", "Сидоров Петр Сергеевич", "Петров Алексей Федорович", "Сидорова Дарья Ивановна"};
+        //  return null;  //To change body of implemented methods use File | Settings | File Templates.
+  //        final String[] kontakt = new String[] {"Старикова Анастасия Константиновна", "Сидоров Петр Сергеевич", "Петров Алексей Федорович", "Сидорова Дарья Ивановна"};
 //          final String[] sms = new String[] {"Hello","Hi","Привет","Ура"};
 
 
