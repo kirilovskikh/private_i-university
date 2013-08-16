@@ -8,28 +8,31 @@
     <ListView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:id="@+id/listView"
+            android:id="@+id/messageList"
             android:layout_alignParentTop="true"
             android:layout_alignParentLeft="true"
-            android:layout_above="@+id/editText"/>
+            android:layout_above="@+id/messageTextInput"/>
 
     <EditText
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:inputType="textMultiLine"
             android:ems="10"
-            android:id="@+id/editText"
+            android:id="@+id/messageTextInput"
             android:layout_alignParentBottom="true"
             android:layout_alignParentLeft="true"
             android:lines="3"
-            android:textSize="10dp"/>
+            android:textSize="10dp"
+            android:layout_toLeftOf="@+id/sendMessageButton"
+            />
 
     <ImageButton
-            android:layout_width="wrap_content"
+            android:layout_width="50dp"
             android:layout_height="wrap_content"
-            android:id="@+id/imageButton"
+            android:id="@+id/sendMessageButton"
             android:layout_alignParentBottom="true"
             android:layout_alignParentRight="true"
-            android:layout_below="@+id/listView"
-            />
+            android:layout_below="@+id/messageList"
+            android:src="@drawable/abs__ic_cab_done_holo_dark"
+            android:background="@color/abs__background_holo_dark"/>
 </RelativeLayout>

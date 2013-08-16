@@ -1,8 +1,9 @@
 package com.students.I_university.MoodleRequest;
 
 import android.app.Application;
+import android.app.ProgressDialog;
 import android.os.AsyncTask;
-import android.widget.Toast;
+import android.content.Context;
 
 import org.apache.http.HttpResponse;
 import org.apache.http.NameValuePair;
@@ -25,20 +26,23 @@ import java.util.List;
  */
 public class MoodleRequest extends AsyncTask<Void, Void, Void> {
 
+    private Context mContext;
     private String server = "http://university.shiva.vps-private.net";
     private String pathToScript = "/webservice/rest/server.php";
     private ArrayList<NameValuePair> params;
     private String response;
+    private ProgressDialog progressDialog;
     protected String errorMessage;
     protected boolean success = false;
 
-    public MoodleRequest() {
-        params = new ArrayList<NameValuePair>();
-        params.add(new BasicNameValuePair("moodlewsrestformat", "json"));
+    public MoodleRequest(Context context) {
+        this.mContext = context;
+        this.params = new ArrayList<NameValuePair>();
+        this.params.add(new BasicNameValuePair("moodlewsrestformat", "json"));
     };
 
-    public MoodleRequest(String server, String pathToScript){
-
+    public MoodleRequest(Context context, String server, String pathToScript){
+        this.mContext = context;
         if (!server.isEmpty())
             this.server = server;
 
@@ -46,8 +50,8 @@ public class MoodleRequest extends AsyncTask<Void, Void, Void> {
             this.pathToScript = pathToScript;
     }
 
-    public MoodleRequest(String pathToScript){
-
+    public MoodleRequest(Context context, String pathToScript){
+        this.mContext = context;
         if (!pathToScript.isEmpty())
             this.pathToScript = pathToScript;
     }
@@ -72,6 +76,16 @@ public class MoodleRequest extends AsyncTask<Void, Void, Void> {
     }
 
     @Override
+    protected void onPreExecute() {
+        super.onPreExecute();    //To change body of overridden methods use File | Settings | File Templates.
+
+/*        progressDialog = new ProgressDialog(this.mContext);
+        progressDialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
+        progressDialog.setMessage("Загрузка ...");
+        progressDialog.show();*/
+    }
+
+    @Override
     protected Void doInBackground(Void... voids) {
         try {
             HttpClient httpClient = new DefaultHttpClient();
@@ -83,6 +97,8 @@ public class MoodleRequest extends AsyncTask<Void, Void, Void> {
             if (httpResponse != null){
                 InputStream in = httpResponse.getEntity().getContent();
                 response = convertStreamToString(in);
+                if(response.isEmpty())
+                        throw new Exception("Cannot create the response string!");
             }
         }
         catch (Exception ex){
@@ -92,6 +108,12 @@ public class MoodleRequest extends AsyncTask<Void, Void, Void> {
         }
         success = true;
         return null;
+    }
+
+    @Override
+    protected void onPostExecute(Void aVoid) {
+        super.onPostExecute(aVoid);    //To change body of overridden methods use File | Settings | File Templates.
+        //progressDialog.dismiss();
     }
 
     private String convertStreamToString(InputStream is) {
@@ -105,11 +127,17 @@ public class MoodleRequest extends AsyncTask<Void, Void, Void> {
             }
         } catch (IOException e) {
             e.printStackTrace();
+            success = false;
+            errorMessage = e.getMessage();
+            return null;
         } finally {
             try {
                 is.close();
             } catch (IOException e) {
                 e.printStackTrace();
+                success = false;
+                errorMessage = e.getMessage();
+                return null;
             }
         }
         return sb.toString();
