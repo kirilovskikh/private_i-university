@@ -69,7 +69,6 @@ public class ContactsListView extends ArrayAdapter<String> {
         AsyncTaskDownloadImage asyncTaskDownloadImage = new AsyncTaskDownloadImage(imageView);
 
         String url = map.get(position).getSmallImgUrl();
-        LogD.d(url);
         asyncTaskDownloadImage.execute(url);
 
         return rowView;

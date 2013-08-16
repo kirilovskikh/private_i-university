@@ -1,16 +1,16 @@
 package com.students.I_university.Contacts;
 
 import android.content.Context;
+import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.view.View;
-import android.widget.Button;
-import android.widget.ImageView;
-import android.widget.ListView;
-import android.widget.Toast;
+import android.widget.*;
 import com.actionbarsherlock.app.SherlockActivity;
 import com.actionbarsherlock.view.MenuItem;
 import com.students.I_university.CustomAdapter.CustomAdapterContact;
 import com.students.I_university.Helpers.ContactInfo;
+import com.students.I_university.LogD;
 import com.students.I_university.R;
 
 import java.util.HashMap;
@@ -28,6 +28,8 @@ public class ContactActivity extends SherlockActivity implements CallReturnDownl
     private Context mContext;
     private ListView listView;
     private ImageView imageView;
+    private HashMap<Integer, ContactInfo> map;
+
 
     /**
      * Для работы корректой работы Activity необходимо:
@@ -52,11 +54,35 @@ public class ContactActivity extends SherlockActivity implements CallReturnDownl
         listView = (ListView) findViewById(R.id.listView);
         imageView = (ImageView) findViewById(R.id.imageView);
 
+        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+
+                String selectedKey = getSelectedKey(i);
+
+                    if (selectedKey.equals("phone1")) {
+                        String number = map.get(0).getMoreInfMap().get("phone1");
+                        callContact(number);
+                        return;
+                    }
+
+                    if (selectedKey.equals("phone2"))  {
+                        String number = map.get(0).getMoreInfMap().get("phone1");
+                        callContact(number);
+                        return;
+                    }
+
+                    if (selectedKey.equals("email")) {
+                        String email = map.get(0).getMoreInfMap().get("email");
+                        callEmail(email);
+                        return;
+                    }
+                }
+        });
+
         AsyncTaskGetContactInfo asyncTaskGetContactInfo = new AsyncTaskGetContactInfo(this, imageView);
         asyncTaskGetContactInfo.returnDownload = this;
         asyncTaskGetContactInfo.execute(userId);
-
-
 
         Button openDialog = (Button) findViewById(R.id.openDialog);
         openDialog.setOnClickListener(new View.OnClickListener() {
@@ -65,8 +91,9 @@ public class ContactActivity extends SherlockActivity implements CallReturnDownl
                 Toast.makeText(getApplicationContext(), "Открывается диалог", Toast.LENGTH_SHORT).show();
             }
         });
-
     }
+
+    /* -=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=- */
 
     @Override
     public boolean onCreateOptionsMenu(com.actionbarsherlock.view.Menu menu) {
@@ -78,6 +105,8 @@ public class ContactActivity extends SherlockActivity implements CallReturnDownl
 
         return super.onCreateOptionsMenu(menu);    //To change body of overridden methods use File | Settings | File Templates.
     }
+
+    /* -=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=- */
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
@@ -92,17 +121,52 @@ public class ContactActivity extends SherlockActivity implements CallReturnDownl
         return super.onOptionsItemSelected(item);    //To change body of overridden methods use File | Settings | File Templates.
     }
 
+    /* -=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=- */
+
     @Override
     public void returnResult(HashMap<Integer, ContactInfo> map) {
         if (map == null)
             return;
 
+        this.map = map;
         ContactInfo contactInfo = map.get(0);
         HashMap<String, String> infMap = contactInfo.getMoreInfMap();
         String[] s = new String[infMap.size()];
 
         CustomAdapterContact customAdapterContact = new CustomAdapterContact(mContext, R.layout.contact_info_list_view_item, s, infMap);
         listView.setAdapter(customAdapterContact);
+    }
+
+    /* -=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=- */
+
+    private String getSelectedKey (int id) {
+        int mId = 0;
+
+        for (String s : map.get(0).getMoreInfMap().keySet()) {
+            if (mId == id)
+                return s;
+            ++mId;
+        }
+
+        return null;
+    }
+
+    /* -=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=- */
+
+    private void callContact (String number) {
+        Intent intent = new Intent("android.intent.action.CALL", Uri.parse("tel:" + number));
+        startActivity(intent);
+    }
+
+    /* -=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=- */
+
+    private void callEmail (String email) {
+        Intent send = new Intent(Intent.ACTION_SENDTO);
+        String uriText = "mailto:" + Uri.encode(email);
+        Uri uri = Uri.parse(uriText);
+        send.setData(uri);
+
+        startActivity(Intent.createChooser(send, "Send mail..."));
     }
 
 }

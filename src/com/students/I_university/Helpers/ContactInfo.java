@@ -79,6 +79,7 @@ public class ContactInfo {
         try {
             for (int i = 0; i < namesAllRow.length(); ++i) {
                 String nameRow = namesAllRow.getString(i);
+
                 if ((nameRow.equals(needRow[0])) || nameRow.equals(needRow[1]) || nameRow.equals(needRow[2]) ||
                         nameRow.equals(needRow[3]) || nameRow.equals(needRow[4])) {
                     String s = jsonObject.getString(nameRow);
