@@ -2,6 +2,7 @@ package com.students.I_university.MainScreens;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -40,17 +41,19 @@ public class MessengerList extends SherlockFragment {
     String web_way = "http://university.shiva.vps-private.net/webservice/rest/server.php?";
 
     String str;
-    String token = "03f57c6b674bc8280095dc09837cb170";
+    String token = "ac072b83ec6761808d3994dc446557f9";
 
 
 
-    @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+@Override
+ public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+    View view = inflater.inflate(R.layout.listview_layout, null);
+
        try {
 
 
            HttpClient httpClient = new DefaultHttpClient();
-           HttpPost httpPost = new HttpPost(web_way);
+          HttpPost httpPost = new HttpPost(web_way);
 
            List<NameValuePair> list = new ArrayList<NameValuePair>();
            list.add(new BasicNameValuePair("wstoken", token));
@@ -68,23 +71,29 @@ public class MessengerList extends SherlockFragment {
            if (httpResponse != null) {
                InputStream in = httpResponse.getEntity().getContent(); // Get the
                str = convertStreamToString(in);
-               JSONArray jsonArray = new JSONArray(str);
+              JSONArray jsonArray = new JSONArray(str);
 
                sms = new String[jsonArray.length()];
                kontakt = new String[jsonArray.length()];
-
+               JSONObject jsonObject = jsonArray.getJSONObject(1);
                for (int i = 0; i < jsonArray.length(); i++) {
-                   JSONObject jsonObject = jsonArray.getJSONObject(i);
+
                    kontakt[i] = jsonObject.getString("firstname") + jsonObject.getString("lastname");
                    sms[i] = jsonObject.getString("smallmessage");
                    //         String s3 = jsonObject.getString("timecreated");
                }
            }
-           //  return null;  //To change body of implemented methods use File | Settings | File Templates.
-           //  final String[] kontakt = new String[] {"Старикова Анастасия Константиновна", "Сидоров Петр Сергеевич", "Петров Алексей Федорович", "Сидорова Дарья Ивановна"};
-           // final String[] sms = new String[] {"Hello","Hi","Привет","Ура"};
+           else{
 
-           View view = inflater.inflate(R.layout.listview_layout, null);
+               kontakt[0] = "ghvh";
+               sms[0] = "hjbhj";
+
+           }
+           //  return null;  //To change body of implemented methods use File | Settings | File Templates.
+  //         final String[] kontakt = new String[] {"Старикова Анастасия Константиновна", "Сидоров Петр Сергеевич", "Петров Алексей Федорович", "Сидорова Дарья Ивановна"};
+//          final String[] sms = new String[] {"Hello","Hi","Привет","Ура"};
+
+
            ListView kontaktList = (ListView) view.findViewById(R.id.listView);
            CustomAdapterDialogs adapter = new CustomAdapterDialogs(getSherlockActivity(), R.layout.sms, R.id.textView, R.id.textView1, kontakt, sms);
 
@@ -102,10 +111,15 @@ public class MessengerList extends SherlockFragment {
            });
 
            return view;
+
        }
        catch (Exception e) {
            str = "exp";
+           Log.d("MyApp", "ne rabotaet");
+
        }
       return null;
-    }
+  }
+
+
 }

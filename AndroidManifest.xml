@@ -23,7 +23,7 @@
         </activity>
 
         <activity
-            android:name=".Contacts.ContactActivity">
+            android:name=".Contacts.CallReturnDownload$ContactActivity">
         </activity>
 
         <activity
@@ -50,7 +50,7 @@
         </activity>
 
         <activity
-            android:name=".dialogActivity">
+          android:name=".dialogActivity">
         </activity>
 
     </application>
