@@ -1,6 +1,8 @@
 package com.students.I_university.CustomAdapter;
 
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.net.Uri;
 import android.view.LayoutInflater;
@@ -45,21 +47,19 @@ public class ContactsListView extends ArrayAdapter<String> {
         if (map.get(position).getPhoneNumber() != null) {
             rowView = inflater.inflate(R.layout.contact_with_phone, parent, false);
 
+            final String number = map.get(position).getPhoneNumber();
+
             ImageButton imageButton1 = (ImageButton) rowView.findViewById(R.id.imageButton);
             imageButton1.setFocusable(false);
             imageButton1.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    Intent callIntent = new Intent(Intent.ACTION_CALL);
-                    callIntent.setData(Uri.parse("tel:123456789"));
-                    mContext.startActivity(callIntent);
+                    callDialog(number);
                 }
             });
-
         }
-        else {
+        else
             rowView = inflater.inflate(R.layout.contact_no_phone, parent, false);
-        }
 
         TextView textView = (TextView) rowView.findViewById(R.id.textView);
         textView.setText(strings[position]);
@@ -72,6 +72,24 @@ public class ContactsListView extends ArrayAdapter<String> {
         asyncTaskDownloadImage.execute(url);
 
         return rowView;
+    }
+
+    private void callDialog(final String number) {
+
+        AlertDialog.Builder builder = new AlertDialog.Builder(mContext);
+        builder.setTitle("Внимание");
+        builder.setMessage("Вы действительно хотите позвонить по номеру " + number + " ?");
+        builder.setNegativeButton("Отмена", null);
+        builder.setPositiveButton("Да", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+                Intent callIntent = new Intent(Intent.ACTION_CALL);
+                callIntent.setData(Uri.parse("tel:" + number));
+                mContext.startActivity(callIntent);
+            }
+        });
+        builder.show();
+
     }
 
 }
