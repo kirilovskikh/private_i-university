@@ -100,4 +100,32 @@ public class ContactInfo {
         return moreInfMap;
     }
 
+    public String getPhoneNumber1() {
+        try {
+            return moreInfMap.get("phone1");
+        }
+        catch (Exception e) {
+            return null;
+        }
+
+    }
+
+    public String getPhoneNumber2() {
+        try {
+            return moreInfMap.get("phone2");
+        }
+        catch (Exception e) {
+            return null;
+        }
+    }
+
+    public String getEmail() {
+        try {
+            return moreInfMap.get("email");
+        }
+        catch (Exception e) {
+            return null;
+        }
+    }
+
 }

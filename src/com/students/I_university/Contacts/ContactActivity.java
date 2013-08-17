@@ -1,11 +1,15 @@
 package com.students.I_university.Contacts;
 
+import a_vcard.android.syncml.pim.vcard.ContactStruct;
+import a_vcard.android.syncml.pim.vcard.VCardComposer;
+import a_vcard.android.syncml.pim.vcard.VCardException;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
+import android.provider.Contacts;
 import android.view.View;
 import android.widget.*;
 import com.actionbarsherlock.app.SherlockActivity;
@@ -15,6 +19,7 @@ import com.students.I_university.Helpers.ContactInfo;
 import com.students.I_university.LogD;
 import com.students.I_university.R;
 
+import java.io.*;
 import java.util.HashMap;
 
 /**
@@ -32,6 +37,8 @@ public class ContactActivity extends SherlockActivity implements CallReturnDownl
     private ImageView imageView;
     private HashMap<Integer, ContactInfo> map;
 
+    private String fullname;
+
 
     /**
      * Для работы корректой работы Activity необходимо:
@@ -48,7 +55,7 @@ public class ContactActivity extends SherlockActivity implements CallReturnDownl
         mContext = this;
 
         int userId = getIntent().getExtras().getInt("userId");
-        String fullname = getIntent().getExtras().getString("fullname");
+        fullname = getIntent().getExtras().getString("fullname");
 
         getSupportActionBar().setTitle(fullname);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
@@ -117,7 +124,7 @@ public class ContactActivity extends SherlockActivity implements CallReturnDownl
                 finish();
                 break;
             case 1:
-                Toast.makeText(getApplicationContext(), "Открывается окно выбора через что отправить контакт", Toast.LENGTH_SHORT).show();
+                shareContact();
                 break;
         }
         return super.onOptionsItemSelected(item);    //To change body of overridden methods use File | Settings | File Templates.
@@ -155,6 +162,21 @@ public class ContactActivity extends SherlockActivity implements CallReturnDownl
 
     /* -=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=- */
 
+    private void shareContact () {
+        try {
+            Intent intent = new Intent(Intent.ACTION_SEND);
+            intent.putExtra(Intent.EXTRA_STREAM, Uri.fromFile(writeDateAboutContact()));
+            intent.setType("text/x-vcard");
+            startActivity(intent);
+        }
+        catch (Exception e) {
+            Toast.makeText(this, "Ошибка", Toast.LENGTH_SHORT).show();
+        }
+
+    }
+
+    /* -=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=- */
+
     private void callContact (String number) {
         Intent intent = new Intent("android.intent.action.CALL", Uri.parse("tel:" + number));
         startActivity(intent);
@@ -167,8 +189,43 @@ public class ContactActivity extends SherlockActivity implements CallReturnDownl
         String uriText = "mailto:" + Uri.encode(email);
         Uri uri = Uri.parse(uriText);
         send.setData(uri);
-
         startActivity(Intent.createChooser(send, "Send mail..."));
+    }
+
+    /* -=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=- */
+
+    private File writeDateAboutContact() {
+        try {
+            VCardComposer composer = new VCardComposer();
+            ContactStruct struct = new ContactStruct();
+
+            struct.name = fullname;
+
+            String phone1 = map.get(0).getPhoneNumber1();
+            if (phone1 != null)
+                struct.addPhone(Contacts.Phones.TYPE_MOBILE, phone1, null, true);
+
+            String phone2 = map.get(0).getPhoneNumber2();
+            if (phone2 != null)
+                struct.addPhone(Contacts.Phones.TYPE_HOME, phone2, null, false);
+
+            String email = map.get(0).getEmail();
+            if (email != null)
+                struct.addContactmethod(Contacts.KIND_EMAIL, Contacts.KIND_EMAIL, email, null, true);
+
+            String strVcard = composer.createVCard(struct, VCardComposer.VERSION_VCARD30_INT);
+
+            File vcfFile = new File(this.getExternalFilesDir(null), fullname + ".vcf");
+            FileWriter fileWriter = new FileWriter(vcfFile);
+            fileWriter.write(strVcard);
+            fileWriter.close();
+
+            return vcfFile;
+        }
+        catch (Exception e) {
+            return null;
+        }
+
     }
 
     /* -=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=- */
