@@ -48,19 +48,14 @@ public class dialogActivity extends SherlockActivity {
         this.messageTextInput = (TextView)findViewById(R.id.messageTextInput);
         this.sendMessageButton = (ImageButton)findViewById(R.id.sendMessageButton);
         this.alert = new AlertDialog.Builder(this);
-
         this.prefs = getSharedPreferences("Settings", MODE_PRIVATE);
-        this.moodleRequestMessageChain = new MoodleRequestMessageChain(this, prefs.getString("iutoken", ""), "3");
-        this.moodleRequestSendMessage = new MoodleRequestSendMessage(this, prefs.getString("iutoken", ""), "3");
-
         this.contactList = (ListView)findViewById(R.id.messageList);
 
         sendMessageButton.setOnClickListener(
                 new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
-                        moodleRequestSendMessage.setMessageText(messageTextInput.getText().toString());
-                        moodleRequestSendMessage.execute();
+                        sendMessage();
                     }
                 }
         );
@@ -70,35 +65,41 @@ public class dialogActivity extends SherlockActivity {
     protected void onStart()
     {
         super.onStart();
+        getMessages();
+    }
+
+    public void showMessage(String text)
+    {
+        AlertDialog dialog;
+        alert.setTitle("Attention!");
+        alert.setMessage(text);
+        dialog = alert.create();
+        dialog.show();
+    }
+
+    public void getMessages()
+    {
+        moodleRequestMessageChain = new MoodleRequestMessageChain(this, prefs.getString("iutoken", ""), "3");
         moodleRequestMessageChain.setMoodleCallback( new MoodleCallback() {
             @Override
             public void callBackRun() {
                 if(moodleRequestMessageChain.isSuccess())
                 {
                     messages = moodleRequestMessageChain.getMessageChain();
-                    if(messages != null) contactList.setAdapter(
-                            new CustomAdapterMessageChain(
-                                    context,
-                                    R.layout.message_chain_left,
-                                    messages
-                            )
-                    );
-
+                    if(messages != null)
+                    {
+                        CustomAdapterMessageChain adapterMessageChain = new CustomAdapterMessageChain(
+                                context,
+                                R.layout.message_chain_left,
+                                messages
+                        );
+                        contactList.setAdapter(adapterMessageChain);
+                        contactList.setSelection(adapterMessageChain.getCount() - 1);
+                    }
                     else showMessage(moodleRequestMessageChain.getErrorMessage());
 
                 }
                 else showMessage(moodleRequestMessageChain.getErrorMessage());
-            }
-        });
-        moodleRequestSendMessage.setMoodleCallback( new MoodleCallback() {
-            @Override
-            public void callBackRun() {
-                if(moodleRequestSendMessage.isSuccess())
-                {
-                    showMessage("Сообщение отправлено.");
-                    moodleRequestMessageChain.execute();
-                }
-                else showMessage(moodleRequestSendMessage.getErrorMessage());
             }
         });
         try
@@ -110,13 +111,21 @@ public class dialogActivity extends SherlockActivity {
             showMessage(moodleRequestMessageChain.getErrorMessage());
         }
     }
-
-    public void showMessage(String text)
+    public void sendMessage()
     {
-        AlertDialog dialog;
-        alert.setTitle("Attention!");
-        alert.setMessage(text);
-        dialog = alert.create();
-        dialog.show();
+        moodleRequestSendMessage = new MoodleRequestSendMessage(this, prefs.getString("iutoken", ""), "3");
+        moodleRequestSendMessage.setMoodleCallback( new MoodleCallback() {
+            @Override
+            public void callBackRun() {
+                if(moodleRequestSendMessage.isSuccess())
+                {
+                    getMessages();
+                    messageTextInput.setText("");
+                }
+                else showMessage(moodleRequestSendMessage.getErrorMessage());
+            }
+        });
+        moodleRequestSendMessage.setMessageText(messageTextInput.getText().toString());
+        moodleRequestSendMessage.execute();
     }
 }

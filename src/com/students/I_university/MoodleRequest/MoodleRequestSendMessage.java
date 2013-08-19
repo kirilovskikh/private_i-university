@@ -33,25 +33,17 @@ public class MoodleRequestSendMessage extends MoodleRequest {
         if(this.isSuccess()){
             try
             {
-                JSONObject jsonObject = new JSONObject(this.getResponse());
-                if(jsonObject.has("exception"))
-                {
-                    this.success = false;
-                    this.errorMessage = jsonObject.getString("message");
-                }
-                else
-                {
-                    if(jsonObject.getInt("msgid") < 0)
+                JSONArray jsonObject = new JSONArray(this.getResponse());
+                    if(jsonObject.getJSONObject(0).getInt("msgid") < 0)
                     {
                         this.success = false;
-                        this.errorMessage = jsonObject.getString("errormessage");
+                        this.errorMessage = jsonObject.getJSONObject(0).getString("errormessage");
                     }
-                }
             }
             catch(Exception e)
             {
                 this.success = false;
-                this.errorMessage = e.getMessage();
+                this.errorMessage = "С сервера получен неверный ответ!";
             }
         }
 

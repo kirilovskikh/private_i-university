@@ -106,8 +106,8 @@ public class MoodleRequestMessageChain extends MoodleRequest {
 
     public String trimText(String text)
     {
-        Pattern pattern = Pattern.compile("http.*$", Pattern.MULTILINE);
-        Matcher matcher = pattern.matcher(text.subSequence(0, text.length()));
-        return text.substring(0, matcher.start());
+        if(text.contains("-----------------------------"))
+        return text.substring(0, text.length() - 244);
+        else return text;
     }
 }
