@@ -83,6 +83,7 @@ public class dialogActivity extends SherlockActivity {
                                     messages
                             )
                     );
+
                     else showMessage(moodleRequestMessageChain.getErrorMessage());
 
                 }
