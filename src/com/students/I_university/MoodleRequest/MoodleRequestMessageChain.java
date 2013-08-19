@@ -21,7 +21,6 @@ public class MoodleRequestMessageChain extends MoodleRequest {
     public MoodleRequestMessageChain(Context context, String token, String userid)
     {
         super(context);
-
         this.addParam("wstoken", token);
         this.addParam("wsfunction", wsfunction);
         this.addParam("userid", userid);

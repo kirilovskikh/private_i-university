@@ -15,7 +15,6 @@ public class MoodleRequestSendMessage extends MoodleRequest {
     public MoodleRequestSendMessage(Context context, String token, String toUserId)
     {
         super(context);
-
         this.addParam("wstoken", token);
         this.addParam("wsfunction", function);
         this.addParam("messages[0][touserid]", toUserId);
