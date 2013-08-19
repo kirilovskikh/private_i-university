@@ -45,7 +45,6 @@
                     android:textAppearance="?android:attr/textAppearanceSmall"
                     android:text="00.00.0000"
                     android:id="@+id/date"
-                    android:textAlignment="gravity"
                     android:gravity="center_vertical|right"
                     android:layout_above="@+id/text"
                     android:layout_toRightOf="@+id/imageView"

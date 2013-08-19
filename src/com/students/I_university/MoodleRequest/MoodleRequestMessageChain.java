@@ -107,7 +107,7 @@ public class MoodleRequestMessageChain extends MoodleRequest {
 
     public String trimText(String text)
     {
-        Pattern pattern = Pattern.compile("(.*)?\\-+http.*$");
+        Pattern pattern = Pattern.compile("http.*$", Pattern.MULTILINE);
         Matcher matcher = pattern.matcher(text.subSequence(0, text.length()));
         return text.substring(0, matcher.start());
     }
