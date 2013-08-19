@@ -32,6 +32,7 @@ public class MoodleRequest extends AsyncTask<Void, Void, Void> {
     private ArrayList<NameValuePair> params;
     private String response;
     private ProgressDialog progressDialog;
+    private MoodleCallback callback;
     protected String errorMessage;
     protected boolean success = false;
 
@@ -75,14 +76,19 @@ public class MoodleRequest extends AsyncTask<Void, Void, Void> {
         return errorMessage;
     }
 
+    public void setMoodleCallback(MoodleCallback callBackFunc)
+    {
+        this.callback = callBackFunc;
+    }
+
     @Override
     protected void onPreExecute() {
         super.onPreExecute();    //To change body of overridden methods use File | Settings | File Templates.
 
-/*        progressDialog = new ProgressDialog(this.mContext);
+        progressDialog = new ProgressDialog(this.mContext);
         progressDialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
         progressDialog.setMessage("Загрузка ...");
-        progressDialog.show();*/
+        progressDialog.show();
     }
 
     @Override
@@ -113,7 +119,8 @@ public class MoodleRequest extends AsyncTask<Void, Void, Void> {
     @Override
     protected void onPostExecute(Void aVoid) {
         super.onPostExecute(aVoid);    //To change body of overridden methods use File | Settings | File Templates.
-        //progressDialog.dismiss();
+        progressDialog.dismiss();
+        if(callback != null) callback.callBackRun();
     }
 
     private String convertStreamToString(InputStream is) {
