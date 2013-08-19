@@ -8,6 +8,7 @@ import android.widget.Toast;
 import android.widget.TextView;
 import android.widget.ImageButton;
 import android.content.SharedPreferences;
+import android.view.View;
 import android.content.Context;
 
 import com.actionbarsherlock.app.SherlockActivity;
@@ -50,30 +51,19 @@ public class dialogActivity extends SherlockActivity {
 
         this.prefs = getSharedPreferences("Settings", MODE_PRIVATE);
         this.moodleRequestMessageChain = new MoodleRequestMessageChain(this, prefs.getString("iutoken", ""), "3");
+        this.moodleRequestSendMessage = new MoodleRequestSendMessage(this, prefs.getString("iutoken", ""), "3");
 
         this.contactList = (ListView)findViewById(R.id.messageList);
 
-/*        sendMessageButton.setOnClickListener(
+        sendMessageButton.setOnClickListener(
                 new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
-                        MoodleRequestSendMessage moodleRequestSendMessage = new MoodleRequestSendMessage(
-                                prefs.getString("iutoken", ""),
-                                "3",
-                                "LOVE!"//messageTextInput.getText().toString()
-                        );
+                        moodleRequestSendMessage.setMessageText(messageTextInput.getText().toString());
                         moodleRequestSendMessage.execute();
-                        AlertDialog dialog;
-                        alert.setTitle("You have sent a message!");
-                        if(moodleRequestSendMessage.isSuccess())
-                            alert.setMessage(moodleRequestSendMessage.foo);
-                        else
-                            alert.setMessage(moodleRequestSendMessage.getErrorMessage());
-                        dialog = alert.create();
-                        dialog.show();
                     }
                 }
-        );*/
+        );
     }
 
     @Override
@@ -93,30 +83,39 @@ public class dialogActivity extends SherlockActivity {
                                     messages
                             )
                     );
-                    else Toast.makeText(
-                            context,
-                            moodleRequestMessageChain.getErrorMessage(),
-                            Toast.LENGTH_LONG
-                    ).show();
+                    else showMessage(moodleRequestMessageChain.getErrorMessage());
 
                 }
-                else Toast.makeText(
-                        context,
-                        moodleRequestMessageChain.getErrorMessage(),
-                        Toast.LENGTH_LONG
-                ).show();
+                else showMessage(moodleRequestMessageChain.getErrorMessage());
+            }
+        });
+        moodleRequestSendMessage.setMoodleCallback( new MoodleCallback() {
+            @Override
+            public void callBackRun() {
+                if(moodleRequestSendMessage.isSuccess())
+                {
+                    showMessage("Сообщение отправлено.");
+                    moodleRequestMessageChain.execute();
+                }
+                else showMessage(moodleRequestSendMessage.getErrorMessage());
             }
         });
         try
         {
             moodleRequestMessageChain.execute();
-            //moodleRequestMessageChain.get();
-            //errorText.setText(moodleRequest.getResponse());
-
         }
         catch (Exception e)
         {
-            Toast.makeText(getApplicationContext(), e.toString(), Toast.LENGTH_LONG).show();
+            showMessage(moodleRequestMessageChain.getErrorMessage());
         }
+    }
+
+    public void showMessage(String text)
+    {
+        AlertDialog dialog;
+        alert.setTitle("Attention!");
+        alert.setMessage(text);
+        dialog = alert.create();
+        dialog.show();
     }
 }

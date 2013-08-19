@@ -4,6 +4,7 @@ import android.content.Context;
 
 import java.sql.Timestamp;
 import java.util.ArrayList;
+import java.util.regex.*;
 import com.students.I_university.Entity.Message;
 
 import org.json.JSONArray;
@@ -28,6 +29,22 @@ public class MoodleRequestMessageChain extends MoodleRequest {
 
     @Override
     protected void onPostExecute(Void aVoid){
+        if(this.isSuccess()){
+            try
+            {
+                JSONArray jsonArray = new JSONArray(this.getResponse());
+                if(jsonArray.getJSONObject(0).has("exception"))
+                {
+                    this.success = false;
+                    this.errorMessage = jsonArray.getJSONObject(0).getString("debuginfo");
+                }
+            }
+            catch(Exception e)
+            {
+                this.success = false;
+                this.errorMessage = e.getMessage();
+            }
+        }
         super.onPostExecute(aVoid);
         return;
     }
@@ -61,7 +78,7 @@ public class MoodleRequestMessageChain extends MoodleRequest {
                 else throw new Exception("Incomplete data is received from the server");
 
                 parameter = jsonArray.getJSONObject(i).getString("fullmessage");
-                if(!parameter.isEmpty()) newMessage.messageText = parameter;
+                if(!parameter.isEmpty()) newMessage.messageText = trimText(parameter);
                 else throw new Exception("Incomplete data is received from the server");
 
                 parameter = jsonArray.getJSONObject(i).getString("timecreated");
@@ -86,5 +103,12 @@ public class MoodleRequestMessageChain extends MoodleRequest {
             errorMessage = e.getMessage();
             return null;
         }
+    }
+
+    public String trimText(String text)
+    {
+        Pattern pattern = Pattern.compile("(.*)?\\-+http.*$");
+        Matcher matcher = pattern.matcher(text.subSequence(0, text.length()));
+        return text.substring(0, matcher.start());
     }
 }
