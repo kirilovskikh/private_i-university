@@ -115,18 +115,13 @@ public class dialogActivity extends SherlockActivity {
                         );
                         contactList.setAdapter(adapterMessageChain);
                         contactList.setSelection(adapterMessageChain.getCount() - 1);
-//                        if(fullName == null) fullName = messages.get(0).username;
-//                        if(ownID == null)
-//                        {
-//                            for(int i = 0; messages.get(i).own; i++);
-//                            ownID = messages.get(i).
-//                        }
-//                        getSupportActionBar().setTitle(fullName);
                     }
+                    //else showMessage("Нет переписки с указанным пользователем.");
                     else showMessage(moodleRequestMessageChain.getErrorMessage());
 
                 }
-                else showMessage(moodleRequestMessageChain.getErrorMessage());
+                else showMessage("Нет данных о переписке с указанным пользователем.");
+                //else showMessage(moodleRequestMessageChain.getErrorMessage());
             }
         });
         try

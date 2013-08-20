@@ -18,6 +18,7 @@ import com.students.I_university.CustomAdapter.CustomAdapterContact;
 import com.students.I_university.Helpers.ContactInfo;
 import com.students.I_university.LogD;
 import com.students.I_university.R;
+import com.students.I_university.dialogActivity;
 
 import java.io.*;
 import java.util.HashMap;
@@ -54,7 +55,7 @@ public class ContactActivity extends SherlockActivity implements CallReturnDownl
 
         mContext = this;
 
-        int userId = getIntent().getExtras().getInt("userId");
+        final int userId = getIntent().getExtras().getInt("userId");
         fullname = getIntent().getExtras().getString("fullname");
 
         getSupportActionBar().setTitle(fullname);
@@ -98,6 +99,10 @@ public class ContactActivity extends SherlockActivity implements CallReturnDownl
             @Override
             public void onClick(View view) {
                 Toast.makeText(getApplicationContext(), "Открывается диалог", Toast.LENGTH_SHORT).show();
+                
+                Intent intent = new Intent(getBaseContext(), dialogActivity.class);
+                intent.putExtra("userId", userId);
+                startActivity(intent);
             }
         });
     }
