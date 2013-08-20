@@ -2,16 +2,17 @@ package com.students.I_university;
 
 
 import android.app.AlertDialog;
+import android.content.Intent;
 import android.os.Bundle;
 import android.widget.ListView;
-import android.widget.Toast;
 import android.widget.TextView;
 import android.widget.ImageButton;
+import android.widget.Button;
 import android.content.SharedPreferences;
 import android.view.View;
-import android.content.Context;
 
 import com.actionbarsherlock.app.SherlockActivity;
+import com.students.I_university.Contacts.ContactActivity;
 import com.students.I_university.CustomAdapter.CustomAdapterMessageChain;
 import com.students.I_university.Entity.Message;
 import com.students.I_university.MoodleRequest.MoodleCallback;
@@ -31,12 +32,16 @@ public class dialogActivity extends SherlockActivity {
     dialogActivity context;
     TextView messageTextInput;
     ImageButton sendMessageButton;
+    Button userProfile;
     ArrayList<Message> messages;
     AlertDialog.Builder alert;
     SharedPreferences prefs;
     MoodleRequestMessageChain moodleRequestMessageChain;
     MoodleRequestSendMessage moodleRequestSendMessage;
     ListView contactList;
+    String fullName;
+    int ownID;
+    int userID;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -44,18 +49,33 @@ public class dialogActivity extends SherlockActivity {
 
         setContentView(R.layout.dialog_layout);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
         this.context = this;
         this.messageTextInput = (TextView)findViewById(R.id.messageTextInput);
         this.sendMessageButton = (ImageButton)findViewById(R.id.sendMessageButton);
+        this.userProfile = (Button)findViewById(R.id.userProfile);
         this.alert = new AlertDialog.Builder(this);
         this.prefs = getSharedPreferences("Settings", MODE_PRIVATE);
         this.contactList = (ListView)findViewById(R.id.messageList);
+        this.ownID = getIntent().getExtras().getInt("userId");
 
         sendMessageButton.setOnClickListener(
                 new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
                         sendMessage();
+                    }
+                }
+        );
+
+        userProfile.setOnClickListener(
+                new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        Intent intent = new Intent(getBaseContext(), ContactActivity.class);
+                        intent.putExtra("userId", ownID);
+                        intent.putExtra("fullname", fullName);
+                        startActivity(intent);
                     }
                 }
         );
@@ -79,7 +99,7 @@ public class dialogActivity extends SherlockActivity {
 
     public void getMessages()
     {
-        moodleRequestMessageChain = new MoodleRequestMessageChain(this, prefs.getString("iutoken", ""), "3");
+        moodleRequestMessageChain = new MoodleRequestMessageChain(this, prefs.getString("iutoken", ""), String.valueOf(ownID));
         moodleRequestMessageChain.setMoodleCallback( new MoodleCallback() {
             @Override
             public void callBackRun() {
@@ -95,6 +115,13 @@ public class dialogActivity extends SherlockActivity {
                         );
                         contactList.setAdapter(adapterMessageChain);
                         contactList.setSelection(adapterMessageChain.getCount() - 1);
+//                        if(fullName == null) fullName = messages.get(0).username;
+//                        if(ownID == null)
+//                        {
+//                            for(int i = 0; messages.get(i).own; i++);
+//                            ownID = messages.get(i).
+//                        }
+//                        getSupportActionBar().setTitle(fullName);
                     }
                     else showMessage(moodleRequestMessageChain.getErrorMessage());
 
@@ -113,7 +140,7 @@ public class dialogActivity extends SherlockActivity {
     }
     public void sendMessage()
     {
-        moodleRequestSendMessage = new MoodleRequestSendMessage(this, prefs.getString("iutoken", ""), "3");
+        moodleRequestSendMessage = new MoodleRequestSendMessage(this, prefs.getString("iutoken", ""), String.valueOf(ownID));
         moodleRequestSendMessage.setMoodleCallback( new MoodleCallback() {
             @Override
             public void callBackRun() {

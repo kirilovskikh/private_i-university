@@ -39,6 +39,7 @@ public class MessengerList extends SherlockFragment {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 Intent intent = new Intent(getSherlockActivity(), dialogActivity.class);
+                intent.putExtra("userId", 5);
                 //  intent.putExtra("name", strings[position]);
                 startActivity(intent);
             }

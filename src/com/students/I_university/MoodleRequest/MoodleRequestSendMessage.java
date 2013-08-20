@@ -10,7 +10,6 @@ import org.json.JSONObject;
 public class MoodleRequestSendMessage extends MoodleRequest {
 
     private String function = "core_message_send_instant_messages";
-    public String foo;
 
     public MoodleRequestSendMessage(Context context, String token, String toUserId)
     {
