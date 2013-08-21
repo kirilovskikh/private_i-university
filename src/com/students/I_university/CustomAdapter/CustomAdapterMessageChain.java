@@ -36,33 +36,16 @@ public class CustomAdapterMessageChain extends ArrayAdapter<Message> {
         LayoutInflater vi = (LayoutInflater)mContext.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         v = vi.inflate(layout, parent, false);
 
-
-
-        Uri.Builder uri;
-        Uri result;
         TextView username = (TextView)v.findViewById(R.id.name);
         TextView messageText = (TextView)v.findViewById(R.id.text);
         TextView date = (TextView)v.findViewById(R.id.date);
         ImageView avatar = (ImageView)v.findViewById(R.id.imageView);
         Message message = messages.get(position);
 
-        try
-        {
-            URL link = new URL(message.imageURL);
-            uri = new Uri.Builder();
-            uri.authority(link.getAuthority());
-            uri.path(link.getPath());
-            uri.scheme("http");
-            result = uri.build();
-            avatar.setImageURI(result);
-        }
-        catch(Exception e)
-        {
-            e.getMessage();
-        }
         username.setText(message.username);
         messageText.setText(message.messageText);
         date.setText(message.GetCreateTime());
+        if(message.bitmap != null) avatar.setImageBitmap(message.bitmap);
 
         return v;
     }

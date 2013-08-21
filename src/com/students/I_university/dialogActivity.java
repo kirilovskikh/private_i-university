@@ -3,7 +3,9 @@ package com.students.I_university;
 
 import android.app.AlertDialog;
 import android.content.Intent;
+import android.graphics.Bitmap;
 import android.os.Bundle;
+import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.ImageButton;
@@ -16,6 +18,7 @@ import com.students.I_university.Contacts.ContactActivity;
 import com.students.I_university.CustomAdapter.CustomAdapterMessageChain;
 import com.students.I_university.Entity.Message;
 import com.students.I_university.MoodleRequest.MoodleCallback;
+import com.students.I_university.MoodleRequest.MoodleRequestImage;
 import com.students.I_university.MoodleRequest.MoodleRequestMessageChain;
 import com.students.I_university.MoodleRequest.MoodleRequestSendMessage;
 
@@ -38,10 +41,13 @@ public class dialogActivity extends SherlockActivity {
     SharedPreferences prefs;
     MoodleRequestMessageChain moodleRequestMessageChain;
     MoodleRequestSendMessage moodleRequestSendMessage;
+    MoodleRequestImage moodleRequestImage;
+    CustomAdapterMessageChain adapterMessageChain;
     ListView contactList;
     String fullName;
-    int ownID;
     int userID;
+//    Bitmap ownImage;
+//    Bitmap userImage;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -57,7 +63,7 @@ public class dialogActivity extends SherlockActivity {
         this.alert = new AlertDialog.Builder(this);
         this.prefs = getSharedPreferences("Settings", MODE_PRIVATE);
         this.contactList = (ListView)findViewById(R.id.messageList);
-        this.ownID = getIntent().getExtras().getInt("userId");
+        this.userID = getIntent().getExtras().getInt("userId");
 
         sendMessageButton.setOnClickListener(
                 new View.OnClickListener() {
@@ -73,7 +79,7 @@ public class dialogActivity extends SherlockActivity {
                     @Override
                     public void onClick(View view) {
                         Intent intent = new Intent(getBaseContext(), ContactActivity.class);
-                        intent.putExtra("userId", ownID);
+                        intent.putExtra("userId", userID);
                         intent.putExtra("fullname", fullName);
                         startActivity(intent);
                     }
@@ -99,7 +105,7 @@ public class dialogActivity extends SherlockActivity {
 
     public void getMessages()
     {
-        moodleRequestMessageChain = new MoodleRequestMessageChain(this, prefs.getString("iutoken", ""), String.valueOf(ownID));
+        moodleRequestMessageChain = new MoodleRequestMessageChain(this, prefs.getString("iutoken", ""), String.valueOf(userID));
         moodleRequestMessageChain.setMoodleCallback( new MoodleCallback() {
             @Override
             public void callBackRun() {
@@ -108,17 +114,18 @@ public class dialogActivity extends SherlockActivity {
                     messages = moodleRequestMessageChain.getMessageChain();
                     if(messages != null)
                     {
-                        CustomAdapterMessageChain adapterMessageChain = new CustomAdapterMessageChain(
+                        adapterMessageChain = new CustomAdapterMessageChain(
                                 context,
                                 R.layout.message_chain_left,
                                 messages
                         );
                         contactList.setAdapter(adapterMessageChain);
                         contactList.setSelection(adapterMessageChain.getCount() - 1);
+
+                        getBitmaps();
                     }
                     //else showMessage("Нет переписки с указанным пользователем.");
                     else showMessage(moodleRequestMessageChain.getErrorMessage());
-
                 }
                 else showMessage("Нет данных о переписке с указанным пользователем.");
                 //else showMessage(moodleRequestMessageChain.getErrorMessage());
@@ -135,7 +142,7 @@ public class dialogActivity extends SherlockActivity {
     }
     public void sendMessage()
     {
-        moodleRequestSendMessage = new MoodleRequestSendMessage(this, prefs.getString("iutoken", ""), String.valueOf(ownID));
+        moodleRequestSendMessage = new MoodleRequestSendMessage(this, prefs.getString("iutoken", ""), String.valueOf(userID));
         moodleRequestSendMessage.setMoodleCallback( new MoodleCallback() {
             @Override
             public void callBackRun() {
@@ -149,5 +156,42 @@ public class dialogActivity extends SherlockActivity {
         });
         moodleRequestSendMessage.setMessageText(messageTextInput.getText().toString());
         moodleRequestSendMessage.execute();
+    }
+    public void getBitmaps()
+    {
+        String ownImageURL;
+        String userImageURL;
+        moodleRequestImage = new MoodleRequestImage();
+        moodleRequestImage.setMoodleCallback(
+                new MoodleCallback() {
+                    @Override
+                    public void callBackRun() {
+                        for(int i = 0; i < messages.size(); i++)
+                        {
+                            if(messages.get(i).own && moodleRequestImage.ownImage != null)
+                            {
+                                messages.get(i).bitmap = moodleRequestImage.ownImage;
+                            }
+                            if(!messages.get(i).own && moodleRequestImage.userImage != null)
+                            {
+                                messages.get(i).bitmap = moodleRequestImage.userImage;
+                            }
+//                            adapterMessageChain.clear();
+//                            adapterMessageChain.addAll(messages);
+                            adapterMessageChain.notifyDataSetChanged();
+                        }
+                    }
+                }
+        );
+
+        int i = 0;
+        while(!messages.get(i).own && i < messages.size()) i++;
+        ownImageURL = messages.get(i).imageURL;
+
+        int j = 0;
+        while(messages.get(j).own && j < messages.size()) j++;
+        userImageURL = messages.get(j).imageURL;
+
+        moodleRequestImage.execute(ownImageURL, userImageURL);
     }
 }
