@@ -13,6 +13,7 @@ import android.widget.ImageButton;
 import android.widget.Button;
 import android.content.SharedPreferences;
 import android.view.View;
+import android.widget.Toast;
 
 import com.actionbarsherlock.app.SherlockActivity;
 import com.students.I_university.Contacts.ContactActivity;
@@ -50,9 +51,6 @@ public class dialogActivity extends SherlockActivity {
     ListView contactList;
     String fullName;
     int userID;
-    Timer timer;
-//    Bitmap ownImage;
-//    Bitmap userImage;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -60,6 +58,7 @@ public class dialogActivity extends SherlockActivity {
 
         setContentView(R.layout.dialog_layout);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setHomeButtonEnabled(true);
 
         this.context = this;
         this.messageTextInput = (TextView)findViewById(R.id.messageTextInput);
@@ -70,8 +69,6 @@ public class dialogActivity extends SherlockActivity {
         this.prefs = getSharedPreferences("Settings", MODE_PRIVATE);
         this.contactList = (ListView)findViewById(R.id.messageList);
         this.userID = getIntent().getExtras().getInt("userId");
-        this.timer = new Timer("dialog");
-
         sendMessageButton.setOnClickListener(
                 new View.OnClickListener() {
                     @Override
@@ -164,6 +161,11 @@ public class dialogActivity extends SherlockActivity {
     }
     public void sendMessage()
     {
+        if(messageTextInput.getText().length() == 0)
+        {
+            Toast.makeText(context, "Нельзя отправлять пустую строку. ;)", Toast.LENGTH_SHORT).show();
+            return;
+        }
         moodleRequestSendMessage = new MoodleRequestSendMessage(this, prefs.getString("iutoken", ""), String.valueOf(userID));
         moodleRequestSendMessage.setMoodleCallback( new MoodleCallback() {
             @Override

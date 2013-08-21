@@ -48,28 +48,6 @@ public class MoodleRequestMessageChain extends MoodleRequest {
         return;
     }
 
-    @Override
-    public void PostExecute(){
-        if(this.isSuccess()){
-            try
-            {
-                JSONArray jsonArray = new JSONArray(this.getResponse());
-                if(jsonArray.getJSONObject(0).has("exception"))
-                {
-                    this.success = false;
-                    this.errorMessage = jsonArray.getJSONObject(0).getString("debuginfo");
-                }
-            }
-            catch(Exception e)
-            {
-                this.success = false;
-                this.errorMessage = e.getMessage();
-            }
-        }
-        super.PostExecute();
-        return;
-    }
-
     public ArrayList<Message> getMessageChain()
     {
         ArrayList<Message> messages;
@@ -99,8 +77,7 @@ public class MoodleRequestMessageChain extends MoodleRequest {
                 else throw new Exception("Incomplete data is received from the server");
 
                 parameter = jsonArray.getJSONObject(i).getString("fullmessage");
-                if(!parameter.isEmpty()) newMessage.messageText = trimText(parameter);
-                else throw new Exception("Incomplete data is received from the server");
+                newMessage.messageText = trimText(parameter);
 
                 parameter = jsonArray.getJSONObject(i).getString("timecreated");
                 if(!parameter.isEmpty()) {

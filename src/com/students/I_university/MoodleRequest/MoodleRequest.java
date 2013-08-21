@@ -150,40 +150,4 @@ public class MoodleRequest extends AsyncTask<Void, Void, Void> {
         }
         return sb.toString();
     }
-
-    public void PreExecute() {
-//        progressDialog = new ProgressDialog(this.mContext);
-//        progressDialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
-//        progressDialog.setMessage("Загрузка ...");
-//        progressDialog.show();
-    }
-
-    public void Background() {
-        try {
-            HttpClient httpClient = new DefaultHttpClient();
-            HttpPost httpPost = new HttpPost( server + pathToScript);
-
-            httpPost.setEntity(new UrlEncodedFormEntity(params, "UTF-8"));
-            HttpResponse httpResponse = httpClient.execute(httpPost);
-
-            if (httpResponse != null){
-                InputStream in = httpResponse.getEntity().getContent();
-                response = convertStreamToString(in);
-                if(response.isEmpty())
-                    throw new Exception("Cannot create the response string!");
-            }
-        }
-        catch (Exception ex){
-            success = false;
-            errorMessage = ex.getMessage();
-            return;
-        }
-        success = true;
-        return;
-    }
-
-    public void PostExecute() {
-        //progressDialog.dismiss();
-        if(callback != null) callback.callBackRun();
-    }
 }
