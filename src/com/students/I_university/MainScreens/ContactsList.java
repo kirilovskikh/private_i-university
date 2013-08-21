@@ -11,8 +11,8 @@ import com.actionbarsherlock.app.SherlockFragment;
 import com.students.I_university.Contacts.AsyncTaskGetContacts;
 import com.students.I_university.Contacts.CallReturnDownload;
 import com.students.I_university.Contacts.ContactActivity;
+import com.students.I_university.CustomAdapter.CustomAdapterContactsListView;
 import com.students.I_university.Helpers.ContactInfo;
-import com.students.I_university.CustomAdapter.ContactsListView;
 import com.students.I_university.R;
 
 import java.util.HashMap;
@@ -64,7 +64,7 @@ public class ContactsList extends SherlockFragment implements CallReturnDownload
         this.map = map;
         String[] name = getNameFromMap(map);
 
-        ContactsListView arrayAdapter = new ContactsListView(getSherlockActivity(), name, map);
+        CustomAdapterContactsListView arrayAdapter = new CustomAdapterContactsListView(getSherlockActivity(), name, map);
         listView.setAdapter(arrayAdapter);
     }
 
