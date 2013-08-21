@@ -21,12 +21,14 @@ public class CustomAdapterMessageChain extends ArrayAdapter<Message> {
 
     Context mContext;
     ArrayList<Message> messages;
-    int layout;
+    int layout_left;
+    int layout_right;
 
-    public CustomAdapterMessageChain(Context c, int layout, ArrayList<Message> messages){
-        super(c, layout, messages);
+    public CustomAdapterMessageChain(Context c, int layout_left, int layout_right, ArrayList<Message> messages){
+        super(c, layout_left, messages);
         this.mContext = c;
-        this.layout = layout;
+        this.layout_left = layout_left;
+        this.layout_right = layout_right;
         this.messages = messages;
     }
 
@@ -34,35 +36,21 @@ public class CustomAdapterMessageChain extends ArrayAdapter<Message> {
 
         View v;
         LayoutInflater vi = (LayoutInflater)mContext.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-        v = vi.inflate(layout, parent, false);
+        Message message = messages.get(position);
 
+        if(message.own) v = vi.inflate(layout_left, parent, false);
+        else v = vi.inflate(layout_right, parent, false);
 
-
-        Uri.Builder uri;
-        Uri result;
         TextView username = (TextView)v.findViewById(R.id.name);
         TextView messageText = (TextView)v.findViewById(R.id.text);
         TextView date = (TextView)v.findViewById(R.id.date);
         ImageView avatar = (ImageView)v.findViewById(R.id.imageView);
-        Message message = messages.get(position);
 
-        try
-        {
-            URL link = new URL(message.imageURL);
-            uri = new Uri.Builder();
-            uri.authority(link.getAuthority());
-            uri.path(link.getPath());
-            uri.scheme("http");
-            result = uri.build();
-            avatar.setImageURI(result);
-        }
-        catch(Exception e)
-        {
-            e.getMessage();
-        }
+
         username.setText(message.username);
         messageText.setText(message.messageText);
         date.setText(message.GetCreateTime());
+        if(message.bitmap != null) avatar.setImageBitmap(message.bitmap);
 
         return v;
     }

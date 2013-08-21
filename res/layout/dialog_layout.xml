@@ -23,18 +23,17 @@
             android:layout_alignParentLeft="true"
             android:lines="3"
             android:textSize="10dp"
-            android:layout_toLeftOf="@+id/sendMessageButton"
-            />
+            android:layout_toLeftOf="@+id/sendMessageButton"/>
 
     <ImageButton
             android:layout_width="50dp"
             android:layout_height="wrap_content"
             android:id="@+id/sendMessageButton"
-            android:layout_alignParentBottom="true"
-            android:layout_alignParentRight="true"
-            android:layout_below="@+id/messageList"
             android:src="@drawable/abs__ic_cab_done_holo_dark"
-            android:background="@color/abs__background_holo_dark"/>
+            android:background="@color/abs__background_holo_dark"
+            android:layout_below="@+id/messageList"
+            android:layout_toLeftOf="@+id/refreshButton"
+            android:layout_alignParentBottom="true"/>
 
     <Button
             android:layout_width="wrap_content"
@@ -46,4 +45,15 @@
             android:layout_alignParentRight="true"
             android:background="@color/abs__background_holo_dark"
             android:textColor="@color/abs__primary_text_holo_dark"/>
+
+    <ImageButton
+            android:layout_width="50dp"
+            android:layout_height="wrap_content"
+            android:id="@+id/refreshButton"
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentRight="true"
+            android:layout_alignTop="@+id/messageTextInput"
+            android:src="@android:drawable/ic_menu_rotate"
+            android:background="@color/abs__background_holo_dark"/>
+
 </RelativeLayout>

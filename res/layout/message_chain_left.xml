@@ -11,8 +11,8 @@
             android:layout_height="wrap_content">
 
         <ImageView
-                android:layout_width="50dp"
-                android:layout_height="50dp"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
                 android:id="@+id/imageView"
                 android:src="@drawable/face_icon"
                 android:layout_alignParentTop="true"
@@ -33,11 +33,12 @@
                     android:textAppearance="?android:attr/textAppearanceMedium"
                     android:text="Alexander Miklukho-Maklay"
                     android:id="@+id/name"
-                    android:padding="5dp"
                     android:gravity="center_vertical|left"
                     android:layout_alignParentTop="true"
                     android:layout_toRightOf="@+id/imageView"
-                    android:layout_gravity="center_horizontal|left"/>
+                    android:layout_gravity="center_horizontal|left"
+                    android:paddingLeft="10dp"
+                    android:paddingRight="10dp"/>
 
             <TextView
                     android:layout_width="wrap_content"

@@ -77,8 +77,7 @@ public class MoodleRequestMessageChain extends MoodleRequest {
                 else throw new Exception("Incomplete data is received from the server");
 
                 parameter = jsonArray.getJSONObject(i).getString("fullmessage");
-                if(!parameter.isEmpty()) newMessage.messageText = trimText(parameter);
-                else throw new Exception("Incomplete data is received from the server");
+                newMessage.messageText = trimText(parameter);
 
                 parameter = jsonArray.getJSONObject(i).getString("timecreated");
                 if(!parameter.isEmpty()) {
