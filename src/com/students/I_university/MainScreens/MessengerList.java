@@ -31,8 +31,6 @@ public class MessengerList extends SherlockFragment {
         ListView kontaktList = (ListView) view.findViewById(R.id.listView);
         CustomAdapterDialogs adapter = new CustomAdapterDialogs(getSherlockActivity(), R.layout.sms,R.id.textView,R.id.textView1,kontakt,sms);
 
-
-        // устанавливаем для списка адаптер
         kontaktList.setAdapter(adapter);
 
         kontaktList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -40,7 +38,6 @@ public class MessengerList extends SherlockFragment {
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 Intent intent = new Intent(getSherlockActivity(), dialogActivity.class);
                 intent.putExtra("userId", 3);
-                //  intent.putExtra("name", strings[position]);
                 startActivity(intent);
             }
         });

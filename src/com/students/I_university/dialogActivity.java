@@ -5,6 +5,7 @@ import android.app.AlertDialog;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.os.Bundle;
+import android.os.Looper;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -23,6 +24,8 @@ import com.students.I_university.MoodleRequest.MoodleRequestMessageChain;
 import com.students.I_university.MoodleRequest.MoodleRequestSendMessage;
 
 import java.util.ArrayList;
+import java.util.Timer;
+import java.util.TimerTask;
 
 /**
  * Created with IntelliJ IDEA.
@@ -35,6 +38,7 @@ public class dialogActivity extends SherlockActivity {
     dialogActivity context;
     TextView messageTextInput;
     ImageButton sendMessageButton;
+    ImageButton refreshButton;
     Button userProfile;
     ArrayList<Message> messages;
     AlertDialog.Builder alert;
@@ -46,6 +50,7 @@ public class dialogActivity extends SherlockActivity {
     ListView contactList;
     String fullName;
     int userID;
+    Timer timer;
 //    Bitmap ownImage;
 //    Bitmap userImage;
 
@@ -59,17 +64,28 @@ public class dialogActivity extends SherlockActivity {
         this.context = this;
         this.messageTextInput = (TextView)findViewById(R.id.messageTextInput);
         this.sendMessageButton = (ImageButton)findViewById(R.id.sendMessageButton);
+        this.refreshButton = (ImageButton)findViewById(R.id.refreshButton);
         this.userProfile = (Button)findViewById(R.id.userProfile);
         this.alert = new AlertDialog.Builder(this);
         this.prefs = getSharedPreferences("Settings", MODE_PRIVATE);
         this.contactList = (ListView)findViewById(R.id.messageList);
         this.userID = getIntent().getExtras().getInt("userId");
+        this.timer = new Timer("dialog");
 
         sendMessageButton.setOnClickListener(
                 new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
                         sendMessage();
+                    }
+                }
+        );
+
+        refreshButton.setOnClickListener(
+                new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        getMessages();
                     }
                 }
         );
@@ -98,7 +114,7 @@ public class dialogActivity extends SherlockActivity {
     {
         AlertDialog dialog;
         alert.setTitle("Attention!");
-        alert.setMessage(text);
+        if(!text.isEmpty()) alert.setMessage(text);
         dialog = alert.create();
         dialog.show();
     }
@@ -114,15 +130,21 @@ public class dialogActivity extends SherlockActivity {
                     messages = moodleRequestMessageChain.getMessageChain();
                     if(messages != null)
                     {
-                        adapterMessageChain = new CustomAdapterMessageChain(
-                                context,
-                                R.layout.message_chain_left,
-                                messages
-                        );
-                        contactList.setAdapter(adapterMessageChain);
-                        contactList.setSelection(adapterMessageChain.getCount() - 1);
+                        if(adapterMessageChain == null)
+                        {
+                            adapterMessageChain = new CustomAdapterMessageChain(
+                                    context,
+                                    R.layout.message_chain_left,
+                                    R.layout.message_chain_right,
+                                    messages
+                            );
+                            contactList.setAdapter(adapterMessageChain);
+                            contactList.setSelection(adapterMessageChain.getCount() - 1);
 
-                        getBitmaps();
+                            getBitmaps();
+
+                        }
+                        else adapterMessageChain.notifyDataSetChanged();
                     }
                     //else showMessage("Нет переписки с указанным пользователем.");
                     else showMessage(moodleRequestMessageChain.getErrorMessage());
@@ -187,6 +209,7 @@ public class dialogActivity extends SherlockActivity {
         int i = 0;
         while(!messages.get(i).own && i < messages.size()) i++;
         ownImageURL = messages.get(i).imageURL;
+        fullName = messages.get(i).username;
 
         int j = 0;
         while(messages.get(j).own && j < messages.size()) j++;

@@ -48,6 +48,28 @@ public class MoodleRequestMessageChain extends MoodleRequest {
         return;
     }
 
+    @Override
+    public void PostExecute(){
+        if(this.isSuccess()){
+            try
+            {
+                JSONArray jsonArray = new JSONArray(this.getResponse());
+                if(jsonArray.getJSONObject(0).has("exception"))
+                {
+                    this.success = false;
+                    this.errorMessage = jsonArray.getJSONObject(0).getString("debuginfo");
+                }
+            }
+            catch(Exception e)
+            {
+                this.success = false;
+                this.errorMessage = e.getMessage();
+            }
+        }
+        super.PostExecute();
+        return;
+    }
+
     public ArrayList<Message> getMessageChain()
     {
         ArrayList<Message> messages;
