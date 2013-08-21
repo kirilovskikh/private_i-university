@@ -39,6 +39,7 @@ public class ContactActivity extends SherlockActivity implements CallReturnDownl
     private HashMap<Integer, ContactInfo> map;
 
     private String fullname;
+    private int userId;
 
 
     /**
@@ -55,7 +56,7 @@ public class ContactActivity extends SherlockActivity implements CallReturnDownl
 
         mContext = this;
 
-        final int userId = getIntent().getExtras().getInt("userId");
+        userId = getIntent().getExtras().getInt("userId");
         fullname = getIntent().getExtras().getString("fullname");
 
         getSupportActionBar().setTitle(fullname);
@@ -100,7 +101,7 @@ public class ContactActivity extends SherlockActivity implements CallReturnDownl
             public void onClick(View view) {
                 Toast.makeText(getApplicationContext(), "Открывается диалог", Toast.LENGTH_SHORT).show();
                 
-                Intent intent = new Intent(getBaseContext(), dialogActivity.class);
+                Intent intent = new Intent(mContext, dialogActivity.class);
                 intent.putExtra("userId", userId);
                 startActivity(intent);
             }
