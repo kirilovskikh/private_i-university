@@ -1,32 +1,22 @@
 package com.students.I_university.MainScreens;
 
-import android.content.Intent;
+import android.content.Context;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
 import android.widget.ListView;
+import android.widget.Toast;
 import com.actionbarsherlock.app.SherlockFragment;
 import com.students.I_university.CustomAdapter.CustomAdapterDialogs;
+import com.students.I_university.Entity.ListMessage;
+import com.students.I_university.MoodleRequest.MoodleRequest;
+import com.students.I_university.MoodleRequest.MoodleRequestListMessages;
 import com.students.I_university.R;
-import com.students.I_university.dialogActivity;
-import org.apache.http.HttpResponse;
-import org.apache.http.NameValuePair;
-import org.apache.http.client.HttpClient;
-import org.apache.http.client.entity.UrlEncodedFormEntity;
-import org.apache.http.client.methods.HttpPost;
-import org.apache.http.impl.client.DefaultHttpClient;
-import org.apache.http.message.BasicNameValuePair;
-import org.json.JSONArray;
-import org.json.JSONObject;
 
-import java.io.InputStream;
 import java.util.ArrayList;
-import java.util.List;
-
-import static com.students.I_university.Utils.convertStreamToString;
 
 /**
  * Created with IntelliJ IDEA.
@@ -37,89 +27,55 @@ import static com.students.I_university.Utils.convertStreamToString;
  */
 public class MessengerList extends SherlockFragment {
 
-    String funcName;
-    String web_way = "http://university.shiva.vps-private.net/webservice/rest/server.php?";
-
-    String str;
-    String token = "ac072b83ec6761808d3994dc446557f9";
-
-
-
 @Override
  public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
     View view = inflater.inflate(R.layout.listview_layout, null);
+    final ArrayList<ListMessage> str;
+    SharedPreferences preferences = getActivity().getSharedPreferences("Settings", Context.MODE_PRIVATE);
+    MoodleRequestListMessages listMassager = new MoodleRequestListMessages(preferences.getString("iutoken",""));
+    ListView kontaktList = (ListView) view.findViewById(R.id.listView);
 
        try {
 
+         MoodleRequest request = new MoodleRequest();
+         request.execute();
+         request.get();
 
-           HttpClient httpClient = new DefaultHttpClient();
-          HttpPost httpPost = new HttpPost(web_way);
-
-           List<NameValuePair> list = new ArrayList<NameValuePair>();
-           list.add(new BasicNameValuePair("wstoken", token));
-           list.add(new BasicNameValuePair("moodlewsrestformat", "json"));
-
-           list.add(new BasicNameValuePair("wsfunction", "local_wstemplate_recent_messages"));
-           list.add(new BasicNameValuePair("limitfrom", "0"));
-           list.add(new BasicNameValuePair("limitto", "0"));
-
-           httpPost.setEntity(new UrlEncodedFormEntity(list, "UTF-8"));
-           HttpResponse httpResponse = httpClient.execute(httpPost);
-
-           String[] kontakt = new String[0];
-           String[] sms = new String[0];
-           if (httpResponse != null) {
-               InputStream in = httpResponse.getEntity().getContent(); // Get the
-               str = convertStreamToString(in);
-              JSONArray jsonArray = new JSONArray(str);
-
-               sms = new String[jsonArray.length()];
-               kontakt = new String[jsonArray.length()];
-               JSONObject jsonObject = jsonArray.getJSONObject(1);
-               for (int i = 0; i < jsonArray.length(); i++) {
-
-                   kontakt[i] = jsonObject.getString("firstname") + jsonObject.getString("lastname");
-                   sms[i] = jsonObject.getString("smallmessage");
-          //       String s3 = jsonObject.getString("timecreated");
-               }
-           }
-           else{
-
-               kontakt[0] = "ghvh";
-               sms[0] = "hjbhj";
+           listMassager.execute();
+           listMassager.get();
+           if(listMassager.isSuccess())
+           {
+               str = listMassager.getMessage();
+               if(str != null) kontaktList.setAdapter(
+                       new CustomAdapterDialogs(
+                               getActivity().getBaseContext(),
+                               R.layout.sms,
+                               str
+                       )
+               );
+               else Toast.makeText(
+                       getActivity().getApplicationContext(),
+                       listMassager.getErrorMessage(),
+                       Toast.LENGTH_LONG
+               ).show();
 
            }
-        //  return null;  //To change body of implemented methods use File | Settings | File Templates.
-  //        final String[] kontakt = new String[] {"Старикова Анастасия Константиновна", "Сидоров Петр Сергеевич", "Петров Алексей Федорович", "Сидорова Дарья Ивановна"};
-//          final String[] sms = new String[] {"Hello","Hi","Привет","Ура"};
-
-
-           ListView kontaktList = (ListView) view.findViewById(R.id.listView);
-           CustomAdapterDialogs adapter = new CustomAdapterDialogs(getSherlockActivity(), R.layout.sms, R.id.textView, R.id.textView1, kontakt, sms);
-
-
-           // устанавливаем для списка адаптер
-           kontaktList.setAdapter(adapter);
-
-           kontaktList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-               @Override
-               public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                   Intent intent = new Intent(getSherlockActivity(), dialogActivity.class);
-                   //  intent.putExtra("name", strings[position]);
-                   startActivity(intent);
-               }
-           });
-
+           else Toast.makeText(
+                   getActivity().getApplicationContext(),
+                   listMassager.getErrorMessage(),
+                   Toast.LENGTH_LONG
+           ).show();
            return view;
 
        }
        catch (Exception e) {
-           str = "exp";
-           Log.d("MyApp", "ne rabotaet");
+          String s = "exp";
+           Log.e("MyApp", e.getMessage());
 
        }
       return null;
   }
+
 
 
 }

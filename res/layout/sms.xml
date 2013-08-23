@@ -26,7 +26,7 @@
                     android:layout_width="fill_parent"
                     android:layout_height="fill_parent"
                     android:text="New Text"
-                    android:id="@+id/textView"/>
+                    android:id="@+id/name"/>
         </LinearLayout>
         <LinearLayout
                 android:orientation="horizontal"
@@ -37,12 +37,12 @@
                     android:layout_width="fill_parent"
                     android:layout_height="fill_parent"
                     android:text="New Text"
-                    android:id="@+id/textView1" android:layout_weight="0.3" android:paddingRight="4dp"/>
+                    android:id="@+id/sms" android:layout_weight="0.3" android:paddingRight="4dp"/>
             <TextView
                     android:layout_width="fill_parent"
                     android:layout_height="fill_parent"
                     android:text="5.07.2013"
-                    android:id="@+id/textView2"
+                    android:id="@+id/date"
                     android:layout_weight="0.7" android:paddingRight="4dp"
                     android:gravity="right"/>
         </LinearLayout>

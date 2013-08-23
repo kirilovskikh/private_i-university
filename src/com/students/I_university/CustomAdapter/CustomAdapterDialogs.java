@@ -7,6 +7,10 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.TextView;
+import com.students.I_university.Entity.ListMessage;
+import com.students.I_university.R;
+
+import java.util.ArrayList;
 
 /**
  * Created with IntelliJ IDEA.
@@ -16,23 +20,17 @@ import android.widget.TextView;
  * To change this template use File | Settings | File Templates.
  */
 
-public class CustomAdapterDialogs extends ArrayAdapter<String> {
+public class CustomAdapterDialogs extends ArrayAdapter<ListMessage> {
 
     Context mContext;
-    String[] array1;
-    String[] array2;
     int layout;
-    int layoutItem1;
-    int layoutItem2;
+    ArrayList<ListMessage> message;
 
-    public CustomAdapterDialogs(Context c, int layout, int item1, int item2, String[] array1, String[] array2){
-        super(c, layout, array1);
+    public CustomAdapterDialogs(Context c, int layout,  ArrayList<ListMessage> message){
+        super(c, layout, message);
         this.mContext = c;
         this.layout = layout;
-        this.layoutItem1 = item1;
-        this.layoutItem2 = item2;
-        this.array1 = array1;
-        this.array2 = array2;
+        this.message = message;
     }
 
     public View getView(int position, View convertView, ViewGroup parent) {
@@ -40,12 +38,15 @@ public class CustomAdapterDialogs extends ArrayAdapter<String> {
          LayoutInflater vi = (LayoutInflater)mContext.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
          v = vi.inflate(layout, parent, false);
 
-         TextView item1 = (TextView)v.findViewById(layoutItem1);
-         TextView item2 = (TextView)v.findViewById(layoutItem2);
+         TextView name = (TextView)v.findViewById(R.id.name);
+         TextView sms  = (TextView)v.findViewById(R.id.sms);
+         TextView date = (TextView)v.findViewById(R.id.date);
+         ListMessage messages = message.get(position);
 
-         item1.setText(array1[position]);
-         item2.setText(array2[position]);
-
+        name.setText(messages.username);
+        sms.setText(messages.sms);
+        date.setText(messages.GetCreateTime());
         return v;
+
     }
 }

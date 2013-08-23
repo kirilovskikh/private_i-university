@@ -1,14 +1,10 @@
 package com.students.I_university.MoodleRequest;
 
-import android.util.Log;
+import com.students.I_university.Entity.Message;
+import org.json.JSONArray;
 
 import java.sql.Timestamp;
 import java.util.ArrayList;
-import com.students.I_university.Entity.Message;
-
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
 
 /**
  * Created by Akella on 14.08.13.
