@@ -60,13 +60,13 @@ public class CustomAdapterContactsListView extends ArrayAdapter<String>{
 
             if (getItemViewType(position) == 1) {
                 viewGroup = (ViewGroup) LayoutInflater.from(mContext).inflate(R.layout.contact_with_phone, null);
-                holder = new ViewHolderWithPhone((TextView)viewGroup.findViewById(R.id.textView), (ImageView) viewGroup.findViewById(R.id.imageView),
+                holder = new ViewHolder((TextView)viewGroup.findViewById(R.id.textView), (ImageView) viewGroup.findViewById(R.id.imageView),
                         (ImageButton) viewGroup.findViewById(R.id.imageButton));
                 viewGroup.setTag(holder);
             }
             else {
                 viewGroup = (ViewGroup) LayoutInflater.from(mContext).inflate(R.layout.contact_no_phone, null);
-                holder = new ViewHolderNoPhone((TextView)viewGroup.findViewById(R.id.textView), (ImageView) viewGroup.findViewById(R.id.imageView));
+                holder = new ViewHolder((TextView)viewGroup.findViewById(R.id.textView), (ImageView) viewGroup.findViewById(R.id.imageView));
                 viewGroup.setTag(holder);
             }
             view = viewGroup;
@@ -76,9 +76,9 @@ public class CustomAdapterContactsListView extends ArrayAdapter<String>{
             view = convertView;
 
             if (getItemViewType(position) == 1)
-                holder = (ViewHolderWithPhone) convertView.getTag();
+                holder = (ViewHolder) convertView.getTag();
             else
-                holder = (ViewHolderNoPhone) convertView.getTag();
+                holder = (ViewHolder) convertView.getTag();
         }
 
         if (getItemViewType(position) == 1) {
@@ -107,23 +107,24 @@ public class CustomAdapterContactsListView extends ArrayAdapter<String>{
         public TextView textView;
         public ImageView imageView;
         public ImageButton imageButton;
-    }
 
-    private static class ViewHolderWithPhone extends ViewHolder {
+        public ViewHolder (TextView textView, ImageView imageView, ImageButton imageButton) {
+            if (this.textView == null)
+                this.textView = textView;
 
-        public ViewHolderWithPhone (TextView textView, ImageView imageView, ImageButton imageButton) {
-            this.textView = textView;
-            this.imageView = imageView;
-            this.imageButton = imageButton;
+            if (this.imageView == null)
+                this.imageView = imageView;
+
+            if (this.imageButton == null)
+                this.imageButton = imageButton;
         }
 
-    }
+        public ViewHolder (TextView textView, ImageView imageView) {
+            if (this.textView == null)
+                this.textView = textView;
 
-    private static class ViewHolderNoPhone extends ViewHolder {
-
-        public ViewHolderNoPhone (TextView textView, ImageView imageView) {
-            this.textView = textView;
-            this.imageView = imageView;
+            if (this.imageButton == null)
+                this.imageView = imageView;
         }
 
     }
