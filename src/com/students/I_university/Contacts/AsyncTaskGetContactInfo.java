@@ -35,7 +35,7 @@ public class AsyncTaskGetContactInfo extends AsyncTask <Integer, Void, HashMap<I
 
     @Override
     protected HashMap<Integer, ContactInfo> doInBackground(Integer... integers) {
-        return DownloadContactHelper.oneObject(integers[0]);
+        return DownloadContactHelper.oneObject(mContext, integers[0]);
     }
 
     @Override
