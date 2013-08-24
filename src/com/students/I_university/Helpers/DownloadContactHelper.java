@@ -61,12 +61,9 @@ public class DownloadContactHelper  {
                     String phone;
                     String smallImageUrl = jsonObject.getString("profileimageurlsmall");
 
-                    try {
-                        phone = jsonObject.getString("phone1");
-                    }
-                    catch (JSONException e){
-                        phone = null;
-                    } // переделать получение телефона. Учесть, что их может быть несколько.
+                    phone = getPhoneNumber(jsonObject, "phone1");
+                    if (phone == null)
+                        phone = getPhoneNumber(jsonObject, "phone2");
 
                     ContactInfo contactInfo = new ContactInfo(id, fullName, phone, smallImageUrl);
                     hashMap.put(i, contactInfo);
@@ -81,6 +78,17 @@ public class DownloadContactHelper  {
         }
 
         return hashMap;
+    }
+
+    static private String getPhoneNumber (JSONObject jsonObject, String key) {
+        String number;
+        try {
+            number = jsonObject.getString(key);
+            return number;
+        }
+        catch (JSONException e) {
+            return null;
+        }
     }
 
     public static HashMap<Integer, ContactInfo> oneObject (Integer id) {

@@ -79,6 +79,7 @@ public class ContactInfo {
         try {
             for (int i = 0; i < namesAllRow.length(); ++i) {
                 String nameRow = namesAllRow.getString(i);
+
                 if ((nameRow.equals(needRow[0])) || nameRow.equals(needRow[1]) || nameRow.equals(needRow[2]) ||
                         nameRow.equals(needRow[3]) || nameRow.equals(needRow[4])) {
                     String s = jsonObject.getString(nameRow);
@@ -97,6 +98,34 @@ public class ContactInfo {
 
     public HashMap<String, String> getMoreInfMap () {
         return moreInfMap;
+    }
+
+    public String getPhoneNumber1() {
+        try {
+            return moreInfMap.get("phone1");
+        }
+        catch (Exception e) {
+            return null;
+        }
+
+    }
+
+    public String getPhoneNumber2() {
+        try {
+            return moreInfMap.get("phone2");
+        }
+        catch (Exception e) {
+            return null;
+        }
+    }
+
+    public String getEmail() {
+        try {
+            return moreInfMap.get("email");
+        }
+        catch (Exception e) {
+            return null;
+        }
     }
 
 }

@@ -13,7 +13,7 @@ import java.text.SimpleDateFormat;
  */
 public class ListMessage {
 
-
+    public String id ;
     public String username;
     public boolean own = false;
     public String imageURL;
@@ -22,8 +22,9 @@ public class ListMessage {
 
     public ListMessage() {};
 
-    public ListMessage(String username, int input, String imageURL, String sms, Timestamp createTime)
+    public ListMessage(String id, String username, String imageURL, String sms, Timestamp createTime)
     {
+        this.id = id;
         this.username = username;
         this.imageURL = imageURL;
         this.sms = sms;

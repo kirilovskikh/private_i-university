@@ -1,5 +1,7 @@
 package com.students.I_university.Entity;
 
+import android.graphics.Bitmap;
+
 import java.sql.Date;
 import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
@@ -7,13 +9,14 @@ import java.text.SimpleDateFormat;
 /**
  * Created by Akella on 13.08.13.
  */
-public class Message extends ListMessage {
+public class Message {
 
     public String username;
     public boolean own = false;
     public String imageURL;
     public String messageText;
     public Timestamp createTime;
+    public Bitmap bitmap;
 
     public Message() {};
 

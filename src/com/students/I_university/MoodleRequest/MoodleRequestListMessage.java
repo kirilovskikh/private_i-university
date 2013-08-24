@@ -1,7 +1,9 @@
 package com.students.I_university.MoodleRequest;
 
+import android.content.Context;
 import com.students.I_university.Entity.ListMessage;
-import com.students.I_university.Entity.Message;
+import org.apache.http.NameValuePair;
+import org.apache.http.message.BasicNameValuePair;
 import org.json.JSONArray;
 
 import java.sql.Timestamp;
@@ -10,28 +12,29 @@ import java.util.ArrayList;
 /**
  * Created with IntelliJ IDEA.
  * User: Sveta
- * Date: 8/17/13
- * Time: 11:17 PM
+ * Date: 8/23/13
+ * Time: 10:02 PM
  * To change this template use File | Settings | File Templates.
  */
-public class MoodleRequestListMessages extends MoodleRequest {
+public class MoodleRequestListMessage extends MoodleRequest {
 
-    private String wsfunction = "local_iuniversity_recent_messages";
+     public MoodleRequestListMessage (Context context)
+     {
+         this.mContext = context;
+         this.params = new ArrayList<NameValuePair>();
+         this.params.add(new BasicNameValuePair("moodlewsrestformat", "json"));
 
-    public MoodleRequestListMessages(String token){
-        this.addParam("wstoken", token);
-        this.addParam("wsfunction", wsfunction);
-    }
+     }
 
     @Override
-        protected void onPostExecute(Void aVoid){
+    protected void onPostExecute(Void aVoid){
         super.onPostExecute(aVoid);
         return;
     }
 
     public ArrayList<ListMessage> getMessage(){
         ArrayList<ListMessage> message;
-        Message newMessage;
+        ListMessage newMessage;
         JSONArray jsonArray;
         int arrayLength;
         String id;
@@ -48,19 +51,18 @@ public class MoodleRequestListMessages extends MoodleRequest {
 
             for(int i = 0; i < arrayLength; i++)
             {
-                newMessage = new Message();
+                newMessage = new ListMessage();
                 sms = jsonArray.getJSONObject(i).getString("id");  // посмотреть id
-                if(!sms.isEmpty()) newMessage.username = sms;
+                if(!sms.isEmpty()) newMessage.id =sms;
                 else throw new Exception("Incomplete data is received from the server");
 
-                newMessage = new Message();
                 sms = jsonArray.getJSONObject(i).getString("firstname");
                 if(!sms.isEmpty()) newMessage.username = sms;
                 else throw new Exception("Incomplete data is received from the server");
 
-                newMessage = new Message();
+
                 sms = jsonArray.getJSONObject(i).getString("lastname");
-                if(!sms.isEmpty()) newMessage.username = sms;
+                if(!sms.isEmpty()) newMessage.username += sms;
                 else throw new Exception("Incomplete data is received from the server");
 
                 sms = jsonArray.getJSONObject(i).getString("imageURL");
@@ -68,7 +70,7 @@ public class MoodleRequestListMessages extends MoodleRequest {
                 else throw new Exception("Incomplete data is received from the server");
 
                 sms = jsonArray.getJSONObject(i).getString("smallmessage");
-                if(!sms.isEmpty()) newMessage.messageText = sms;
+                if(!sms.isEmpty()) newMessage.sms = sms;
                 else throw new Exception("Incomplete data is received from the server");
 
                 sms = jsonArray.getJSONObject(i).getString("timecreated");
@@ -93,3 +95,4 @@ public class MoodleRequestListMessages extends MoodleRequest {
 
 
 }
+
