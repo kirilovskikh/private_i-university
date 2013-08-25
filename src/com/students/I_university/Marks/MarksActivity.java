@@ -2,15 +2,18 @@ package com.students.I_university.Marks;
 
 import android.os.Bundle;
 import android.view.View;
+import android.content.Intent;
 import android.widget.AdapterView;
 import android.widget.ListView;
+import android.widget.TextView;
 import android.widget.Toast;
 import com.actionbarsherlock.app.SherlockActivity;
 import com.actionbarsherlock.view.MenuItem;
 import com.students.I_university.CustomAdapter.CustomAdapterMarks;
+import com.students.I_university.Helpers.MarkDetails;
 import com.students.I_university.R;
 
-import java.util.ArrayList;
+import java.util.HashMap;
 
 /**
  * Created with IntelliJ IDEA.
@@ -19,11 +22,11 @@ import java.util.ArrayList;
  * Time: 23:24
  * To change this template use File | Settings | File Templates.
  */
-public class MarksActivity extends SherlockActivity {
-    private String[] subjs = new String[] {"Новостной форум", "Android: Screen Densities", "Нравится ли идея создания курса?", "Icons for different densities", "Supporting Multiple Screens", "Screen Densities"};
-    private String[] marks = new String[] {"5,0", "2,9", "1,0", "4,9", "3,1", "4,1"};
+public class MarksActivity extends SherlockActivity implements CallBackMarks {
 
     ListView lvMain;
+    CustomAdapterMarks customAdapterMarks;
+    private HashMap<Integer, MarkDetails> map;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -31,23 +34,55 @@ public class MarksActivity extends SherlockActivity {
         setContentView(R.layout.marks);
 
         getActionBar().setDisplayHomeAsUpEnabled(true);
-        getActionBar().setHomeButtonEnabled(true);
         getActionBar().setTitle(getIntent().getExtras().getString("name"));
 
-
         lvMain = (ListView) findViewById(R.id.listView);
-
-        lvMain.setAdapter(new CustomAdapterMarks(R.layout.main_marks_listview_item, R.id.mark, R.id.subject,
-                            subjs, marks, this));
 
         lvMain.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                Toast.makeText(getApplicationContext(), "The Force is string with you, young Padawan...", Toast.LENGTH_LONG).show();
+                Toast.makeText(getApplicationContext(), "The Force is strong with you, young Padawan...", Toast.LENGTH_LONG).show();
+//                Intent intent = new Intent(getApplicationContext(), ThemeItemActivity.class);
+//                intent.putExtra("id", map.get(position).getAssign());
+//                startActivity(intent);
                 //To change body of implemented methods use File | Settings | File Templates.
             }
         });
 
+        int id = getIntent().getExtras().getInt("courseID");
+        GetCurCourse curCourse = new GetCurCourse(this, Integer.toString(id));
+        curCourse.returnMarks = this;
+        curCourse.execute();
+
+    }
+
+    @Override
+    public void returnMarks(HashMap<Integer, MarkDetails> map) {
+        this.map = map;
+        String[] subjs = getFromMap(map, false);
+        String[] marks = getFromMap(map, true);
+
+        float res=0;
+        for (int i=0;i<marks.length;++i){
+            res += Float.parseFloat(marks[i]);
+        }
+        res = res/(marks.length);
+        TextView result = (TextView) findViewById(R.id.res);
+        result.setText(Float.toString(res));
+
+        customAdapterMarks = new CustomAdapterMarks(R.layout.main_marks_listview_item, R.id.subject, R.id.mark,
+                subjs, marks, this);
+        lvMain.setAdapter(customAdapterMarks);
+    }
+
+    private String[] getFromMap(HashMap<Integer, MarkDetails> map, boolean marks) {
+        String[] name = new String[map.size()];
+
+        for(int i = 0; i < map.size(); ++i) {
+            if (marks) name[i] = map.get(i).getMark();
+            else name[i] = map.get(i).getCourseName();
+        }
+        return name;  //To change body of created methods use File | Settings | File Templates.
     }
 
     @Override

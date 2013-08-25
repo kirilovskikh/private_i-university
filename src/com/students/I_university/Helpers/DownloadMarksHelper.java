@@ -1,5 +1,6 @@
 package com.students.I_university.Helpers;
 
+import com.students.I_university.AuthorizationActivity;
 import com.students.I_university.Utils;
 import org.apache.http.HttpResponse;
 import org.apache.http.NameValuePair;
@@ -27,18 +28,18 @@ import java.util.List;
  */
 public class DownloadMarksHelper {
 
-    public static String DownloadHelperMarks (String id) {
+    public static String DownloadHelperMarks (String id, Boolean modules) {
         String mark = "---";
+        float res = 0;
 
         try {
-            String token="2f6a54d4d69b8b16f97582dc1b519135";
             String url = "http://university.shiva.vps-private.net/webservice/rest/server.php?";
 
             HttpClient httpClient = new DefaultHttpClient();
             HttpPost httpPost = new HttpPost(url);
 
             List<NameValuePair> list = new ArrayList<NameValuePair>();
-            list.add(new BasicNameValuePair("wstoken", token));
+            list.add(new BasicNameValuePair("wstoken", AuthorizationActivity.preferences.getString("token",null)));
             list.add(new BasicNameValuePair("wsfunction", "mod_assign_get_grades"));
 
             list.add(new BasicNameValuePair("assignmentids[0]", id));
@@ -55,15 +56,28 @@ public class DownloadMarksHelper {
                 JSONObject jsonObject = new JSONObject(str);
 
                 JSONArray jsonArray = jsonObject.getJSONArray("assignments");
-                for (int i = 0; i <= jsonArray.length(); ++i) {
-                   JSONObject object = jsonArray.getJSONObject(0).getJSONArray("grades").getJSONObject(i);
-                   try {
-                        if (object.getInt("userid")==9) mark = object.getString("grade");
-                   }
-                   catch (JSONException e){
-                        mark = "N";
-                   }
-                }
+                int i=0;
+                int j=0;
+                while (i<jsonArray.length()) {
+                    JSONArray array = jsonArray.getJSONObject(i).getJSONArray("grades");
+                    while (j<array.length()){
+                        try {
+                            if (Integer.toString(array.getJSONObject(j).getInt("userid")).equals("9")){
+                                mark = array.getJSONObject(j).getString("grade");
+                            }
+                        }
+                        catch (JSONException e){
+                            mark = "N";
+                        }
+                        ++j;
+                    }
+                    res += Float.parseFloat(mark.substring(0,5));
+                    ++i;
+                } //while...
+                if (modules)
+                    mark = mark.substring(0,5);
+                else
+                    mark = Float.toString(res / i);
                 return mark;
             }
 
@@ -81,18 +95,17 @@ public class DownloadMarksHelper {
         HashMap<Integer, MarkDetails> hashMap = new HashMap<Integer, MarkDetails>();
 
         try {
-            String token="2f6a54d4d69b8b16f97582dc1b519135";
             String url = "http://university.shiva.vps-private.net/webservice/rest/server.php?";
 
             HttpClient httpClient = new DefaultHttpClient();
             HttpPost httpPost = new HttpPost(url);
 
             List<NameValuePair> list = new ArrayList<NameValuePair>();
-            list.add(new BasicNameValuePair("wstoken", token));
+            list.add(new BasicNameValuePair("wstoken", AuthorizationActivity.preferences.getString("token",null)));
             list.add(new BasicNameValuePair("wsfunction", "mod_assign_get_assignments"));
 
             for (int i=0;i<ids.size();++i){
-                list.add(new BasicNameValuePair("courseids["+Integer.toString(i)+"]", ids.get(i).toString()));
+                list.add(new BasicNameValuePair("courseids["+Integer.toString(i)+"]", ids.get(i)));
             }
 
             list.add(new BasicNameValuePair("moodlewsrestformat", "json"));
@@ -105,23 +118,26 @@ public class DownloadMarksHelper {
                 InputStream in = httpResponse.getEntity().getContent();
                 String str = Utils.convertStreamToString(in);
                 JSONObject jsonObject = new JSONObject(str);
-                int id = jsonObject.getJSONArray("courses").getJSONObject(0).getInt("id");
-                if (!modules)
-                    courseName = jsonObject.getJSONArray("courses").getJSONObject(0).getString("fullname");
-                JSONArray jsonArray = jsonObject.getJSONArray("courses").getJSONObject(0).getJSONArray("assignments");
-                for (int i = 0; i <= jsonArray.length(); ++i) {
-                    if (modules)
-                        courseName = jsonArray.getJSONObject(i).getString("name");
-                    String mark;
-                    try {
-                        mark = DownloadHelperMarks(jsonArray.getJSONObject(i).getString("id"));
-                    }
-                    catch (JSONException e){
-                        mark = "---";
-                    }
-                    MarkDetails contactInfo = new MarkDetails(id, courseName, mark);
-                    hashMap.put(i, contactInfo);
-                }
+                JSONArray jsonArray = jsonObject.getJSONArray("courses");
+                int i=0;
+                int j=0;
+                while (i<jsonArray.length()){
+                    int id = jsonArray.getJSONObject(i).getInt("id");
+                    if (!modules)
+                        courseName = jsonArray.getJSONObject(i).getString("fullname");
+                    JSONArray array = jsonArray.getJSONObject(i).getJSONArray("assignments");
+                    while (j<array.length()) {
+                        if (modules)
+                            courseName = array.getJSONObject(j).getString("name");
+                        String mark;
+                        String assign = array.getJSONObject(j).getString("id");
+                        mark = DownloadHelperMarks(assign, modules);
+                        MarkDetails contactInfo = new MarkDetails(id, courseName, mark, assign);
+                        hashMap.put(i, contactInfo);
+                        ++j;
+                    } //while assignment...
+                    ++i;
+                } //while course...
                 return hashMap;
             }
 
