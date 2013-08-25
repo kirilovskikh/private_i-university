@@ -35,20 +35,18 @@ public class AllMarksList extends SherlockFragment implements CallBackMarks {
         View view = inflater.inflate(R.layout.main_marks, null);
 
         lvMain = (ListView) view.findViewById(R.id.lvMain);
-
-        lvMain.setAdapter(customAdapterMarks);
-
         lvMain.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 Intent intent = new Intent(getSherlockActivity(), MarksActivity.class);
                 intent.putExtra("name", map.get(position).getCourseName());
+                intent.putExtra("courseID", map.get(position).getId());
                 startActivity(intent);
                 //To change body of implemented methods use File | Settings | File Templates.
             }
         });
 
-        GetCourses getCourses = new GetCourses(getSherlockActivity(), false);
+        GetCourses getCourses = new GetCourses(getSherlockActivity());
         getCourses.returnMarks = this;
         getCourses.execute();
 
@@ -70,8 +68,8 @@ public class AllMarksList extends SherlockFragment implements CallBackMarks {
         String[] name = new String[map.size()];
 
         for(int i = 0; i < map.size(); ++i) {
-            if (marks) name[i] = map.get(i).getCourseName();
-            else name[i] = map.get(i).getMark();
+            if (marks) name[i] = map.get(i).getMark();
+            else name[i] = map.get(i).getCourseName();
         }
         return name;  //To change body of created methods use File | Settings | File Templates.
     }

@@ -12,11 +12,13 @@ public class MarkDetails {
     private int id;
     private String courseName;
     private String mark;
+    private String assignment;
 
-    public MarkDetails (int id, String courseName, String mark) {
+    public MarkDetails (int id, String courseName, String mark, String assignment) {
         setId(id);
         setCourseName(courseName);
         setMark(mark);
+        setAssign(assignment);
     }
 
     public void setId (int id) {
@@ -31,6 +33,10 @@ public class MarkDetails {
         this.mark = mark;
     }
 
+    public void setAssign (String assignment) {
+        this.assignment = assignment;
+    }
+
     public int getId () {
         return this.id;
     }
@@ -41,6 +47,10 @@ public class MarkDetails {
 
     public String getMark () {
         return this.mark;
+    }
+
+    public String getAssign () {
+        return this.assignment;
     }
 
 }

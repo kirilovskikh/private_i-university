@@ -17,7 +17,6 @@ import org.apache.http.impl.client.DefaultHttpClient;
 import org.apache.http.message.BasicNameValuePair;
 import org.json.JSONArray;
 import org.json.JSONException;
-import org.json.JSONObject;
 
 import java.io.InputStream;
 import java.util.ArrayList;
@@ -27,16 +26,17 @@ import java.util.List;
 /**
  * Created with IntelliJ IDEA.
  * User: kotvaska
- * Date: 11.08.13
- * Time: 3:40
+ * Date: 23.08.13
+ * Time: 1:15
  * To change this template use File | Settings | File Templates.
  */
-public class GetCourses extends AsyncTask <Void, Void, Void> {
+public class GetCurCourse extends AsyncTask <Void, Void, Void> {
 
     String url = "http://university.shiva.vps-private.net/webservice/rest/server.php?";
     String str;
     ProgressDialog progressDialog;
     String error;
+    String course;
     public ArrayList<String> courses = new ArrayList<String>();
     private HashMap<Integer, MarkDetails> map = new HashMap<Integer, MarkDetails>();
 
@@ -44,8 +44,9 @@ public class GetCourses extends AsyncTask <Void, Void, Void> {
 
     Context mContext;
 
-    public GetCourses (Context mContext) {
+    public GetCurCourse(Context mContext, String course) {
         this.mContext = mContext;
+        this.course = course;
     }
 
     @Override
@@ -76,11 +77,11 @@ public class GetCourses extends AsyncTask <Void, Void, Void> {
             HttpResponse httpResponse = httpClient.execute(httpPost);
 
             if (httpResponse != null) {
-                InputStream in = httpResponse.getEntity().getContent();
+                InputStream in = httpResponse.getEntity().getContent(); // Get the
                 str = Utils.convertStreamToString(in);
                 JSONArray jsonArray = new JSONArray(str);
                 if (getDataFromJSON(jsonArray))
-                    map = DownloadMarksHelper.DownloadHelperAssign(courses, false);
+                    map = DownloadMarksHelper.DownloadHelperAssign(courses, true);
             }
 
         }
@@ -100,6 +101,7 @@ public class GetCourses extends AsyncTask <Void, Void, Void> {
         progressDialog.dismiss();
 
         returnMarks.returnMarks(map);
+
     }
 
     /* -=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=- */
@@ -107,10 +109,12 @@ public class GetCourses extends AsyncTask <Void, Void, Void> {
         try{
             int i=0;
             while (i<jsonArray.length()){
-                courses.add(Integer.toString(jsonArray.getJSONObject(i).getInt("id")));
+                if (Integer.toString(jsonArray.getJSONObject(i).getInt("id")).equals(course))
+                    courses.add(course);
                 ++i;
             }   //while...
             return true;
+
         }
         catch (JSONException jsonE){
             error = "Ошибка получения данных";
