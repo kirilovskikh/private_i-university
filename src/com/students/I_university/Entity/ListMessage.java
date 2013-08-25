@@ -1,5 +1,7 @@
 package com.students.I_university.Entity;
 
+import android.graphics.Bitmap;
+
 import java.sql.Date;
 import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
@@ -19,8 +21,9 @@ public class ListMessage {
     public String imageURL;
     public String sms;
     public Timestamp createTime;
+    public Bitmap bitmap;
 
-    public ListMessage() {};
+    public ListMessage() {}
 
     public ListMessage(String id, String username, String imageURL, String sms, Timestamp createTime)
     {
@@ -31,7 +34,6 @@ public class ListMessage {
         this.createTime = createTime;
     }
 
-     // не забыть сортировку даты
     public String GetCreateTime()
     {
         Date date = new Date(createTime.getTime());
@@ -39,5 +41,22 @@ public class ListMessage {
         return output.format(date);
     }
 
+  /*    public String GetCreateImage()
+      {
 
+          try {
+              ImageView iv;
+              iv = new ImageView;
+              URL url = new URL(imageURL);
+              InputStream content = (InputStream)url.getContent();
+              Drawable d = Drawable.createFromStream(content, "src");
+              iv.setImageDrawable(d);
+
+          } catch (MalformedURLException e) {
+              e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
+          } catch (IOException e) {
+              e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
+          }
+          return null;
+      }*/
 }

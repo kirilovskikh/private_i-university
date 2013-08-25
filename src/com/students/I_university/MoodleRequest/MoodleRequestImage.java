@@ -44,7 +44,7 @@ public class MoodleRequestImage extends AsyncTask<String, Void, Void> {
         if (strings[1] != null)
             try
             {
-                InputStream in = new java.net.URL(strings[1]).openStream();
+                InputStream in = new java.net.URL(strings[0]).openStream();
                 userImage = BitmapFactory.decodeStream(in);
                 in.close();
             }

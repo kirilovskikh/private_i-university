@@ -1,6 +1,7 @@
 package com.students.I_university.MoodleRequest;
 
 import android.content.Context;
+import android.graphics.Bitmap;
 import com.students.I_university.Entity.ListMessage;
 import org.apache.http.NameValuePair;
 import org.apache.http.message.BasicNameValuePair;
@@ -39,7 +40,8 @@ public class MoodleRequestListMessage extends MoodleRequest {
         int arrayLength;
         String id;
         String sms;
-
+        Image image = new Image();
+        Bitmap bitmap;
         try
         {
             if(!this.isSuccess()) throw new Exception("Unsuccessful request!");
@@ -54,32 +56,50 @@ public class MoodleRequestListMessage extends MoodleRequest {
                 newMessage = new ListMessage();
                 sms = jsonArray.getJSONObject(i).getString("id");  // посмотреть id
                 if(!sms.isEmpty()) newMessage.id =sms;
-                else throw new Exception("Incomplete data is received from the server");
+                else continue;
 
                 sms = jsonArray.getJSONObject(i).getString("firstname");
                 if(!sms.isEmpty()) newMessage.username = sms;
-                else throw new Exception("Incomplete data is received from the server");
+                else continue;
 
 
                 sms = jsonArray.getJSONObject(i).getString("lastname");
-                if(!sms.isEmpty()) newMessage.username += sms;
-                else throw new Exception("Incomplete data is received from the server");
+                if(!sms.isEmpty()) newMessage.username +=" " + sms;
+                else continue;
 
                 sms = jsonArray.getJSONObject(i).getString("imageURL");
                 if(!sms.isEmpty()) newMessage.imageURL = sms;
-                else throw new Exception("Incomplete data is received from the server");
+                else continue;
 
-                sms = jsonArray.getJSONObject(i).getString("smallmessage");
-                if(!sms.isEmpty()) newMessage.sms = sms;
-                else throw new Exception("Incomplete data is received from the server");
+                sms = jsonArray.getJSONObject(i).getString("smallmessage");//.trim();
+
+                if(!sms.isEmpty()) newMessage.sms =  sms;
+                else continue;
+
 
                 sms = jsonArray.getJSONObject(i).getString("timecreated");
                 if(!sms.isEmpty()) {
                     newMessage.createTime = new Timestamp(Long.parseLong(sms) * 1000);
                 }
-                else throw new Exception("Incomplete data is received from the server");
+                else continue;
+                boolean flag= false;
+                for(int j=0;j<message.size(); j++)
+                {
+                    if(newMessage.username.equals(message.get(j).username)){
+                       if(newMessage.createTime.getTime() > message.get(j).createTime.getTime())
+                        {
+                            message.remove(j) ;
+                        }
+                        else
+                           flag=true;
+                    }
 
+                }
+
+
+                if(!flag)
                 message.add(newMessage);
+                if(true){}
             }
             return message;
 
@@ -91,8 +111,10 @@ public class MoodleRequestListMessage extends MoodleRequest {
             errorMessage = e.getMessage();
             return null;
         }
+
+
+
     }
 
 
 }
-

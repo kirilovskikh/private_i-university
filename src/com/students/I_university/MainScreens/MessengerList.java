@@ -14,6 +14,7 @@ import android.widget.Toast;
 import com.actionbarsherlock.app.SherlockFragment;
 import com.students.I_university.CustomAdapter.CustomAdapterDialogs;
 import com.students.I_university.Entity.ListMessage;
+import com.students.I_university.MoodleRequest.Image;
 import com.students.I_university.MoodleRequest.MoodleRequestListMessage;
 import com.students.I_university.R;
 import com.students.I_university.dialogActivity;
@@ -28,6 +29,7 @@ import java.util.ArrayList;
  * To change this template use File | Settings | File Templates.
  */
 public class MessengerList extends SherlockFragment {
+    public Image image = new Image();
 
 @Override
  public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -48,16 +50,17 @@ public class MessengerList extends SherlockFragment {
 
            listMassager.execute();
            listMassager.get();
+
+
            if(listMassager.isSuccess())
            {
                str = listMassager.getMessage();
-               if(str != null) kontaktList.setAdapter(
-                       new CustomAdapterDialogs(
-                               getActivity().getBaseContext(),
-                               R.layout.sms,
-                               str
-                       )
-               );
+               if(str != null) {
+                   for(int i = 0; i < str.size(); i++)
+                       str.get(i).bitmap = image.userImage;
+
+                   kontaktList.setAdapter(new CustomAdapterDialogs(getActivity().getBaseContext(), R.layout.sms, str));
+               }
                else Toast.makeText(
                        getActivity().getApplicationContext(),
                        listMassager.getErrorMessage(),
@@ -89,6 +92,8 @@ public class MessengerList extends SherlockFragment {
            Log.e("MyApp", e.getMessage());
 
        }
+
+
       return null;
   }
 
