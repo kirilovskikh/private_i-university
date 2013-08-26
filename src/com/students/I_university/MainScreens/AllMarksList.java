@@ -46,7 +46,7 @@ public class AllMarksList extends SherlockFragment implements CallBackMarks {
             }
         });
 
-        GetCourses getCourses = new GetCourses(getSherlockActivity());
+        GetCourses getCourses = new GetCourses(getSherlockActivity(), false, null);
         getCourses.returnMarks = this;
         getCourses.execute();
 

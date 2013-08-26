@@ -33,10 +33,10 @@ import java.util.List;
  */
 public class GetCourses extends AsyncTask <Void, Void, Void> {
 
-    String url = "http://university.shiva.vps-private.net/webservice/rest/server.php?";
     String str;
     ProgressDialog progressDialog;
-    String error;
+    String course;
+    Boolean module;
     public ArrayList<String> courses = new ArrayList<String>();
     private HashMap<Integer, MarkDetails> map = new HashMap<Integer, MarkDetails>();
 
@@ -44,8 +44,10 @@ public class GetCourses extends AsyncTask <Void, Void, Void> {
 
     Context mContext;
 
-    public GetCourses (Context mContext) {
+    public GetCourses (Context mContext, Boolean module, String course) {
         this.mContext = mContext;
+        this.course = course;
+        this.module = module;
     }
 
     @Override
@@ -60,14 +62,15 @@ public class GetCourses extends AsyncTask <Void, Void, Void> {
     protected Void doInBackground(Void... voids) {
         try {
             HttpClient httpClient = new DefaultHttpClient();
-            HttpPost httpPost = new HttpPost(url);
+            HttpPost httpPost = new HttpPost(Utils.getUrlFunction());
 
             List<NameValuePair> list = new ArrayList<NameValuePair>();
 
-            list.add(new BasicNameValuePair("wstoken", AuthorizationActivity.preferences.getString("token",null)));
+            list.add(new BasicNameValuePair("wstoken", Utils.getToken(mContext)));
 
 
             list.add(new BasicNameValuePair("wsfunction", "moodle_enrol_get_users_courses"));
+            //сюда вместо 9 надо вставить ИД пользователя
             list.add(new BasicNameValuePair("userid", "9"));
 
             list.add(new BasicNameValuePair("moodlewsrestformat", "json"));
@@ -79,14 +82,15 @@ public class GetCourses extends AsyncTask <Void, Void, Void> {
                 InputStream in = httpResponse.getEntity().getContent();
                 str = Utils.convertStreamToString(in);
                 JSONArray jsonArray = new JSONArray(str);
+                //если всё хорошо и курсы вернулись,
+                //то получаем оценки
                 if (getDataFromJSON(jsonArray))
-                    map = DownloadMarksHelper.DownloadHelperAssign(courses, false);
+                    map = DownloadMarksHelper.DownloadHelperAssign(mContext, courses, module);
             }
 
         }
         catch (Exception e) {
-            error = "Не удалось получить данные. Проверьте соединение...";
-            Toast.makeText(mContext, error, Toast.LENGTH_SHORT).show();
+            e.printStackTrace(System.out);
         }
 
         return null;  //To change body of implemented methods use File | Settings | File Templates.
@@ -95,10 +99,7 @@ public class GetCourses extends AsyncTask <Void, Void, Void> {
     @Override
     protected void onPostExecute(Void aVoid) {
         super.onPostExecute(aVoid);    //To change body of overridden methods use File | Settings | File Templates.
-        if (str == null)
-            str = "null";
         progressDialog.dismiss();
-
         returnMarks.returnMarks(map);
     }
 
@@ -107,19 +108,24 @@ public class GetCourses extends AsyncTask <Void, Void, Void> {
         try{
             int i=0;
             while (i<jsonArray.length()){
-                courses.add(Integer.toString(jsonArray.getJSONObject(i).getInt("id")));
+                //если нужны модули курса
+                if (module){
+                    if(Integer.toString(jsonArray.getJSONObject(i).getInt("id")).equals(course))
+                        courses.add(course);
+                }
+                else
+                    //если нужны сами курсы пользователя
+                    courses.add(Integer.toString(jsonArray.getJSONObject(i).getInt("id")));
                 ++i;
             }   //while...
             return true;
         }
         catch (JSONException jsonE){
-            error = "Ошибка получения данных";
-            Toast.makeText(mContext, jsonE.getMessage()+"\n"+error, Toast.LENGTH_SHORT).show();
+            jsonE.printStackTrace(System.out);
             return false;
         }
         catch (Exception e){
-            error = "Другая ошибка";
-            Toast.makeText(mContext, e.getMessage()+"\n"+error, Toast.LENGTH_SHORT).show();
+            e.printStackTrace(System.out);
             return false;
         }
 

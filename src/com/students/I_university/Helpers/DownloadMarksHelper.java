@@ -1,5 +1,6 @@
 package com.students.I_university.Helpers;
 
+import android.content.Context;
 import com.students.I_university.AuthorizationActivity;
 import com.students.I_university.Utils;
 import org.apache.http.HttpResponse;
@@ -28,18 +29,17 @@ import java.util.List;
  */
 public class DownloadMarksHelper {
 
-    public static String DownloadHelperMarks (String id, Boolean modules) {
+    public static String DownloadHelperMarks (Context mContext, String id, Boolean modules) {
         String mark = "---";
         float res = 0;
 
         try {
-            String url = "http://university.shiva.vps-private.net/webservice/rest/server.php?";
 
             HttpClient httpClient = new DefaultHttpClient();
-            HttpPost httpPost = new HttpPost(url);
+            HttpPost httpPost = new HttpPost(Utils.getUrlFunction());
 
             List<NameValuePair> list = new ArrayList<NameValuePair>();
-            list.add(new BasicNameValuePair("wstoken", AuthorizationActivity.preferences.getString("token",null)));
+            list.add(new BasicNameValuePair("wstoken", Utils.getToken(mContext)));
             list.add(new BasicNameValuePair("wsfunction", "mod_assign_get_grades"));
 
             list.add(new BasicNameValuePair("assignmentids[0]", id));
@@ -58,10 +58,14 @@ public class DownloadMarksHelper {
                 JSONArray jsonArray = jsonObject.getJSONArray("assignments");
                 int i=0;
                 int j=0;
+                //если несколько модулей в курсе,
+                //за которые выставляются оценки
                 while (i<jsonArray.length()) {
                     JSONArray array = jsonArray.getJSONObject(i).getJSONArray("grades");
+                    //ищем оценку пользователя в модуле
                     while (j<array.length()){
                         try {
+                            //сюда вместо 9 надо вставить ИД пользователя
                             if (Integer.toString(array.getJSONObject(j).getInt("userid")).equals("9")){
                                 mark = array.getJSONObject(j).getString("grade");
                             }
@@ -70,10 +74,10 @@ public class DownloadMarksHelper {
                             mark = "N";
                         }
                         ++j;
-                    }
+                    } //while grades...
                     res += Float.parseFloat(mark.substring(0,5));
                     ++i;
-                } //while...
+                } //while assignments...
                 if (modules)
                     mark = mark.substring(0,5);
                 else
@@ -82,26 +86,26 @@ public class DownloadMarksHelper {
             }
 
         } catch (IOException e) {
-            e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
+            e.printStackTrace();
+            //To change body of catch statement use File | Settings | File Templates.
         } catch (JSONException e) {
-            e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
+            e.printStackTrace();
+            //To change body of catch statement use File | Settings | File Templates.
         }
 
         return mark;
     }
 
 
-    public static HashMap<Integer, MarkDetails> DownloadHelperAssign (List<String> ids, Boolean modules) {
+    public static HashMap<Integer, MarkDetails> DownloadHelperAssign (Context mContext, List<String> ids, Boolean modules) {
         HashMap<Integer, MarkDetails> hashMap = new HashMap<Integer, MarkDetails>();
 
         try {
-            String url = "http://university.shiva.vps-private.net/webservice/rest/server.php?";
-
             HttpClient httpClient = new DefaultHttpClient();
-            HttpPost httpPost = new HttpPost(url);
+            HttpPost httpPost = new HttpPost(Utils.getUrlFunction());
 
             List<NameValuePair> list = new ArrayList<NameValuePair>();
-            list.add(new BasicNameValuePair("wstoken", AuthorizationActivity.preferences.getString("token",null)));
+            list.add(new BasicNameValuePair("wstoken", Utils.getToken(mContext)));
             list.add(new BasicNameValuePair("wsfunction", "mod_assign_get_assignments"));
 
             for (int i=0;i<ids.size();++i){
@@ -121,17 +125,20 @@ public class DownloadMarksHelper {
                 JSONArray jsonArray = jsonObject.getJSONArray("courses");
                 int i=0;
                 int j=0;
+                //проходим по всем курсам пользователя
                 while (i<jsonArray.length()){
                     int id = jsonArray.getJSONObject(i).getInt("id");
                     if (!modules)
                         courseName = jsonArray.getJSONObject(i).getString("fullname");
                     JSONArray array = jsonArray.getJSONObject(i).getJSONArray("assignments");
+                    //проходим по всем заданиям в курсе,
+                    //за которые можно поставить оценку
                     while (j<array.length()) {
                         if (modules)
                             courseName = array.getJSONObject(j).getString("name");
                         String mark;
                         String assign = array.getJSONObject(j).getString("id");
-                        mark = DownloadHelperMarks(assign, modules);
+                        mark = DownloadHelperMarks(mContext, assign, modules);
                         MarkDetails contactInfo = new MarkDetails(id, courseName, mark, assign);
                         hashMap.put(i, contactInfo);
                         ++j;

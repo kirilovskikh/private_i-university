@@ -42,6 +42,8 @@ public class MarksActivity extends SherlockActivity implements CallBackMarks {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 Toast.makeText(getApplicationContext(), "The Force is strong with you, young Padawan...", Toast.LENGTH_LONG).show();
+                //в будущем можно сделать по нажатию
+//                переход в соответствующую тему
 //                Intent intent = new Intent(getApplicationContext(), ThemeItemActivity.class);
 //                intent.putExtra("id", map.get(position).getAssign());
 //                startActivity(intent);
@@ -50,7 +52,7 @@ public class MarksActivity extends SherlockActivity implements CallBackMarks {
         });
 
         int id = getIntent().getExtras().getInt("courseID");
-        GetCurCourse curCourse = new GetCurCourse(this, Integer.toString(id));
+        GetCourses curCourse = new GetCourses(this, true, Integer.toString(id));
         curCourse.returnMarks = this;
         curCourse.execute();
 

@@ -36,16 +36,35 @@ public class CustomAdapterMarks extends ArrayAdapter<String> {
 
     public View getView(int position, View convertView, ViewGroup parent) {
         // TODO Auto-generated method stub
+        ViewHolder holder;
         View v;
-        LayoutInflater vi = (LayoutInflater)mContext.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-        v = vi.inflate(layout, parent, false);
 
-        TextView markView = (TextView)v.findViewById(layoutMarks);
-        TextView subView = (TextView)v.findViewById(layoutSubj);
+        if (convertView == null){
+            ViewGroup viewGroup = (ViewGroup) LayoutInflater.from(mContext).inflate(layout, null);
+            holder = new ViewHolder((TextView)viewGroup.findViewById(layoutMarks), (TextView)viewGroup.findViewById(layoutSubj));
+            viewGroup.setTag(holder);
+            v = viewGroup;
+        }
+        else{
+            v = convertView;
+            holder = (ViewHolder) convertView.getTag();
+        }
 
-        markView.setText(mark[position]);
-        subView.setText(course[position]);
+        holder.course.setText(course[position]);
+        holder.mark.setText(mark[position]);
 
         return v;
+    }
+
+    private class ViewHolder {
+        TextView mark;
+        TextView course;
+
+        public ViewHolder (TextView mark, TextView course){
+            if (this.mark == null)
+                this.mark = mark;
+            if (this.course == null)
+                this.course = course;
+        }
     }
 }
