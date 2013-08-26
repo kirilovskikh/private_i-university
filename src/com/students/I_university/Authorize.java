@@ -1,5 +1,8 @@
 package com.students.I_university;
 
+import android.app.ProgressDialog;
+import android.content.Context;
+import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.util.Log;
 import android.view.View;
@@ -30,6 +33,7 @@ import java.util.List;
  */
 public class Authorize extends AsyncTask <Void, Void, Void> {
 
+    private Context mContext;
     private String protocol;
     private String server;
     private String service;
@@ -37,11 +41,14 @@ public class Authorize extends AsyncTask <Void, Void, Void> {
     private String user;
     private String password;
 
+    private ProgressDialog progressDialog;
+
     public boolean authorized;
 
     //Для подключения к тестовому серверу указываем пустую строку в первом параметре
-    public Authorize(String server, String user, String password, String service){
-        this.protocol = "http://";
+    public Authorize(String server, String user, String password, String service, Context context){
+        this.mContext = context;
+        setProtocol("http://");
         this.token = "";
         this.authorized = false;
 
@@ -62,6 +69,16 @@ public class Authorize extends AsyncTask <Void, Void, Void> {
         else this.service = "moodle_mobile_app";
 
     }
+
+//    @Override
+//    protected void onPreExecute() {
+//        super.onPreExecute();    //To change body of overridden methods use File | Settings | File Templates.
+//
+//        progressDialog = new ProgressDialog(this.mContext);
+//        progressDialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
+//        progressDialog.setMessage("Загрузка ...");
+//        progressDialog.show();
+//    }
 
     @Override
     //метод, асинхронно выполняющий запрос к серверу
@@ -96,11 +113,12 @@ public class Authorize extends AsyncTask <Void, Void, Void> {
         return null;
     }
 
-    @Override
-    protected void onPostExecute(Void aVoid){
-        super.onPostExecute(aVoid);
-        //this.notifyAll();
-    }
+//    @Override
+//    protected void onPostExecute(Void aVoid) {
+//        super.onPostExecute(aVoid);    //To change body of overridden methods use File | Settings | File Templates.
+//        progressDialog.dismiss();
+//        //if(callback != null) callback.callBackRun();
+//    }
 
     /*      ---      ---      ---      ---      ---      ---      ---      ---      ---      ---      ---      ---*/
     private String convertStreamToString(InputStream is) {
@@ -132,6 +150,13 @@ public class Authorize extends AsyncTask <Void, Void, Void> {
 
     public void setProtocol(String protocol){
         this.protocol = protocol;
+    }
+
+    public static void LogOut(String key, Context context){
+        SharedPreferences preferences = context.getSharedPreferences("Settings", context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = preferences.edit();
+        editor.remove(key);
+        editor.commit();
     }
 
 

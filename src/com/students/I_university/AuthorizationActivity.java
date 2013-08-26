@@ -7,12 +7,9 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.TextView;
 import android.widget.Toast;
 import com.actionbarsherlock.app.SherlockActivity;
 import com.students.I_university.SlidingMenu.MainActivity;
-
-import java.util.concurrent.ExecutionException;
 
 /**
  * Created with IntelliJ IDEA.
@@ -54,8 +51,9 @@ public class AuthorizationActivity extends SherlockActivity {
                         "",
                         String.valueOf(email.getText()),
                         String.valueOf(password.getText()),
-                        "iuniversity"  /*эту строку необходимо будет переставить
+                        "iuniversity",  /*эту строку необходимо будет переставить
                                          в следующий вызов конструктора (authorize)*/
+                        getApplicationContext()
                 );
                 special.execute();
                 try {
@@ -81,7 +79,8 @@ public class AuthorizationActivity extends SherlockActivity {
                         "",         //server
                         String.valueOf(email.getText()),
                         String.valueOf(password.getText()),
-                        ""          //service
+                        "",          //service
+                        getApplicationContext()
                 );
                 authorize.execute();
 
@@ -110,5 +109,13 @@ public class AuthorizationActivity extends SherlockActivity {
             }
         });
 
+    }
+
+    public void onBackPressed(){
+        super.onBackPressed();
+        Intent intent = new Intent(Intent.ACTION_MAIN);
+        intent.addCategory(Intent.CATEGORY_HOME);
+        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        startActivity(intent);
     }
 }

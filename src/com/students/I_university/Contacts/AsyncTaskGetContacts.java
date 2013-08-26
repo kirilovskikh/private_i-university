@@ -3,6 +3,7 @@ package com.students.I_university.Contacts;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.os.AsyncTask;
+import com.students.I_university.AuthorizationActivity;
 import com.students.I_university.Helpers.ContactInfo;
 import com.students.I_university.Helpers.DownloadContactHelper;
 import com.students.I_university.Utils;
@@ -38,6 +39,7 @@ public class AsyncTaskGetContacts extends AsyncTask <Void, Void, Void> {
     private ArrayList<String> listId = new ArrayList<String>();
     private HashMap<Integer, ContactInfo> map = new HashMap<Integer, ContactInfo>();
 
+
     public CallReturnDownload returnDownload;
 
     public AsyncTaskGetContacts (Context context) {
@@ -56,13 +58,9 @@ public class AsyncTaskGetContacts extends AsyncTask <Void, Void, Void> {
 
     @Override
     protected Void doInBackground(Void... voids) {
-        // get Token
-        // get name server
 
-        // id, fullname
-
-        String token = "ac072b83ec6761808d3994dc446557f9";
-        String url = "http://university.shiva.vps-private.net/webservice/rest/server.php?";
+        String token = Utils.getToken(mContext);
+        String url = Utils.getUrlFunction();
         try {
             HttpClient httpClient = new DefaultHttpClient();
             HttpPost httpPost = new HttpPost(url); // url
@@ -110,7 +108,7 @@ public class AsyncTaskGetContacts extends AsyncTask <Void, Void, Void> {
 
             errorFlag = parseTypeObject(jsonObject.getJSONArray("offline"));
             if (!errorFlag)
-                map = DownloadContactHelper.DownloadContactsInfo(listId);
+                map = DownloadContactHelper.DownloadContactsInfo(mContext, listId);
 
             return errorFlag;
 

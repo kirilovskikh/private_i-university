@@ -1,9 +1,10 @@
 package com.students.I_university.MoodleRequest;
 
-import android.util.Log;
+import android.content.Context;
 
 import java.sql.Timestamp;
 import java.util.ArrayList;
+import java.util.regex.*;
 import com.students.I_university.Entity.Message;
 
 import org.json.JSONArray;
@@ -17,8 +18,9 @@ public class MoodleRequestMessageChain extends MoodleRequest {
 
     private String wsfunction = "local_iuniversity_message_chain";
 
-    public MoodleRequestMessageChain(String token, String userid)
+    public MoodleRequestMessageChain(Context context, String token, String userid)
     {
+        super(context);
         this.addParam("wstoken", token);
         this.addParam("wsfunction", wsfunction);
         this.addParam("userid", userid);
@@ -26,9 +28,26 @@ public class MoodleRequestMessageChain extends MoodleRequest {
 
     @Override
     protected void onPostExecute(Void aVoid){
+        if(this.isSuccess()){
+            try
+            {
+                JSONArray jsonArray = new JSONArray(this.getResponse());
+                if(jsonArray.getJSONObject(0).has("exception"))
+                {
+                    this.success = false;
+                    this.errorMessage = jsonArray.getJSONObject(0).getString("debuginfo");
+                }
+            }
+            catch(Exception e)
+            {
+                this.success = false;
+                this.errorMessage = e.getMessage();
+            }
+        }
         super.onPostExecute(aVoid);
         return;
     }
+
     public ArrayList<Message> getMessageChain()
     {
         ArrayList<Message> messages;
@@ -58,8 +77,7 @@ public class MoodleRequestMessageChain extends MoodleRequest {
                 else throw new Exception("Incomplete data is received from the server");
 
                 parameter = jsonArray.getJSONObject(i).getString("fullmessage");
-                if(!parameter.isEmpty()) newMessage.messageText = parameter;
-                else throw new Exception("Incomplete data is received from the server");
+                newMessage.messageText = trimText(parameter);
 
                 parameter = jsonArray.getJSONObject(i).getString("timecreated");
                 if(!parameter.isEmpty()) {
@@ -83,5 +101,12 @@ public class MoodleRequestMessageChain extends MoodleRequest {
             errorMessage = e.getMessage();
             return null;
         }
+    }
+
+    public String trimText(String text)
+    {
+        if(text.contains("-----------------------------"))
+        return text.substring(0, text.length() - 244);
+        else return text;
     }
 }

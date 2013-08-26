@@ -1,5 +1,7 @@
 package com.students.I_university.Entity;
 
+import android.graphics.Bitmap;
+
 import java.sql.Date;
 import java.sql.Timestamp;
 import java.text.DateFormat;
@@ -15,6 +17,7 @@ public class Message {
     public String imageURL;
     public String messageText;
     public Timestamp createTime;
+    public Bitmap bitmap;
 
     public Message() {};
 

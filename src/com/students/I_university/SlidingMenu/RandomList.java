@@ -1,5 +1,7 @@
 package com.students.I_university.SlidingMenu;
 
+import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -10,10 +12,9 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import com.actionbarsherlock.app.SherlockListFragment;
-import com.students.I_university.MainScreens.AllMarksList;
-import com.students.I_university.MainScreens.ContactsList;
-import com.students.I_university.MainScreens.CoursesList;
-import com.students.I_university.MainScreens.MessengerList;
+import com.students.I_university.AuthorizationActivity;
+import com.students.I_university.Authorize;
+import com.students.I_university.MainScreens.*;
 import com.students.I_university.R;
 import com.students.I_university.other;
 
@@ -23,7 +24,8 @@ public class RandomList extends SherlockListFragment{
 		"Список курсов",
 		"Контакты",
 		"Сообщения",
-		"Все оценки"
+		"Все оценки",
+        "LogOut"
 	};
 
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState){
@@ -56,6 +58,9 @@ public class RandomList extends SherlockListFragment{
             case 3:
                 newFragment = new AllMarksList();
                 break;
+            case 4:
+                newFragment = null;
+                break;
 
             default:
                 newFragment = new other();
@@ -63,6 +68,12 @@ public class RandomList extends SherlockListFragment{
         }
         if (newFragment != null)
             switchContent(newFragment);
+        else{
+            Authorize.LogOut("iutoken", getActivity().getApplicationContext());
+            Authorize.LogOut("token", getActivity().getApplicationContext());
+            startActivity(new Intent(getActivity().getApplicationContext(), AuthorizationActivity.class));
+            return;
+        }
         FragmentTransaction ft = fm.beginTransaction();
         ft.replace(R.id.content_frame, newFragment);
         ft.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE);

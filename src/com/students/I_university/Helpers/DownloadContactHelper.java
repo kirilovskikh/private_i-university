@@ -1,5 +1,6 @@
 package com.students.I_university.Helpers;
 
+import android.content.Context;
 import com.students.I_university.Utils;
 import org.apache.http.HttpResponse;
 import org.apache.http.NameValuePair;
@@ -27,11 +28,11 @@ import java.util.List;
  */
 public class DownloadContactHelper  {
 
-    public static HashMap DownloadContactsInfo (List<String> listId) {
+    public static HashMap DownloadContactsInfo (Context mContext, List<String> listId) {
         HashMap<Integer, ContactInfo> hashMap = new HashMap<Integer, ContactInfo>();
         try {
-            String token = "ac072b83ec6761808d3994dc446557f9";
-            String url = "http://university.shiva.vps-private.net/webservice/rest/server.php?";
+            String token = Utils.getToken(mContext);
+            String url = Utils.getUrlFunction();
 
             HttpClient httpClient = new DefaultHttpClient();
             HttpPost httpPost = new HttpPost(url);
@@ -41,7 +42,7 @@ public class DownloadContactHelper  {
             list.add(new BasicNameValuePair("wsfunction", "moodle_user_get_users_by_id"));
 
             for (int i = 0; i < listId.size(); ++i)
-                list.add(new BasicNameValuePair("userids[" + Integer.toString(i) + "]", listId.get(i).toString()));
+                list.add(new BasicNameValuePair("userids[" + Integer.toString(i) + "]", listId.get(i)));
 
 
             list.add(new BasicNameValuePair("moodlewsrestformat", "json"));
@@ -61,12 +62,9 @@ public class DownloadContactHelper  {
                     String phone;
                     String smallImageUrl = jsonObject.getString("profileimageurlsmall");
 
-                    try {
-                        phone = jsonObject.getString("phone1");
-                    }
-                    catch (JSONException e){
-                        phone = null;
-                    } // переделать получение телефона. Учесть, что их может быть несколько.
+                    phone = getPhoneNumber(jsonObject, "phone1");
+                    if (phone == null)
+                        phone = getPhoneNumber(jsonObject, "phone2");
 
                     ContactInfo contactInfo = new ContactInfo(id, fullName, phone, smallImageUrl);
                     hashMap.put(i, contactInfo);
@@ -83,9 +81,20 @@ public class DownloadContactHelper  {
         return hashMap;
     }
 
-    public static HashMap<Integer, ContactInfo> oneObject (Integer id) {
-        String token = "ac072b83ec6761808d3994dc446557f9";
-        String url = "http://university.shiva.vps-private.net/webservice/rest/server.php?";
+    static private String getPhoneNumber (JSONObject jsonObject, String key) {
+        String number;
+        try {
+            number = jsonObject.getString(key);
+            return number;
+        }
+        catch (JSONException e) {
+            return null;
+        }
+    }
+
+    public static HashMap<Integer, ContactInfo> oneObject (Context mContext, Integer id) {
+        String token = Utils.getToken(mContext);
+        String url = Utils.getUrlFunction();
 
         HttpClient httpClient = new DefaultHttpClient();
         HttpPost httpPost = new HttpPost(url);

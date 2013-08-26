@@ -1,9 +1,13 @@
 package com.students.I_university;
 
+import android.content.Context;
+import android.content.SharedPreferences;
+
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.util.IllegalFormatCodePointException;
 
 /**
  * Created with IntelliJ IDEA.
@@ -33,6 +37,18 @@ public class Utils {
             }
         }
         return sb.toString();
+    }
+
+    public static String getToken (Context context) {
+        if (AuthorizationActivity.preferences != null)
+            return AuthorizationActivity.preferences.getString("iutoken", null);
+
+        SharedPreferences preferences = context.getSharedPreferences("Settings", context.MODE_PRIVATE);
+        return preferences.getString("iutoken", null);
+    }
+
+    public static String getUrlFunction () {
+        return "http://university.shiva.vps-private.net/webservice/rest/server.php?";
     }
 
 }
