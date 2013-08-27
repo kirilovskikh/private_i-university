@@ -9,8 +9,7 @@ import android.widget.ListView;
 import android.widget.Toast;
 import com.actionbarsherlock.app.SherlockActivity;
 import com.actionbarsherlock.view.MenuItem;
-import com.students.I_university.CustomAdapter.CustomAdapterContact;
-import com.students.I_university.Helpers.ContactInfo;
+import com.students.I_university.Tools.CustomAdapter.CustomAdapterContact;
 import com.students.I_university.R;
 
 import java.util.HashMap;

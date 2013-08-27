@@ -8,9 +8,7 @@ import android.view.ViewGroup;
 import android.widget.*;
 import com.actionbarsherlock.app.SherlockActivity;
 import com.actionbarsherlock.view.MenuItem;
-import com.actionbarsherlock.view.Menu;
 import com.actionbarsherlock.view.MenuInflater;
-import com.students.I_university.MainScreens.CoursesList;
 import com.students.I_university.Marks.MarksActivity;
 import com.students.I_university.R;
 

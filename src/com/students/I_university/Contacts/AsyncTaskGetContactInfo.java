@@ -4,8 +4,8 @@ import android.app.ProgressDialog;
 import android.content.Context;
 import android.os.AsyncTask;
 import android.widget.ImageView;
-import com.students.I_university.Helpers.ContactInfo;
-import com.students.I_university.Helpers.DownloadContactHelper;
+
+import com.students.I_university.Tools.AsyncTaskDownloadImage;
 
 import java.util.HashMap;
 

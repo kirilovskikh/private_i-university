@@ -2,15 +2,13 @@ package com.students.I_university.Marks;
 
 import android.os.Bundle;
 import android.view.View;
-import android.content.Intent;
 import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 import com.actionbarsherlock.app.SherlockActivity;
 import com.actionbarsherlock.view.MenuItem;
-import com.students.I_university.CustomAdapter.CustomAdapterMarks;
-import com.students.I_university.Helpers.MarkDetails;
+import com.students.I_university.Tools.CustomAdapter.CustomAdapterMarks;
 import com.students.I_university.R;
 
 import java.util.HashMap;

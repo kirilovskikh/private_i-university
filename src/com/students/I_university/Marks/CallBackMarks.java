@@ -1,7 +1,5 @@
 package com.students.I_university.Marks;
 
-import com.students.I_university.Helpers.MarkDetails;
-
 import java.util.HashMap;
 
 /**

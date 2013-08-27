@@ -2,7 +2,7 @@ package com.students.I_university.Contacts;
 
 import a_vcard.android.syncml.pim.vcard.ContactStruct;
 import a_vcard.android.syncml.pim.vcard.VCardComposer;
-import a_vcard.android.syncml.pim.vcard.VCardException;
+
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -14,11 +14,9 @@ import android.view.View;
 import android.widget.*;
 import com.actionbarsherlock.app.SherlockActivity;
 import com.actionbarsherlock.view.MenuItem;
-import com.students.I_university.CustomAdapter.CustomAdapterContact;
-import com.students.I_university.Helpers.ContactInfo;
-import com.students.I_university.LogD;
+import com.students.I_university.Tools.CustomAdapter.CustomAdapterContact;
+import com.students.I_university.Messages.DialogActivity;
 import com.students.I_university.R;
-import com.students.I_university.dialogActivity;
 
 import java.io.*;
 import java.util.HashMap;
@@ -101,7 +99,7 @@ public class ContactActivity extends SherlockActivity implements CallReturnDownl
             public void onClick(View view) {
                 Toast.makeText(getApplicationContext(), "Открывается диалог", Toast.LENGTH_SHORT).show();
                 
-                Intent intent = new Intent(mContext, dialogActivity.class);
+                Intent intent = new Intent(mContext, DialogActivity.class);
                 intent.putExtra("userId", userId);
                 startActivity(intent);
             }

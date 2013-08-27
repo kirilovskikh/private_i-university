@@ -3,11 +3,8 @@ package com.students.I_university.Marks;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.os.AsyncTask;
-import android.widget.Toast;
-import com.students.I_university.AuthorizationActivity;
-import com.students.I_university.Helpers.DownloadMarksHelper;
-import com.students.I_university.Helpers.MarkDetails;
-import com.students.I_university.Utils;
+
+import com.students.I_university.Tools.Utils;
 import org.apache.http.HttpResponse;
 import org.apache.http.NameValuePair;
 import org.apache.http.client.HttpClient;
@@ -17,7 +14,6 @@ import org.apache.http.impl.client.DefaultHttpClient;
 import org.apache.http.message.BasicNameValuePair;
 import org.json.JSONArray;
 import org.json.JSONException;
-import org.json.JSONObject;
 
 import java.io.InputStream;
 import java.util.ArrayList;

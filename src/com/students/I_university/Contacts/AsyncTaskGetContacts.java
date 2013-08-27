@@ -3,10 +3,8 @@ package com.students.I_university.Contacts;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.os.AsyncTask;
-import com.students.I_university.AuthorizationActivity;
-import com.students.I_university.Helpers.ContactInfo;
-import com.students.I_university.Helpers.DownloadContactHelper;
-import com.students.I_university.Utils;
+
+import com.students.I_university.Tools.Utils;
 import org.apache.http.HttpResponse;
 import org.apache.http.NameValuePair;
 import org.apache.http.client.HttpClient;
