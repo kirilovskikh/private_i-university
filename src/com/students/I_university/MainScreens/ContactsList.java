@@ -10,8 +10,10 @@ import android.widget.ListView;
 import com.actionbarsherlock.app.SherlockFragment;
 import com.students.I_university.Contacts.AsyncTaskGetContacts;
 import com.students.I_university.Contacts.CallReturnDownload;
+
 import com.students.I_university.Contacts.ContactActivity;
 import com.students.I_university.CustomAdapter.CustomAdapterContactsListView;
+
 import com.students.I_university.Helpers.ContactInfo;
 import com.students.I_university.R;
 

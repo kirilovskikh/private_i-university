@@ -2,14 +2,13 @@ package com.students.I_university.MoodleRequest;
 
 import android.content.Context;
 
+
+import com.students.I_university.Entity.ListMessage;
+import com.students.I_university.Entity.Message;
+import org.json.JSONArray;
+
 import java.sql.Timestamp;
 import java.util.ArrayList;
-import java.util.regex.*;
-import com.students.I_university.Entity.Message;
-
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
 
 /**
  * Created by Akella on 14.08.13.
@@ -110,3 +109,5 @@ public class MoodleRequestMessageChain extends MoodleRequest {
         else return text;
     }
 }
+
+

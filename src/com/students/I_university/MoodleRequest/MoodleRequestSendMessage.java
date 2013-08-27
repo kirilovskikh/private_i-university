@@ -1,8 +1,6 @@
 package com.students.I_university.MoodleRequest;
 import android.content.Context;
-
 import org.json.JSONArray;
-import org.json.JSONObject;
 
 /**
  * Created by Akella on 16.08.13.

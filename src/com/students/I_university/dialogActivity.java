@@ -3,18 +3,10 @@ package com.students.I_university;
 
 import android.app.AlertDialog;
 import android.content.Intent;
-import android.graphics.Bitmap;
-import android.os.Bundle;
-import android.os.Looper;
-import android.widget.ImageView;
-import android.widget.ListView;
-import android.widget.TextView;
-import android.widget.ImageButton;
-import android.widget.Button;
 import android.content.SharedPreferences;
+import android.os.Bundle;
 import android.view.View;
-import android.widget.Toast;
-
+import android.widget.*;
 import com.actionbarsherlock.app.SherlockActivity;
 import com.students.I_university.Contacts.ContactActivity;
 import com.students.I_university.CustomAdapter.CustomAdapterMessageChain;
@@ -25,8 +17,6 @@ import com.students.I_university.MoodleRequest.MoodleRequestMessageChain;
 import com.students.I_university.MoodleRequest.MoodleRequestSendMessage;
 
 import java.util.ArrayList;
-import java.util.Timer;
-import java.util.TimerTask;
 
 /**
  * Created with IntelliJ IDEA.
