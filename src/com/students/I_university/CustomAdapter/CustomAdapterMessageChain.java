@@ -1,8 +1,6 @@
 package com.students.I_university.CustomAdapter;
 
 import android.content.Context;
-import android.net.Uri;
-import java.net.URL;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;

@@ -1,10 +1,8 @@
 package com.students.I_university.MoodleRequest;
 
-import android.app.Application;
 import android.app.ProgressDialog;
-import android.os.AsyncTask;
 import android.content.Context;
-
+import android.os.AsyncTask;
 import org.apache.http.HttpResponse;
 import org.apache.http.NameValuePair;
 import org.apache.http.client.HttpClient;
@@ -12,30 +10,29 @@ import org.apache.http.client.entity.UrlEncodedFormEntity;
 import org.apache.http.client.methods.HttpPost;
 import org.apache.http.impl.client.DefaultHttpClient;
 import org.apache.http.message.BasicNameValuePair;
-import org.json.JSONObject;
 
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
-import java.util.List;
-import java.util.TimerTask;
 
 /**
  * Created by Akella on 14.08.13.
  */
 public class MoodleRequest extends AsyncTask<Void, Void, Void> {
 
-    private Context mContext;
+    public Context mContext;
     private String server = "http://university.shiva.vps-private.net";
     private String pathToScript = "/webservice/rest/server.php";
-    private ArrayList<NameValuePair> params;
+    public ArrayList<NameValuePair> params;
     private String response;
     private ProgressDialog progressDialog;
     private MoodleCallback callback;
     protected String errorMessage;
     protected boolean success = false;
+
+
 
     public MoodleRequest(Context context) {
         this.mContext = context;
@@ -56,6 +53,9 @@ public class MoodleRequest extends AsyncTask<Void, Void, Void> {
         this.mContext = context;
         if (!pathToScript.isEmpty())
             this.pathToScript = pathToScript;
+    }
+
+    public MoodleRequest() {
     }
 
     public void addParam(String name, String value){
