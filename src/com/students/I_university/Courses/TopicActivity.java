@@ -1,14 +1,25 @@
 package com.students.I_university.Courses;
 
+import android.app.DownloadManager;
+import android.content.Context;
+import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.content.pm.ResolveInfo;
+import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
-import android.widget.ListView;
-import android.widget.SimpleAdapter;
+import android.os.Environment;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.*;
 import com.actionbarsherlock.app.SherlockActivity;
 import com.actionbarsherlock.view.MenuItem;
 import com.students.I_university.R;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -21,19 +32,34 @@ import java.util.Map;
 public class TopicActivity extends SherlockActivity {
 
     ListView listView;
+    //Тема, которую мы получили из предыдущего окна
+    private TopicClass Topic = CourseActivity.TransTopic;
 
     @Override
-    protected void onCreate(Bundle savedInstanceState)
-    {
+    protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.theme_item);
+        setContentView(R.layout.topic);
 
-        getActionBar().setDisplayHomeAsUpEnabled(true);
-        getActionBar().setHomeButtonEnabled(true);
-        getActionBar().setTitle("Основные конструкции C#");
-//        getActionBar().setIcon(R.drawable.book);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setHomeButtonEnabled(true);
+        getSupportActionBar().setTitle(Topic.Name);
 
-        BuildList();
+        ListView listView = (ListView)findViewById(R.id.list);
+        ListAdapter listAdapter = new ListAdapter(this, R.layout.main, Topic.ELEMENTS);
+        listView.setAdapter(listAdapter);
+
+        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id)
+            {
+                if (Topic.ELEMENTS.get(position).Type.equals("resource"))
+                {
+                    String URL = Topic.ELEMENTS.get(position).URL;
+                    Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(URL));
+                    startActivity(browserIntent);
+                }
+            }
+        });
     }
 
     @Override
@@ -46,45 +72,79 @@ public class TopicActivity extends SherlockActivity {
         return super.onOptionsItemSelected(item);    //To change body of overridden methods use File | Settings | File Templates.
     }
 
-    private void BuildList()
+
+    private class ListAdapter extends ArrayAdapter<ElementClass>
     {
-        final String ATTRIBUTE_NAME_TEXT1 = "text1";
-        final String ATTRIBUTE_NAME_TEXT2 = "text2";
-        final String ATTRIBUTE_NAME_IMAGE = "image";
-        //final String ATTRIBUTE_NAME_VISIBILITY = "visibility";
+        private List<ElementClass> items;
 
-        String[]texts1 = {"Массивы.docx", "Циклы.pptx",""};
-        String[]texts2 = {"23KB", "144KB",""};
-        int[]images = {R.drawable.word, R.drawable.powerpoint, 0};
-        //int[]visibilities = {View.GONE, View.GONE};
-
-        ArrayList<Map<String, Object>> data = new ArrayList<Map<String, Object>>(
-                texts1.length);
-        Map<String, Object> m;
-        for (int i = 0; i < texts1.length; i++)
+        public ListAdapter(Context context, int resource, List<ElementClass> items)
         {
-            m = new HashMap<String, Object>();
-            m.put(ATTRIBUTE_NAME_TEXT1, texts1[i]);
-            m.put(ATTRIBUTE_NAME_TEXT2, texts2[i]);
-            m.put(ATTRIBUTE_NAME_IMAGE, images[i]);
-            //m.put(ATTRIBUTE_NAME_VISIBILITY, visibilities[i]);
-            data.add(m);
+            super(context, resource, items);
+            this.items = items;
         }
 
-        String[] from = {ATTRIBUTE_NAME_TEXT1,
-                ATTRIBUTE_NAME_TEXT2,
-                ATTRIBUTE_NAME_IMAGE,
-                //ATTRIBUTE_NAME_VISIBILITY
-        };
-        int[] to = {R.id.text1, R.id.text2, R.id.img//, R.id.progressBar
-        };
+        @Override
+        public View getView(int position, View convertView, ViewGroup parent)
+        {
+            View view = convertView;
+            ElementClass element = items.get(position);
 
-        SimpleAdapter sAdapter = new SimpleAdapter(this, data, R.layout.row_in_theme_listview_item,
-                from, to);
+            //if (view == null)
+            //{
+            LayoutInflater layoutInflater;
+            layoutInflater = LayoutInflater.from(getContext());
+            if (element.Type.equals("resource"))
+            {
+                view = layoutInflater.inflate(R.layout.topic_listview_item_resourse, null);
+            }
+            else
+            {
+                view = layoutInflater.inflate(R.layout.topic_listview_item_label, null);
+            }
+            //}
 
-        listView = (ListView) findViewById(R.id.list);
-        listView.setAdapter(sAdapter);
+            if (element != null)
+            {
+                if (element.Type.equals("resource"))
+                {
+                    ImageView image = (ImageView)view.findViewById(R.id.img);
+                    TextView text = (TextView)view.findViewById(R.id.text);
+                    TextView size = (TextView)view.findViewById(R.id.filesize);
+
+                    int img;
+                    if (element.Extension.equals(".docx") || element.Extension.equals(".doc"))
+                    {
+                        img = R.drawable.docx;
+                    }
+                    else if (element.Extension.equals(".pptx") || element.Extension.equals(".ppt"))
+                    {
+                        img = R.drawable.pptx;
+                    }
+                    else if (element.Extension.equals(".xls") || element.Extension.equals(".xlsx"))
+                    {
+                        img = R.drawable.xlsx;
+                    }
+                    else if (element.Extension.equals(".pdf"))
+                    {
+                        img = R.drawable.pdf;
+                    }
+                    else img = R.drawable.mp4;
+
+
+
+                    image.setImageResource(img);
+                    text.setText(element.Text);
+                    size.setText(element.Size);
+                }
+                else
+                {
+                    TextView text = (TextView)view.findViewById(R.id.text);
+
+                    text.setText(element.Text);
+                }
+            }
+
+            return view;
+        }
     }
 }
-
-

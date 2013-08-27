@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:orientation="horizontal"
+              android:layout_width="match_parent"
+              android:layout_height="wrap_content"
+              android:padding="16dp">
+
+
+    <ImageView
+            android:layout_width="48px"
+            android:layout_height="48px"
+            android:id="@+id/img" android:layout_gravity="center_horizontal|left"
+            android:background="@drawable/docx"
+
+            />
+    <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text="New Textfsdgdrhdtjurykg.kl/jkhgfdzsfghukjilknbcfd.docx"
+            android:singleLine="true"
+            android:id="@+id/text" android:layout_gravity="center_vertical"
+            android:layout_weight="1.5"
+            android:layout_marginLeft="10dp"
+            android:padding="4dp"/>
+    <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text="255555,6 kB"
+            android:id="@+id/filesize" android:layout_gravity="center_vertical"
+            android:textSize="13dip" android:textColor="#acacac"
+            android:layout_weight="0.7"
+            android:layout_marginLeft="10dp" android:gravity="right"
+            android:padding="4dp"/>
+</LinearLayout>
