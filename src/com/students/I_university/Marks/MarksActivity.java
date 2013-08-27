@@ -44,7 +44,7 @@ public class MarksActivity extends SherlockActivity implements CallBackMarks {
                 Toast.makeText(getApplicationContext(), "The Force is strong with you, young Padawan...", Toast.LENGTH_LONG).show();
                 //в будущем можно сделать по нажатию
 //                переход в соответствующую тему
-//                Intent intent = new Intent(getApplicationContext(), ThemeItemActivity.class);
+//                Intent intent = new Intent(getApplicationContext(), TopicActivity.class);
 //                intent.putExtra("id", map.get(position).getAssign());
 //                startActivity(intent);
                 //To change body of implemented methods use File | Settings | File Templates.

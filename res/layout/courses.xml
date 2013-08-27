@@ -8,15 +8,14 @@
               android:paddingBottom="4dp">
 
     <!--<TextView-->
-            <!--android:layout_width="wrap_content"-->
-            <!--android:layout_height="wrap_content"-->
-            <!--android:text="Списрк курсов"-->
-            <!--android:id="@+id/textView" android:layout_gravity="center" android:textSize="22sp"-->
-            <!--android:paddingBottom="4dp"/>-->
+    <!--android:layout_width="wrap_content"-->
+    <!--android:layout_height="wrap_content"-->
+    <!--android:text="Списрк курсов"-->
+    <!--android:id="@+id/textView" android:layout_gravity="center" android:textSize="22sp"-->
+    <!--android:paddingBottom="4dp"/>-->
 
     <ListView
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:id="@+id/listView"/>
+            android:id="@+id/coursesListView"/>
 </LinearLayout>
-

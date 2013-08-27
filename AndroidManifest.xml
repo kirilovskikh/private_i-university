@@ -29,11 +29,11 @@
         </activity>
 
         <activity
-            android:name=".CourseItenActivity">
+            android:name=".Courses.CourseActivity">
         </activity>
 
         <activity
-            android:name=".ThemeItemActivity">
+            android:name=".Courses.TopicActivity">
         </activity>
 
         <activity

@@ -1,10 +1,11 @@
-package com.students.I_university;
+package com.students.I_university.Courses;
 
 import android.os.Bundle;
 import android.widget.ListView;
 import android.widget.SimpleAdapter;
 import com.actionbarsherlock.app.SherlockActivity;
 import com.actionbarsherlock.view.MenuItem;
+import com.students.I_university.R;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -17,7 +18,7 @@ import java.util.Map;
  * Time: 15:06
  * To change this template use File | Settings | File Templates.
  */
-public class ThemeItemActivity extends SherlockActivity {
+public class TopicActivity extends SherlockActivity {
 
     ListView listView;
 
