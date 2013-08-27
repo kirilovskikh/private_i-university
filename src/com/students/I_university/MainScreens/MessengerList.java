@@ -30,11 +30,11 @@ import java.util.ArrayList;
  */
 public class MessengerList extends SherlockFragment {
     public Image image = new Image();
+    private ArrayList<ListMessage> str;
 
 @Override
  public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
     View view = inflater.inflate(R.layout.listview_layout, null);
-    final ArrayList<ListMessage> str;
     String wsfunction = "local_iuniversity_recent_messages";
     SharedPreferences preferences = getActivity().getSharedPreferences("Settings", Context.MODE_PRIVATE);
 
@@ -76,10 +76,10 @@ public class MessengerList extends SherlockFragment {
 
            kontaktList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-
+                    int userID = Integer.valueOf(str.get(position).id);
                    Intent intent = new Intent(getSherlockActivity(), dialogActivity.class);
 
-   //                intent.putExtra("id", str[position] );
+                   intent.putExtra("userId", userID );
                    startActivity(intent);
                }
            });

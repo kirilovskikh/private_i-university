@@ -200,13 +200,16 @@ public class dialogActivity extends SherlockActivity {
 
         int i = 0;
         while(!messages.get(i).own && i < messages.size()) i++;
-        ownImageURL = messages.get(i).imageURL;
-        fullName = messages.get(i).username;
+        if(i < messages.size())
+        {
+            ownImageURL = messages.get(i).imageURL;
+            fullName = messages.get(i).username;
+        }
 
         int j = 0;
         while(messages.get(j).own && j < messages.size()) j++;
-        userImageURL = messages.get(j).imageURL;
-
-        moodleRequestImage.execute(ownImageURL, userImageURL);
+        if(j < messages.size()) userImageURL = messages.get(j).imageURL;
+        //messages.
+        //moodleRequestImage.execute(ownImageURL, userImageURL);
     }
 }

@@ -35,12 +35,12 @@
                 android:paddingTop="4dp">
             <TextView
                     android:layout_width="fill_parent"
-                    android:layout_height="fill_parent"
+                    android:layout_height="wrap_content"
                     android:text="New Text"
                     android:id="@+id/sms" android:layout_weight="0.3" android:paddingRight="4dp"/>
             <TextView
                     android:layout_width="fill_parent"
-                    android:layout_height="fill_parent"
+                    android:layout_height="wrap_content"
                     android:text="5.07.2013"
                     android:id="@+id/date"
                     android:layout_weight="0.7" android:paddingRight="4dp"
