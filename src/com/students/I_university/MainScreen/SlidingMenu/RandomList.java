@@ -1,5 +1,6 @@
 package com.students.I_university.MainScreen.SlidingMenu;
 
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -23,8 +24,10 @@ public class RandomList extends SherlockListFragment{
 		"Контакты",
 		"Сообщения",
 		"Все оценки",
-        "LogOut"
+        "Настройки"
 	};
+
+    private Context mContext;
 
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState){
         View view = inflater.inflate(R.layout.list, container, false);
@@ -41,7 +44,7 @@ public class RandomList extends SherlockListFragment{
 
     @Override
     public void onListItemClick(ListView l, View v, int position, long id){
-        Fragment newFragment;
+        Fragment newFragment = null;
         FragmentManager fm = getFragmentManager();
         switch (position){
             case 0:
@@ -57,25 +60,24 @@ public class RandomList extends SherlockListFragment{
                 newFragment = new AllMarksList();
                 break;
             case 4:
-                newFragment = null;
+                Intent intent = new Intent(getSherlockActivity(), PreferenceActivity.class);
+                startActivity(intent);
                 break;
 
             default:
                 newFragment = new other();
                 break;
         }
-        if (newFragment != null)
+
+        if (newFragment != null) {
             switchContent(newFragment);
-        else{
-            Authorize.LogOut("iutoken", getActivity().getApplicationContext());
-            Authorize.LogOut("token", getActivity().getApplicationContext());
-            startActivity(new Intent(getActivity().getApplicationContext(), AuthorizationActivity.class));
-            return;
+
+            FragmentTransaction ft = fm.beginTransaction();
+            ft.replace(R.id.content_frame, newFragment);
+            ft.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE);
+            ft.commit();
         }
-        FragmentTransaction ft = fm.beginTransaction();
-        ft.replace(R.id.content_frame, newFragment);
-        ft.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE);
-        ft.commit();
+
     }
 
     private void switchContent(Fragment fragment){

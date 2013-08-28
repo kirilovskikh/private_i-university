@@ -55,6 +55,11 @@
           android:name=".Messages.DialogActivity">
         </activity>
 
+        <activity
+                android:label="Настройки"
+                android:name=".MainScreen.MainFragments.PreferenceActivity">
+        </activity>
+
     </application>
 
 </manifest>
