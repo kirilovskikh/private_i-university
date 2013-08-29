@@ -209,7 +209,7 @@ public class DialogActivity extends SherlockActivity {
         }
 
         int j = 0;
-        while(messages.get(j).own && j < messages.size()) j++;
+        while(j < messages.size() && messages.get(j).own) j++;
         if(j < messages.size()) userImageURL = messages.get(j).imageURL;
         //messages.
         //moodleRequestImage.execute(ownImageURL, userImageURL);

@@ -100,6 +100,7 @@ public class ContactActivity extends SherlockActivity implements CallReturnDownl
 
                 Intent intent = new Intent(mContext, DialogActivity.class);
                 intent.putExtra("userId", userId);
+                intent.putExtra("userName", fullname);
                 startActivity(intent);
             }
         });
