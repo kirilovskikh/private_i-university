@@ -66,8 +66,7 @@ public class GetCourses extends AsyncTask <Void, Void, Void> {
 
 
             list.add(new BasicNameValuePair("wsfunction", "moodle_enrol_get_users_courses"));
-            //сюда вместо 9 надо вставить ИД пользователя
-            list.add(new BasicNameValuePair("userid", "9"));
+            list.add(new BasicNameValuePair("userid", Utils.getUserID(mContext)));
 
             list.add(new BasicNameValuePair("moodlewsrestformat", "json"));
 

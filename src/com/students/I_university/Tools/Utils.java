@@ -48,6 +48,14 @@ public class Utils {
         return preferences.getString("iutoken", "");
     }
 
+    public static String getUserID (Context context) {
+        if (AuthorizationActivity.preferences != null)
+            return AuthorizationActivity.preferences.getString("userID", null);
+
+        SharedPreferences preferences = context.getSharedPreferences("Settings", context.MODE_PRIVATE);
+        return preferences.getString("userID", "");
+    }
+
     public static String getUrlFunction () {
         return "http://university.shiva.vps-private.net/webservice/rest/server.php?";
     }

@@ -65,8 +65,7 @@ public class DownloadMarksHelper {
                     //ищем оценку пользователя в модуле
                     while (j<array.length()){
                         try {
-                            //сюда вместо 9 надо вставить ИД пользователя
-                            if (Integer.toString(array.getJSONObject(j).getInt("userid")).equals("9")){
+                            if (Integer.toString(array.getJSONObject(j).getInt("userid")).equals(Utils.getUserID(mContext))){
                                 mark = array.getJSONObject(j).getString("grade");
                             }
                         }
