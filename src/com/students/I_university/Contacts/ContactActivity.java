@@ -97,8 +97,7 @@ public class ContactActivity extends SherlockActivity implements CallReturnDownl
         openDialog.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Toast.makeText(getApplicationContext(), "Открывается диалог", Toast.LENGTH_SHORT).show();
-                
+
                 Intent intent = new Intent(mContext, DialogActivity.class);
                 intent.putExtra("userId", userId);
                 startActivity(intent);
