@@ -11,6 +11,7 @@ import android.widget.Toast;
 import com.actionbarsherlock.app.SherlockActivity;
 import com.students.I_university.R;
 import com.students.I_university.MainScreen.SlidingMenu.MainActivity;
+import com.students.I_university.Tools.Utils;
 
 /**
  * Created with IntelliJ IDEA.
@@ -28,9 +29,8 @@ public class AuthorizationActivity extends SherlockActivity {
 
         super.onCreate(savedInstanceState);    //To change body of overridden methods use File | Settings | File Templates.
         preferences = getSharedPreferences("Settings", MODE_PRIVATE);
-        String s = preferences.getString("token","");
-        String s1 = preferences.getString("iutoken","");        //временный токен
-        if (s.length() > 0 && s1.length() > 0){                 //необходимо будет удалить
+        String s1 = preferences.getString("iutoken","");        //проверяем токен, использование Utils.getToken не работает
+        if ( s1.length() > 0){
             startActivity(new Intent(getApplicationContext(), MainActivity.class));
         }
 
@@ -44,43 +44,11 @@ public class AuthorizationActivity extends SherlockActivity {
                 EditText email = (EditText) findViewById(R.id.editText);
                 EditText password = (EditText) findViewById(R.id.editText1);
 
-                /*      +++      +++      +++      +++      +++      +++*/
-                /*          Временное решение (второй токен)            */
-                /*          после вынесения функций в плагин            */
-                /*          этот блок кода не будет нужен               */
-                Authorize special = new Authorize(
-                        "",
-                        String.valueOf(email.getText()),
-                        String.valueOf(password.getText()),
-                        "iuniversity",  /*эту строку необходимо будет переставить
-                                         в следующий вызов конструктора (authorize)*/
-                        getApplicationContext()
-                );
-                special.execute();
-                try {
-                    special.get();
-                }
-                catch (Exception ex){
-                    Log.e("EXCEPTION", ex.toString());
-                }
-                if (special.authorized){
-                    try {
-                        preferences = getSharedPreferences("Settings", MODE_PRIVATE);
-                        SharedPreferences.Editor ed = preferences.edit();
-                        ed.putString("iutoken", special.getToken());
-                        ed.commit();
-                    }
-                    catch (Exception ex){
-                        Log.e("EXCEPTION", ex.toString());
-                    }
-                }
-                /*      +++      +++      +++      +++      +++      +++*/
-
                 Authorize authorize = new Authorize(
                         "",         //server
                         String.valueOf(email.getText()),
                         String.valueOf(password.getText()),
-                        "",          //service
+                        "iuniversity",          //service
                         getApplicationContext()
                 );
                 authorize.execute();
@@ -93,15 +61,16 @@ public class AuthorizationActivity extends SherlockActivity {
                 }
 
                 if (authorize.authorized){
-                    startActivity(new Intent(getApplicationContext(), MainActivity.class));
+
                     try{
                         preferences = getSharedPreferences("Settings", MODE_PRIVATE);
                         SharedPreferences.Editor editor = AuthorizationActivity.preferences.edit();
-                        editor.putString("token",authorize.getToken());
+                        editor.putString("iutoken",authorize.getToken());
                         editor.commit();
                     } catch (Exception ex){
                         Log.e("EXCEPTION", ex.toString());
                     }
+                    startActivity(new Intent(getApplicationContext(), MainActivity.class));
                 }
                 else{
                     Toast.makeText(getApplicationContext(), "Имя пользователя или пароль не верны", Toast.LENGTH_LONG).show();

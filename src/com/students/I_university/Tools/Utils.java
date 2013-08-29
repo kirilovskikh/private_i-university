@@ -45,7 +45,7 @@ public class Utils {
             return AuthorizationActivity.preferences.getString("iutoken", null);
 
         SharedPreferences preferences = context.getSharedPreferences("Settings", context.MODE_PRIVATE);
-        return preferences.getString("iutoken", null);
+        return preferences.getString("iutoken", "");
     }
 
     public static String getUrlFunction () {

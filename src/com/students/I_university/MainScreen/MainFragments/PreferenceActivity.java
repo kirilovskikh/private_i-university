@@ -44,7 +44,6 @@ public class PreferenceActivity extends SherlockPreferenceActivity {
 
     private void logOut () {
         Authorize.LogOut("iutoken", mContext);
-        Authorize.LogOut("token", mContext);
         startActivity(new Intent(mContext, AuthorizationActivity.class));
     }
 
