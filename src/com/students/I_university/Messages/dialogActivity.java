@@ -8,9 +8,11 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.*;
 import com.actionbarsherlock.app.SherlockActivity;
+import com.handmark.pulltorefresh.library.PullToRefreshBase;
 import com.students.I_university.Contacts.ContactActivity;
 import com.students.I_university.Tools.CustomAdapter.CustomAdapterMessageChain;
 import com.students.I_university.R;
+import com.handmark.pulltorefresh.library.PullToRefreshListView;
 
 import java.util.ArrayList;
 
@@ -34,8 +36,8 @@ public class DialogActivity extends SherlockActivity {
     MoodleRequestSendMessage moodleRequestSendMessage;
     MoodleRequestImage moodleRequestImage;
     CustomAdapterMessageChain adapterMessageChain;
-    ListView contactList;
-    String fullName;
+    PullToRefreshListView contactList;
+    String userName;
     int userID;
 
     @Override
@@ -46,29 +48,24 @@ public class DialogActivity extends SherlockActivity {
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setHomeButtonEnabled(true);
 
+
         this.context = this;
         this.messageTextInput = (TextView)findViewById(R.id.messageTextInput);
         this.sendMessageButton = (ImageButton)findViewById(R.id.sendMessageButton);
-        this.refreshButton = (ImageButton)findViewById(R.id.refreshButton);
         this.userProfile = (Button)findViewById(R.id.userProfile);
         this.alert = new AlertDialog.Builder(this);
         this.prefs = getSharedPreferences("Settings", MODE_PRIVATE);
-        this.contactList = (ListView)findViewById(R.id.messageList);
+        //this.contactList = (ListView)findViewById(R.id.messageList);
+        this.contactList = (PullToRefreshListView)findViewById(R.id.pullToRefresh);
         this.userID = getIntent().getExtras().getInt("userId");
+        this.userName = getIntent().getExtras().getString("userName");
+
+        getSupportActionBar().setTitle(this.userName);
         sendMessageButton.setOnClickListener(
                 new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
                         sendMessage();
-                    }
-                }
-        );
-
-        refreshButton.setOnClickListener(
-                new View.OnClickListener() {
-                    @Override
-                    public void onClick(View view) {
-                        getMessages();
                     }
                 }
         );
@@ -79,11 +76,17 @@ public class DialogActivity extends SherlockActivity {
                     public void onClick(View view) {
                         Intent intent = new Intent(getBaseContext(), ContactActivity.class);
                         intent.putExtra("userId", userID);
-                        intent.putExtra("fullname", fullName);
+                        intent.putExtra("fullname", userName);
                         startActivity(intent);
                     }
                 }
         );
+        contactList.setOnRefreshListener( new PullToRefreshBase.OnRefreshListener<ListView>() {
+            @Override
+            public void onRefresh(PullToRefreshBase<ListView> refreshView) {
+                getMessages();
+            }
+        });
     }
 
     @Override
@@ -91,6 +94,7 @@ public class DialogActivity extends SherlockActivity {
     {
         super.onStart();
         getMessages();
+        contactList.demo();
     }
 
     public void showMessage(String text)
@@ -108,6 +112,7 @@ public class DialogActivity extends SherlockActivity {
         moodleRequestMessageChain.setMoodleCallback( new MoodleCallback() {
             @Override
             public void callBackRun() {
+                contactList.onRefreshComplete();
                 if(moodleRequestMessageChain.isSuccess())
                 {
                     messages = moodleRequestMessageChain.getMessageChain();
@@ -121,8 +126,9 @@ public class DialogActivity extends SherlockActivity {
                                     R.layout.message_chain_right,
                                     messages
                             );
-                            contactList.setAdapter(adapterMessageChain);
-                            contactList.setSelection(adapterMessageChain.getCount() - 1);
+
+                            contactList.getRefreshableView().setAdapter(adapterMessageChain);
+                            contactList.getRefreshableView().setSelection(adapterMessageChain.getCount() - 1);
 
                             getBitmaps();
 
@@ -199,7 +205,7 @@ public class DialogActivity extends SherlockActivity {
         if(i < messages.size())
         {
             ownImageURL = messages.get(i).imageURL;
-            fullName = messages.get(i).username;
+            //fullName = messages.get(i).username;
         }
 
         int j = 0;

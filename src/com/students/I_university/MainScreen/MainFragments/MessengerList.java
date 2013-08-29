@@ -76,9 +76,10 @@ public class MessengerList extends SherlockFragment {
 
            kontaktList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                    int userID = Integer.valueOf(str.get(position).id);
+                   int userID = Integer.valueOf(str.get(position).id);
+                   String fullname = str.get(position).username;
                    Intent intent = new Intent(getSherlockActivity(), DialogActivity.class);
-
+                   intent.putExtra("userName", fullname );
                    intent.putExtra("userId", userID );
                    startActivity(intent);
                }

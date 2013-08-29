@@ -5,17 +5,31 @@
         android:layout_height="fill_parent"
         xmlns:android="http://schemas.android.com/apk/res/android">
 
-    <ListView
+    <!--<ListView-->
+            <!--android:layout_width="wrap_content"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:id="@+id/messageList"-->
+            <!--android:layout_alignParentLeft="true"-->
+            <!--android:layout_above="@+id/messageTextInput"-->
+            <!--android:layout_below="@+id/userProfile"-->
+            <!--android:stackFromBottom="true"-->
+            <!--android:textFilterEnabled="false" />-->
+    <com.handmark.pulltorefresh.library.PullToRefreshListView
+            xmlns:ptr="http://schemas.android.com/apk/res-auto"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:id="@+id/messageList"
+            android:id="@+id/pullToRefresh"
             android:layout_alignParentLeft="true"
-            android:layout_above="@+id/messageTextInput"
-            android:layout_below="@+id/userProfile"/>
+            android:layout_below="@+id/userProfile"
+            android:stackFromBottom="true"
+            android:textFilterEnabled="false"
+            ptr:ptrMode="pullFromEnd"
+            android:layout_alignParentRight="true"
+            android:layout_above="@+id/messageTextInput"/>
 
     <EditText
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_height="50dp"
             android:inputType="textMultiLine"
             android:ems="10"
             android:id="@+id/messageTextInput"
@@ -27,13 +41,13 @@
 
     <ImageButton
             android:layout_width="50dp"
-            android:layout_height="wrap_content"
+            android:layout_height="50dp"
             android:id="@+id/sendMessageButton"
             android:src="@drawable/abs__ic_cab_done_holo_dark"
             android:background="@color/abs__background_holo_dark"
-            android:layout_below="@+id/messageList"
-            android:layout_toLeftOf="@+id/refreshButton"
-            android:layout_alignParentBottom="true"/>
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentRight="true"
+            android:layout_below="@+id/pullToRefresh"/>
 
     <Button
             android:layout_width="wrap_content"
@@ -45,15 +59,5 @@
             android:layout_alignParentRight="true"
             android:background="@color/abs__background_holo_dark"
             android:textColor="@color/abs__primary_text_holo_dark"/>
-
-    <ImageButton
-            android:layout_width="50dp"
-            android:layout_height="wrap_content"
-            android:id="@+id/refreshButton"
-            android:layout_alignParentBottom="true"
-            android:layout_alignParentRight="true"
-            android:layout_alignTop="@+id/messageTextInput"
-            android:src="@android:drawable/ic_menu_rotate"
-            android:background="@color/abs__background_holo_dark"/>
 
 </RelativeLayout>
