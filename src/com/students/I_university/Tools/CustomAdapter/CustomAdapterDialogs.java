@@ -11,6 +11,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import com.students.I_university.Messages.ListMessage;
 import com.students.I_university.R;
+import com.students.I_university.Tools.AsyncTaskDownloadImage;
 
 import java.util.ArrayList;
 
@@ -26,28 +27,29 @@ public class CustomAdapterDialogs extends ArrayAdapter<ListMessage> {
 
     Context mContext;
     int layout;
-    ArrayList<ListMessage> message;
+    ArrayList<ListMessage> messages;
 
-    public CustomAdapterDialogs(Context c, int layout,  ArrayList<ListMessage> message){
-        super(c, layout, message);
+    public CustomAdapterDialogs(Context c, int layout,  ArrayList<ListMessage> messages2){
+        super(c, layout, messages2);
         this.mContext = c;
         this.layout = layout;
-        this.message = message;
+        this.messages = messages2;
     }
 
     public View getView(int position, View convertView, ViewGroup parent) {
          View v;
+         AsyncTaskDownloadImage downloadImage;
          LayoutInflater vi = (LayoutInflater)mContext.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
          v = vi.inflate(layout, parent, false);
 
          TextView name = (TextView)v.findViewById(R.id.name);
          TextView sms  = (TextView)v.findViewById(R.id.sms);
          TextView date = (TextView)v.findViewById(R.id.date);
-         ListMessage messages = message.get(position);
+         ListMessage message = messages.get(position);
         ImageView avatar = (ImageView)v.findViewById(R.id.imageView);
-        Drawable d = null;
-        name.setText(messages.username);
-        sms.setText(messages.sms);
+        //Drawable d = null;
+        name.setText(message.username);
+        sms.setText(message.sms);
 
 
 /*
@@ -64,7 +66,9 @@ public class CustomAdapterDialogs extends ArrayAdapter<ListMessage> {
         }
 */
 
-        date.setText(messages.GetCreateTime());
+        date.setText(message.GetCreateTime());
+        downloadImage = new AsyncTaskDownloadImage(avatar);
+        downloadImage.execute(message.imageURL);
    //     avatar.setImageDrawable(d);
         return v;
 
