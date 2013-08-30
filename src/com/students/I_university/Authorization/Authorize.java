@@ -2,11 +2,12 @@ package com.students.I_university.Authorization;
 
 import android.app.ProgressDialog;
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.util.Log;
-import android.view.View;
 import android.widget.Toast;
+import com.students.I_university.MainScreen.SlidingMenu.MainActivity;
 import com.students.I_university.Tools.Utils;
 import org.apache.http.HttpResponse;
 import org.apache.http.NameValuePair;
@@ -15,7 +16,6 @@ import org.apache.http.client.entity.UrlEncodedFormEntity;
 import org.apache.http.client.methods.HttpPost;
 import org.apache.http.impl.client.DefaultHttpClient;
 import org.apache.http.message.BasicNameValuePair;
-import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.BufferedReader;
@@ -50,7 +50,7 @@ public class Authorize extends AsyncTask <Void, Void, Void> {
     //Для подключения к тестовому серверу указываем пустую строку в первом параметре
     public Authorize(String server, String user, String password, String service, Context context){
         this.mContext = context;
-        setProtocol("http://");
+        this.protocol = "http://";
         this.token = "";
         this.authorized = false;
 
@@ -60,11 +60,9 @@ public class Authorize extends AsyncTask <Void, Void, Void> {
 
         if (!user.isEmpty())
             this.user = user;
-        //else this.user = "testuser";
 
         if (!password.isEmpty())
             this.password = password;
-        //else this.password = "Testuser1.";
 
         if (!service.isEmpty())
             this.service = service;
@@ -72,15 +70,15 @@ public class Authorize extends AsyncTask <Void, Void, Void> {
 
     }
 
-//    @Override
-//    protected void onPreExecute() {
-//        super.onPreExecute();    //To change body of overridden methods use File | Settings | File Templates.
-//
-//        progressDialog = new ProgressDialog(this.mContext);
-//        progressDialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
-//        progressDialog.setMessage("Загрузка ...");
-//        progressDialog.show();
-//    }
+    @Override
+    protected void onPreExecute() {
+        super.onPreExecute();    //To change body of overridden methods use File | Settings | File Templates.
+
+        progressDialog = new ProgressDialog(this.mContext);
+        progressDialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
+        progressDialog.setMessage("Загрузка ...");
+        progressDialog.show();
+    }
 
     @Override
     //метод, асинхронно выполняющий запрос к серверу
@@ -102,7 +100,7 @@ public class Authorize extends AsyncTask <Void, Void, Void> {
 
             if (httpResponse != null){
                 InputStream in = httpResponse.getEntity().getContent();
-                result = convertStreamToString(in);
+                result = Utils.convertStreamToString(in);
                 JSONObject jsonObject = new JSONObject(result);
                 this.token = jsonObject.getString("token");
                 if(this.token.length() > 0){
@@ -112,20 +110,39 @@ public class Authorize extends AsyncTask <Void, Void, Void> {
                     if (userID > 0)
                         this.authorized = true;
                 }
-
-
-
             }
         }
         catch (Exception ex){
-            result = "Exception";
+            ex.printStackTrace();
         }
         return null;
     }
 
+    @Override
+    protected void onPostExecute(Void aVoid) {
+        super.onPostExecute(aVoid);    //To change body of overridden methods use File | Settings | File Templates.
+        try{
+            SharedPreferences preferences;
+            preferences = mContext.getSharedPreferences("Settings", mContext.MODE_PRIVATE);
+            SharedPreferences.Editor editor = preferences.edit();
+            editor.putString("iutoken",getToken());
+            editor.putString("userID", Integer.toString(getUserID()));
+            editor.commit();
+        } catch (Exception ex){
+            ex.printStackTrace();
+        }
+
+        if (this.authorized){
+            mContext.startActivity(new Intent(mContext, MainActivity.class));
+        }
+        else{
+            Toast.makeText(mContext, "Имя пользователя или пароль не верны", Toast.LENGTH_LONG).show();
+        }
+        progressDialog.dismiss();
+    }
+
     //userID получается отдельным HttpPost запросом
     private int RequestUserId(){
-
         int userID = 0;
         String result = "";
 
@@ -160,34 +177,6 @@ public class Authorize extends AsyncTask <Void, Void, Void> {
     public int getUserID(){
         return this.userID;
     }
-//    @Override
-//    protected void onPostExecute(Void aVoid) {
-//        super.onPostExecute(aVoid);    //To change body of overridden methods use File | Settings | File Templates.
-//        progressDialog.dismiss();
-//        //if(callback != null) callback.callBackRun();
-//    }
-
-    /*      ---      ---      ---      ---      ---      ---      ---      ---      ---      ---      ---      ---*/
-    private String convertStreamToString(InputStream is) {
-        BufferedReader reader = new BufferedReader(new InputStreamReader(is));
-        StringBuilder sb = new StringBuilder();
-
-        String line = null;
-        try {
-            while ((line = reader.readLine()) != null) {
-                sb.append(line + "\n");
-            }
-        } catch (IOException e) {
-            e.printStackTrace();
-        } finally {
-            try {
-                is.close();
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-        }
-        return sb.toString();
-    }
 
     public String getToken(){
         if ( !this.token.equals("") )
@@ -195,21 +184,11 @@ public class Authorize extends AsyncTask <Void, Void, Void> {
         else return null;
     }
 
-    public void setProtocol(String protocol){
-        this.protocol = protocol;
-    }
-
+    //logout - удаление токена
     public static void LogOut(String key, Context context){
         SharedPreferences preferences = context.getSharedPreferences("Settings", context.MODE_PRIVATE);
         SharedPreferences.Editor editor = preferences.edit();
         editor.remove(key);
         editor.commit();
     }
-
-
-
-
-
-
-
 }

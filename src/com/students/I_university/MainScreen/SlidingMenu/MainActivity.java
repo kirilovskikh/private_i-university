@@ -1,6 +1,5 @@
 package com.students.I_university.MainScreen.SlidingMenu;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 
@@ -9,7 +8,11 @@ import com.students.I_university.MainScreen.MainFragments.CoursesList;
 import com.students.I_university.R;
 
 public class MainActivity extends BaseActivity {
-	
+
+    //Флаг выхода из приложения.
+    //Устанавливается в AuthorizationActivity с целью предотвращения неавторизованного входа в MainActivity
+    public static boolean exitFlag = false;
+
 	private Fragment mContent;
 	
 	public MainActivity(){
@@ -55,9 +58,13 @@ public class MainActivity extends BaseActivity {
     @Override
     public void onBackPressed() {
         super.onBackPressed();    //To change body of overridden methods use File | Settings | File Templates.
-        Intent intent = new Intent(Intent.ACTION_MAIN);
-        intent.addCategory(Intent.CATEGORY_HOME);
-        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-        startActivity(intent);
+        finish();
+    }
+
+    @Override
+    protected void onRestart() {
+        super.onRestart();    //To change body of overridden methods use File | Settings | File Templates.
+        if (exitFlag)
+            finish();
     }
 }

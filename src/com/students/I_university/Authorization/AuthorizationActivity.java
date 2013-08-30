@@ -1,5 +1,6 @@
 package com.students.I_university.Authorization;
 
+import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
@@ -26,22 +27,22 @@ import java.util.concurrent.ExecutionException;
 public class AuthorizationActivity extends SherlockActivity {
 
     public static SharedPreferences preferences;
+    private Context mContext;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
         super.onCreate(savedInstanceState);    //To change body of overridden methods use File | Settings | File Templates.
+
+        this.mContext = this;
+
         preferences = getSharedPreferences("Settings", MODE_PRIVATE);
-        String s1 = preferences.getString("iutoken","");        //проверяем токен, использование Utils.getToken не работает
 
+        //проверяем токен, использование Utils.getToken не работает
 
-        //magic awaits you after this comment
-
-        //if ( s1.length() > 0){
-
-        //startActivity(new Intent(getApplicationContext(), MainActivity.class));
-
-        //}
+        if ( preferences.getString("iutoken","").length() > 0){
+            startActivity(new Intent(getApplicationContext(), MainActivity.class));
+        }
 
         setContentView(R.layout.auth);
 
@@ -58,48 +59,25 @@ public class AuthorizationActivity extends SherlockActivity {
                         String.valueOf(email.getText()),
                         String.valueOf(password.getText()),
                         "iuniversity",          //service
-                        getApplicationContext()
+                        mContext
                 );
                 authorize.execute();
-
-                try {
-                    authorize.get();
-                }
-                catch (Exception ex){
-                    Log.e("EXCEPTION", ex.toString());
-                }
-
-                if (authorize.authorized){
-
-                    try{
-                        preferences = getSharedPreferences("Settings", MODE_PRIVATE);
-                        SharedPreferences.Editor editor = AuthorizationActivity.preferences.edit();
-                        editor.putString("iutoken",authorize.getToken());
-                        editor.putString("userID", Integer.toString(authorize.getUserID()));
-                        editor.commit();
-                    } catch (Exception ex){
-                        Log.e("EXCEPTION", ex.toString());
-                    }
-
-                    startActivity(new Intent(getApplicationContext(), MainActivity.class));
-
-                }
-                else{
-                    Toast.makeText(getApplicationContext(), "Имя пользователя или пароль не верны", Toast.LENGTH_LONG).show();
-                }
-
-
-                //To change body of implemented methods use File | Settings | File Templates.
+                //присвоение значений выполняется в методе onPostExecute
             }
         });
 
     }
 
+    //мега костыль с флагом, но работает :)
     public void onBackPressed(){
         super.onBackPressed();
-        Intent intent = new Intent(Intent.ACTION_MAIN);
-        intent.addCategory(Intent.CATEGORY_HOME);
-        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-        startActivity(intent);
+        MainActivity.exitFlag = true;
+        finish();
+    }
+
+    @Override
+    protected void onRestart() {
+        super.onRestart();    //To change body of overridden methods use File | Settings | File Templates.
+        finish();
     }
 }

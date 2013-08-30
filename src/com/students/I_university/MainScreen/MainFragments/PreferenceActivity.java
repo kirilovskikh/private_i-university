@@ -36,6 +36,7 @@ public class PreferenceActivity extends SherlockPreferenceActivity {
             @Override
             public boolean onPreferenceClick(Preference preference) {
                 logOut();
+                finish();
                 return false;  //To change body of implemented methods use File | Settings | File Templates.
             }
         });
@@ -55,7 +56,6 @@ public class PreferenceActivity extends SherlockPreferenceActivity {
                 finish();
                 break;
         }
-
         return super.onOptionsItemSelected(item);    //To change body of overridden methods use File | Settings | File Templates.
     }
 
