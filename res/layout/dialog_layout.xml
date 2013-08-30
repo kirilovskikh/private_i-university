@@ -20,12 +20,12 @@
             android:layout_height="wrap_content"
             android:id="@+id/pullToRefresh"
             android:layout_alignParentLeft="true"
-            android:layout_below="@+id/userProfile"
             android:stackFromBottom="true"
             android:textFilterEnabled="false"
             ptr:ptrMode="pullFromEnd"
             android:layout_alignParentRight="true"
-            android:layout_above="@+id/messageTextInput"/>
+            android:layout_above="@+id/messageTextInput"
+            android:layout_alignParentTop="true"/>
 
     <EditText
             android:layout_width="wrap_content"
@@ -48,16 +48,5 @@
             android:layout_alignParentBottom="true"
             android:layout_alignParentRight="true"
             android:layout_below="@+id/pullToRefresh"/>
-
-    <Button
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Посмотреть профиль собеседника"
-            android:id="@+id/userProfile"
-            android:layout_alignParentTop="true"
-            android:layout_alignParentLeft="true"
-            android:layout_alignParentRight="true"
-            android:background="@color/abs__background_holo_dark"
-            android:textColor="@color/abs__primary_text_holo_dark"/>
 
 </RelativeLayout>

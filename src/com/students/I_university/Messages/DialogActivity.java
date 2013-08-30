@@ -10,6 +10,7 @@ import android.graphics.Bitmap;
 import android.view.View;
 import android.widget.*;
 import com.actionbarsherlock.app.SherlockActivity;
+import com.actionbarsherlock.view.MenuItem;
 import com.handmark.pulltorefresh.library.PullToRefreshBase;
 import com.students.I_university.Contacts.ContactActivity;
 import com.students.I_university.Tools.AsyncTaskDownloadBitmap;
@@ -30,8 +31,6 @@ public class DialogActivity extends SherlockActivity {
     DialogActivity context;
     TextView messageTextInput;
     ImageButton sendMessageButton;
-    ImageButton refreshButton;
-    Button userProfile;
     ArrayList<Message> messages;
     AlertDialog.Builder alert;
     SharedPreferences prefs;
@@ -55,7 +54,6 @@ public class DialogActivity extends SherlockActivity {
         this.context = this;
         this.messageTextInput = (TextView)findViewById(R.id.messageTextInput);
         this.sendMessageButton = (ImageButton)findViewById(R.id.sendMessageButton);
-        this.userProfile = (Button)findViewById(R.id.userProfile);
         this.alert = new AlertDialog.Builder(this);
         this.prefs = getSharedPreferences("Settings", MODE_PRIVATE);
         this.contactList = (PullToRefreshListView)findViewById(R.id.pullToRefresh);
@@ -73,17 +71,6 @@ public class DialogActivity extends SherlockActivity {
                 }
         );
 
-        userProfile.setOnClickListener(
-                new View.OnClickListener() {
-                    @Override
-                    public void onClick(View view) {
-                        Intent intent = new Intent(getBaseContext(), ContactActivity.class);
-                        intent.putExtra("userId", userID);
-                        intent.putExtra("fullname", userName);
-                        startActivity(intent);
-                    }
-                }
-        );
         contactList.setOnRefreshListener( new PullToRefreshBase.OnRefreshListener<ListView>() {
             @Override
             public void onRefresh(PullToRefreshBase<ListView> refreshView) {
@@ -93,11 +80,29 @@ public class DialogActivity extends SherlockActivity {
     }
 
     @Override
-    protected void onStart()
-    {
+    protected void onStart() {
         super.onStart();
         getMessages();
         contactList.demo();
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(com.actionbarsherlock.view.Menu menu) {
+
+        com.actionbarsherlock.view.MenuItem menuItem = menu.add("Информация");
+        menuItem.setIcon(R.drawable.info).setShowAsAction(android.view.MenuItem.SHOW_AS_ACTION_ALWAYS);
+        menuItem.setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
+            @Override
+            public boolean onMenuItemClick(MenuItem item) {
+                Intent intent = new Intent(getBaseContext(), ContactActivity.class);
+                intent.putExtra("userId", userID);
+                intent.putExtra("fullname", userName);
+                startActivity(intent);
+                return false;
+            }
+        });
+
+        return super.onCreateOptionsMenu(menu);    //To change body of overridden methods use File | Settings | File Templates.
     }
 
     public void showMessage(String text)
