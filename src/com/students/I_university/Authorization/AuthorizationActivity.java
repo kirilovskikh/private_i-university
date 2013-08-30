@@ -9,9 +9,12 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 import com.actionbarsherlock.app.SherlockActivity;
+import com.students.I_university.Messages.MoodleRequest;
 import com.students.I_university.R;
 import com.students.I_university.MainScreen.SlidingMenu.MainActivity;
 import com.students.I_university.Tools.Utils;
+
+import java.util.concurrent.ExecutionException;
 
 /**
  * Created with IntelliJ IDEA.
@@ -30,9 +33,15 @@ public class AuthorizationActivity extends SherlockActivity {
         super.onCreate(savedInstanceState);    //To change body of overridden methods use File | Settings | File Templates.
         preferences = getSharedPreferences("Settings", MODE_PRIVATE);
         String s1 = preferences.getString("iutoken","");        //проверяем токен, использование Utils.getToken не работает
-        if ( s1.length() > 0){
-            startActivity(new Intent(getApplicationContext(), MainActivity.class));
-        }
+
+
+        //magic awaits you after this comment
+
+        //if ( s1.length() > 0){
+
+        //startActivity(new Intent(getApplicationContext(), MainActivity.class));
+
+        //}
 
         setContentView(R.layout.auth);
 
@@ -66,15 +75,20 @@ public class AuthorizationActivity extends SherlockActivity {
                         preferences = getSharedPreferences("Settings", MODE_PRIVATE);
                         SharedPreferences.Editor editor = AuthorizationActivity.preferences.edit();
                         editor.putString("iutoken",authorize.getToken());
+                        editor.putString("userID", Integer.toString(authorize.getUserID()));
                         editor.commit();
                     } catch (Exception ex){
                         Log.e("EXCEPTION", ex.toString());
                     }
+
                     startActivity(new Intent(getApplicationContext(), MainActivity.class));
+
                 }
                 else{
                     Toast.makeText(getApplicationContext(), "Имя пользователя или пароль не верны", Toast.LENGTH_LONG).show();
                 }
+
+
                 //To change body of implemented methods use File | Settings | File Templates.
             }
         });

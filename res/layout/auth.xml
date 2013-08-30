@@ -14,7 +14,9 @@
                 android:id="@+id/editText"
                 android:layout_centerHorizontal="true" android:layout_alignParentTop="true"
                 android:layout_marginTop="47dp"
-                android:hint="Введите имя пользователя"/>
+                android:hint="Введите имя пользователя" android:layout_alignParentBottom="false"
+                android:layout_alignWithParentIfMissing="false" android:layout_alignParentLeft="false"
+                android:gravity="center_horizontal"/>
         <EditText
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -22,7 +24,8 @@
                 android:layout_centerHorizontal="true" android:layout_alignParentTop="true"
                 android:layout_marginTop="101dp"
                 android:inputType="textPassword"
-                android:hint="Введите пароль"/>
+                android:hint="Введите пароль" android:gravity="center_horizontal"
+                android:layout_alignRight="@+id/editText" android:layout_alignLeft="@+id/editText"/>
         <Button
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"

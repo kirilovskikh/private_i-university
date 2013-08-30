@@ -7,6 +7,7 @@ import android.os.AsyncTask;
 import android.util.Log;
 import android.view.View;
 import android.widget.Toast;
+import com.students.I_university.Tools.Utils;
 import org.apache.http.HttpResponse;
 import org.apache.http.NameValuePair;
 import org.apache.http.client.HttpClient;
@@ -40,6 +41,7 @@ public class Authorize extends AsyncTask <Void, Void, Void> {
     private String token;
     private String user;
     private String password;
+    private int userID;
 
     private ProgressDialog progressDialog;
 
@@ -58,11 +60,11 @@ public class Authorize extends AsyncTask <Void, Void, Void> {
 
         if (!user.isEmpty())
             this.user = user;
-        else this.user = "testuser";
+        //else this.user = "testuser";
 
         if (!password.isEmpty())
             this.password = password;
-        else this.password = "Testuser1.";
+        //else this.password = "Testuser1.";
 
         if (!service.isEmpty())
             this.service = service;
@@ -103,8 +105,16 @@ public class Authorize extends AsyncTask <Void, Void, Void> {
                 result = convertStreamToString(in);
                 JSONObject jsonObject = new JSONObject(result);
                 this.token = jsonObject.getString("token");
-                if(this.token.length() > 0)
-                    this.authorized = true;
+                if(this.token.length() > 0){
+
+                    //если получили токен, получаем userID
+                    this.userID = this.RequestUserId();
+                    if (userID > 0)
+                        this.authorized = true;
+                }
+
+
+
             }
         }
         catch (Exception ex){
@@ -113,6 +123,43 @@ public class Authorize extends AsyncTask <Void, Void, Void> {
         return null;
     }
 
+    //userID получается отдельным HttpPost запросом
+    private int RequestUserId(){
+
+        int userID = 0;
+        String result = "";
+
+        try {
+            HttpClient httpClient = new DefaultHttpClient();
+            String loginPath = "/webservice/rest/server.php?";
+            HttpPost httpPost = new HttpPost( this.protocol + this.server + loginPath);
+
+            List<NameValuePair> list = new ArrayList<NameValuePair>();
+
+            list.add(new BasicNameValuePair("wstoken", this.token));
+            list.add(new BasicNameValuePair("wsfunction", "core_webservice_get_site_info"));
+            list.add(new BasicNameValuePair("moodlewsrestformat", "json"));
+            httpPost.setEntity(new UrlEncodedFormEntity(list, "UTF-8"));
+            HttpResponse httpResponse = httpClient.execute(httpPost);
+
+            if (httpResponse != null){
+                InputStream in = httpResponse.getEntity().getContent();
+
+                result = Utils.convertStreamToString(in);
+                JSONObject jsonObject = new JSONObject(result);
+                userID = Integer.parseInt(jsonObject.getString("userid"));
+            }
+        }
+        catch (Exception e){
+            e.printStackTrace();
+        }
+
+        return userID;
+    }
+
+    public int getUserID(){
+        return this.userID;
+    }
 //    @Override
 //    protected void onPostExecute(Void aVoid) {
 //        super.onPostExecute(aVoid);    //To change body of overridden methods use File | Settings | File Templates.
