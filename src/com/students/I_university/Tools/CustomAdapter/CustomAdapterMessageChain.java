@@ -1,6 +1,8 @@
 package com.students.I_university.Tools.CustomAdapter;
 
 import android.content.Context;
+import android.graphics.Bitmap;
+import android.util.LruCache;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -21,13 +23,15 @@ public class CustomAdapterMessageChain extends ArrayAdapter<Message> {
     ArrayList<Message> messages;
     int layout_left;
     int layout_right;
+    LruCache<String, Bitmap> cache;
 
-    public CustomAdapterMessageChain(Context c, int layout_left, int layout_right, ArrayList<Message> messages){
+    public CustomAdapterMessageChain(Context c, int layout_left, int layout_right, ArrayList<Message> messages, LruCache<String, Bitmap> cache){
         super(c, layout_left, messages);
         this.mContext = c;
         this.layout_left = layout_left;
         this.layout_right = layout_right;
         this.messages = messages;
+        this.cache = cache;
     }
 
     public View getView(int position, View convertView, ViewGroup parent) {
@@ -44,11 +48,11 @@ public class CustomAdapterMessageChain extends ArrayAdapter<Message> {
         TextView date = (TextView)v.findViewById(R.id.date);
         ImageView avatar = (ImageView)v.findViewById(R.id.imageView);
 
-
         username.setText(message.username);
         messageText.setText(message.messageText);
         date.setText(message.GetCreateTime());
-        if(message.bitmap != null) avatar.setImageBitmap(message.bitmap);
+
+        avatar.setImageBitmap(cache.get(message.imageURL));
 
         return v;
     }

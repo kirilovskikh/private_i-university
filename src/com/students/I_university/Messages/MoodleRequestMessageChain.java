@@ -1,7 +1,8 @@
 package com.students.I_university.Messages;
 
 import android.content.Context;
-
+import android.graphics.Bitmap;
+import android.util.LruCache;
 
 import org.json.JSONArray;
 
@@ -14,13 +15,15 @@ import java.util.ArrayList;
 public class MoodleRequestMessageChain extends MoodleRequest {
 
     private String wsfunction = "local_iuniversity_message_chain";
+    private LruCache<String, Bitmap> cache;
 
-    public MoodleRequestMessageChain(Context context, String token, String userid)
+    public MoodleRequestMessageChain(Context context, LruCache<String, Bitmap> cache, String token, String userid)
     {
         super(context);
         this.addParam("wstoken", token);
         this.addParam("wsfunction", wsfunction);
         this.addParam("userid", userid);
+        this.cache = cache;
     }
 
     @Override
@@ -70,7 +73,10 @@ public class MoodleRequestMessageChain extends MoodleRequest {
                 else throw new Exception("Incomplete data is received from the server");
 
                 parameter = jsonArray.getJSONObject(i).getString("imageURL");
-                if(!parameter.isEmpty()) newMessage.imageURL = parameter;
+                if(!parameter.isEmpty())
+                {
+                    newMessage.imageURL = parameter;
+                }
                 else throw new Exception("Incomplete data is received from the server");
 
                 parameter = jsonArray.getJSONObject(i).getString("fullmessage");
@@ -103,7 +109,7 @@ public class MoodleRequestMessageChain extends MoodleRequest {
     public String trimText(String text)
     {
         if(text.contains("-----------------------------"))
-        return text.substring(0, text.length() - 244);
+        return text.substring(0, text.length() - 245);
         else return text;
     }
 }

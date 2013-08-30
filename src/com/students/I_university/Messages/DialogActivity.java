@@ -5,11 +5,14 @@ import android.app.AlertDialog;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.util.LruCache;
+import android.graphics.Bitmap;
 import android.view.View;
 import android.widget.*;
 import com.actionbarsherlock.app.SherlockActivity;
 import com.handmark.pulltorefresh.library.PullToRefreshBase;
 import com.students.I_university.Contacts.ContactActivity;
+import com.students.I_university.Tools.AsyncTaskDownloadBitmap;
 import com.students.I_university.Tools.CustomAdapter.CustomAdapterMessageChain;
 import com.students.I_university.R;
 import com.handmark.pulltorefresh.library.PullToRefreshListView;
@@ -34,10 +37,10 @@ public class DialogActivity extends SherlockActivity {
     SharedPreferences prefs;
     MoodleRequestMessageChain moodleRequestMessageChain;
     MoodleRequestSendMessage moodleRequestSendMessage;
-    MoodleRequestImage moodleRequestImage;
     CustomAdapterMessageChain adapterMessageChain;
     PullToRefreshListView contactList;
     String userName;
+    LruCache<String, Bitmap> cache;
     int userID;
 
     @Override
@@ -55,10 +58,10 @@ public class DialogActivity extends SherlockActivity {
         this.userProfile = (Button)findViewById(R.id.userProfile);
         this.alert = new AlertDialog.Builder(this);
         this.prefs = getSharedPreferences("Settings", MODE_PRIVATE);
-        //this.contactList = (ListView)findViewById(R.id.messageList);
         this.contactList = (PullToRefreshListView)findViewById(R.id.pullToRefresh);
         this.userID = getIntent().getExtras().getInt("userId");
         this.userName = getIntent().getExtras().getString("userName");
+        this.cache = new LruCache<String, Bitmap>(3);
 
         getSupportActionBar().setTitle(this.userName);
         sendMessageButton.setOnClickListener(
@@ -108,7 +111,7 @@ public class DialogActivity extends SherlockActivity {
 
     public void getMessages()
     {
-        moodleRequestMessageChain = new MoodleRequestMessageChain(this, prefs.getString("iutoken", ""), String.valueOf(userID));
+        moodleRequestMessageChain = new MoodleRequestMessageChain(this, cache, prefs.getString("iutoken", ""), String.valueOf(userID));
         moodleRequestMessageChain.setMoodleCallback( new MoodleCallback() {
             @Override
             public void callBackRun() {
@@ -124,11 +127,12 @@ public class DialogActivity extends SherlockActivity {
                                     context,
                                     R.layout.message_chain_left,
                                     R.layout.message_chain_right,
-                                    messages
+                                    messages,
+                                    cache
                             );
 
                             contactList.getRefreshableView().setAdapter(adapterMessageChain);
-                            contactList.getRefreshableView().setSelection(adapterMessageChain.getCount() - 1);
+                            //contactList.getRefreshableView().setSelection(adapterMessageChain.getCount() - 1);
 
                             getBitmaps();
 
@@ -175,43 +179,37 @@ public class DialogActivity extends SherlockActivity {
     }
     public void getBitmaps()
     {
-        String ownImageURL;
-        String userImageURL;
-        moodleRequestImage = new MoodleRequestImage();
-        moodleRequestImage.setMoodleCallback(
-                new MoodleCallback() {
-                    @Override
-                    public void callBackRun() {
-                        for(int i = 0; i < messages.size(); i++)
-                        {
-                            if(messages.get(i).own && moodleRequestImage.ownImage != null)
-                            {
-                                messages.get(i).bitmap = moodleRequestImage.ownImage;
-                            }
-                            if(!messages.get(i).own && moodleRequestImage.userImage != null)
-                            {
-                                messages.get(i).bitmap = moodleRequestImage.userImage;
-                            }
-//                            adapterMessageChain.clear();
-//                            adapterMessageChain.addAll(messages);
-                            adapterMessageChain.notifyDataSetChanged();
-                        }
-                    }
-                }
-        );
+        AsyncTaskDownloadBitmap downloadBitmap;
+        AsyncTaskDownloadBitmap downloadBitmap2;
+        String ownImage = "";
+        String userImage = "";
 
-        int i = 0;
-        while(!messages.get(i).own && i < messages.size()) i++;
-        if(i < messages.size())
+        for(int i = 0; i < messages.size(); i++)
         {
-            ownImageURL = messages.get(i).imageURL;
-            //fullName = messages.get(i).username;
+            if(messages.get(i).own && ownImage.length() == 0) ownImage = messages.get(i).imageURL;
         }
 
-        int j = 0;
-        while(j < messages.size() && messages.get(j).own) j++;
-        if(j < messages.size()) userImageURL = messages.get(j).imageURL;
-        //messages.
-        //moodleRequestImage.execute(ownImageURL, userImageURL);
+        downloadBitmap = new AsyncTaskDownloadBitmap(cache);
+        downloadBitmap.setCallBack( new MoodleCallback() {
+            @Override
+            public void callBackRun() {
+                adapterMessageChain.notifyDataSetChanged();
+            }
+        });
+        downloadBitmap.execute(ownImage);
+
+        for(int i = 0; i < messages.size(); i++)
+        {
+            if(!messages.get(i).own && userImage.length() == 0) userImage = messages.get(i).imageURL;
+        }
+
+        downloadBitmap2 = new AsyncTaskDownloadBitmap(cache);
+        downloadBitmap2.setCallBack( new MoodleCallback() {
+            @Override
+            public void callBackRun() {
+                adapterMessageChain.notifyDataSetChanged();
+            }
+        });
+        downloadBitmap2.execute(userImage);
     }
 }

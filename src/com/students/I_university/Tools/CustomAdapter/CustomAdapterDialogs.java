@@ -2,7 +2,6 @@ package com.students.I_university.Tools.CustomAdapter;
 
 
 import android.content.Context;
-import android.graphics.drawable.Drawable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -47,29 +46,12 @@ public class CustomAdapterDialogs extends ArrayAdapter<ListMessage> {
          TextView date = (TextView)v.findViewById(R.id.date);
          ListMessage message = messages.get(position);
         ImageView avatar = (ImageView)v.findViewById(R.id.imageView);
-        //Drawable d = null;
         name.setText(message.username);
         sms.setText(message.sms);
-
-
-/*
-        try {
-            URL url = new URL(messages.imageURL);
-            InputStream content = (InputStream)url.getContent();
-            d = Drawable.createFromStream(content, "src");
-            avatar.setImageDrawable(d);
-
-        } catch (MalformedURLException e) {
-            e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
-        } catch (IOException e) {
-            e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
-        }
-*/
 
         date.setText(message.GetCreateTime());
         downloadImage = new AsyncTaskDownloadImage(avatar);
         downloadImage.execute(message.imageURL);
-   //     avatar.setImageDrawable(d);
         return v;
 
     }
