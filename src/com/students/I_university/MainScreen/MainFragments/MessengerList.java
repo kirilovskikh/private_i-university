@@ -70,7 +70,8 @@ public class MessengerList extends SherlockFragment {
            }
            else Toast.makeText(
                    getActivity().getApplicationContext(),
-                   listMassager.getErrorMessage(),
+                   /*listMassager.getErrorMessage(),*/
+                   "Данные о контактах не получены",
                    Toast.LENGTH_LONG
            ).show();
 
