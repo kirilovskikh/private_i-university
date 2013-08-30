@@ -42,6 +42,6 @@
                 android:id="@+id/imageButton"
                 android:layout_gravity="right"
                 android:src="@android:drawable/ic_menu_call"
-                style="@android:style/Widget.ActionButton"/>
+                style="@android:style/Widget.ActionButton" android:background="@android:color/transparent"/>
     </LinearLayout>
 </LinearLayout>
