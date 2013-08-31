@@ -3,14 +3,8 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android" >
 
     <item
-            android:id="@+id/action_refresh"
+            android:id="@+id/grades"
             android:orderInCategory="100"
             android:showAsAction="always"
-            android:icon="@drawable/number"
-            android:title="Refresh"/>
-    <!--<item
-            android:id="@+id/action_settings"
-            android:title="Settings">
-    </item>-->
-
+            android:title="Оценки"/>
 </menu>
