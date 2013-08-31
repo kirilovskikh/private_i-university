@@ -90,7 +90,7 @@ public class DialogActivity extends SherlockActivity {
     public boolean onCreateOptionsMenu(com.actionbarsherlock.view.Menu menu) {
 
         com.actionbarsherlock.view.MenuItem menuItem = menu.add("Информация");
-        menuItem.setIcon(R.drawable.info).setShowAsAction(android.view.MenuItem.SHOW_AS_ACTION_ALWAYS);
+        menuItem.setIcon(android.R.drawable.ic_dialog_info).setShowAsAction(android.view.MenuItem.SHOW_AS_ACTION_ALWAYS);
         menuItem.setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
             @Override
             public boolean onMenuItemClick(MenuItem item) {
@@ -101,12 +101,20 @@ public class DialogActivity extends SherlockActivity {
                 return false;
             }
         });
-
         return super.onCreateOptionsMenu(menu);    //To change body of overridden methods use File | Settings | File Templates.
     }
 
-    public void showMessage(String text)
-    {
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case android.R.id.home:
+                finish();
+                break;
+        }
+        return super.onOptionsItemSelected(item);
+    }
+
+    public void showMessage(String text) {
         AlertDialog dialog;
         alert.setTitle("Attention!");
         if(!text.isEmpty()) alert.setMessage(text);
@@ -114,8 +122,7 @@ public class DialogActivity extends SherlockActivity {
         dialog.show();
     }
 
-    public void getMessages()
-    {
+    public void getMessages() {
         moodleRequestMessageChain = new MoodleRequestMessageChain(this, cache, prefs.getString("iutoken", ""), String.valueOf(userID));
         moodleRequestMessageChain.setMoodleCallback( new MoodleCallback() {
             @Override
@@ -160,8 +167,8 @@ public class DialogActivity extends SherlockActivity {
             showMessage(moodleRequestMessageChain.getErrorMessage());
         }
     }
-    public void sendMessage()
-    {
+
+    public void sendMessage() {
         if(messageTextInput.getText().length() == 0)
         {
             Toast.makeText(context, "Нельзя отправлять пустую строку. ;)", Toast.LENGTH_SHORT).show();
@@ -182,8 +189,8 @@ public class DialogActivity extends SherlockActivity {
         moodleRequestSendMessage.setMessageText(messageTextInput.getText().toString());
         moodleRequestSendMessage.execute();
     }
-    public void getBitmaps()
-    {
+
+    public void getBitmaps() {
         AsyncTaskDownloadBitmap downloadBitmap;
         AsyncTaskDownloadBitmap downloadBitmap2;
         String ownImage = "";

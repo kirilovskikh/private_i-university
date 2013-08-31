@@ -38,7 +38,7 @@ public class AllMarksList extends SherlockFragment implements CallBackMarks {
 
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
-        getSherlockActivity().getActionBar().setTitle(" Оценки");
+        getSherlockActivity().getSupportActionBar().setTitle(" Оценки");
         c = this;
         GetCourses getCourses = new GetCourses(getSherlockActivity(), false, null);
         getCourses.returnMarks = this;
