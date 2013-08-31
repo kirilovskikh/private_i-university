@@ -12,7 +12,10 @@ import com.students.I_university.Courses.AsyncTaskGetCourses;
 import com.students.I_university.Courses.CourseActivity;
 import com.students.I_university.Courses.CourseClass;
 import com.students.I_university.Courses.IReturnResult;
+import com.students.I_university.MainScreen.SlidingMenu.MainActivity;
 import com.students.I_university.R;
+import com.students.I_university.Tools.TypeFragment;
+import com.students.I_university.Tools.Utils;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -41,6 +44,14 @@ public class CoursesList extends SherlockFragment implements IReturnResult<Cours
 
     public void returnResult(List<CourseClass> courses)
     {
+        if (courses == null) {
+            ErrorFragment fragment = new ErrorFragment();
+            fragment.setTypeFragment(TypeFragment.CourseFragment);
+
+            Utils.changeFragment((MainActivity)getActivity(), this, fragment);
+            return;
+        }
+
         //Сохраняем переданные данные у себя, чтобы иметь к ним доступ в функции onItemClick
         COURSES = courses;
         //В массив строк записываем названия курсов

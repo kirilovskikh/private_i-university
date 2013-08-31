@@ -75,11 +75,6 @@ public class Utils {
 
     /* -=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=- */
 
-//    private static void switchContent(Fragment fragment){
-//        MainActivity ma = (MainActivity)fragment.getActivity();
-//        ma.switchContent(fragment);
-//    }
-
     public static void changeFragment (MainActivity mainActivity, Fragment oldFragment, Fragment newFragment) {
         if (mainActivity != null)
             mainActivity.switchContent(newFragment);
