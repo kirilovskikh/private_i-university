@@ -21,26 +21,26 @@
                     android:src="@drawable/face_icon"/>
         </LinearLayout>
         <LinearLayout
-                android:orientation="vertical"
+                android:orientation="horizontal"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content" android:layout_weight="0.7" android:paddingLeft="4dp">
-            <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Студент"
-                    android:id="@+id/textView" android:paddingBottom="8dp"
-                    android:textAppearance="@android:style/TextAppearance.Large"/>
-            <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="БИ - 103"
-                    android:id="@+id/textView1" android:paddingBottom="8dp"
-                    android:textAppearance="@android:style/TextAppearance.Large"/>
+                android:layout_height="fill_parent" android:layout_weight="0.7" android:paddingLeft="4dp">
+            <!--<TextView-->
+                    <!--android:layout_width="wrap_content"-->
+                    <!--android:layout_height="wrap_content"-->
+                    <!--android:text="Студент"-->
+                    <!--android:id="@+id/textView" android:paddingBottom="8dp"-->
+                    <!--android:textAppearance="@android:style/TextAppearance.Large"/>-->
+            <!--<TextView-->
+                    <!--android:layout_width="wrap_content"-->
+                    <!--android:layout_height="wrap_content"-->
+                    <!--android:text="БИ - 103"-->
+                    <!--android:id="@+id/textView1" android:paddingBottom="8dp"-->
+                    <!--android:textAppearance="@android:style/TextAppearance.Large"/>-->
             <Button
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="Перейти в диалог"
-                    android:id="@+id/openDialog"/>
+                    android:id="@+id/openDialog" android:layout_gravity="center_horizontal|bottom"/>
         </LinearLayout>
     </LinearLayout>
     <LinearLayout
