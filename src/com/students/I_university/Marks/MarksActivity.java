@@ -7,6 +7,7 @@ import com.actionbarsherlock.app.SherlockActivity;
 import com.actionbarsherlock.view.MenuItem;
 import com.students.I_university.Tools.CustomAdapter.CustomAdapterMarks;
 import com.students.I_university.R;
+import com.students.I_university.Tools.Utils;
 
 import java.util.HashMap;
 
@@ -35,7 +36,7 @@ public class MarksActivity extends SherlockActivity implements CallBackMarks {
         curCourse.returnMarks = this;
         curCourse.execute();
 
-        if (!curCourse.error) {
+        if (!curCourse.error || !Utils.isOnline(c)) {
             setContentView(R.layout.empty_listview);
             ImageButton imageButton = (ImageButton) findViewById(R.id.refreshButton);
             imageButton.setOnClickListener(new View.OnClickListener() {
@@ -54,7 +55,7 @@ public class MarksActivity extends SherlockActivity implements CallBackMarks {
 
 
             getActionBar().setDisplayHomeAsUpEnabled(true);
-            getActionBar().setTitle(getIntent().getExtras().getString("name"));
+            getActionBar().setTitle(" "+getIntent().getExtras().getString("name"));
 
             lvMain = (ListView) findViewById(R.id.listView);
 
@@ -63,10 +64,10 @@ public class MarksActivity extends SherlockActivity implements CallBackMarks {
                 public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                     Toast.makeText(getApplicationContext(), "The Force is strong with you, young Padawan...", Toast.LENGTH_LONG).show();
                     //в будущем можно сделать по нажатию
-                    //                переход в соответствующую тему
-                    //                Intent intent = new Intent(getApplicationContext(), TopicActivity.class);
-                    //                intent.putExtra("id", map.get(position).getAssign());
-                    //                startActivity(intent);
+                    //переход в соответствующую тему
+//                    Intent intent = new Intent(getApplicationContext(), TopicActivity.class);
+//                    intent.putExtra("id", map.get(position).getAssign());
+//                    startActivity(intent);
                     //To change body of implemented methods use File | Settings | File Templates.
                 }
             });

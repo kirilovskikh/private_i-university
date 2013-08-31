@@ -38,15 +38,15 @@ public class AllMarksList extends SherlockFragment implements CallBackMarks {
 
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
-        View view;
+        getSherlockActivity().getActionBar().setTitle(" Оценки");
         c = this;
         GetCourses getCourses = new GetCourses(getSherlockActivity(), false, null);
         getCourses.returnMarks = this;
         getCourses.execute();
 
-        if (!getCourses.error) {
+        if (!getCourses.error || !Utils.isOnline(getSherlockActivity())) {
 
-            view = inflater.inflate(R.layout.empty_listview, null);
+            View view = inflater.inflate(R.layout.empty_listview, null);
             ImageButton imageButton = (ImageButton) view.findViewById(R.id.refreshButton);
             imageButton.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -57,10 +57,11 @@ public class AllMarksList extends SherlockFragment implements CallBackMarks {
                     //To change body of implemented methods use File | Settings | File Templates.
                 }
             });
+            return view;
 
         }
         else{
-            view = inflater.inflate(R.layout.main_marks, null);
+            View view = inflater.inflate(R.layout.main_marks, null);
 
             lvMain = (ListView) view.findViewById(R.id.lvMain);
             lvMain.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -73,9 +74,9 @@ public class AllMarksList extends SherlockFragment implements CallBackMarks {
                     //To change body of implemented methods use File | Settings | File Templates.
                 }
             });
-        }
-        return view;
 
+            return view;
+        }
     }
 
     @Override
