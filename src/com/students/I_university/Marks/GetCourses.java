@@ -29,10 +29,10 @@ import java.util.List;
  */
 public class GetCourses extends AsyncTask <Void, Void, Void> {
 
-    String str;
-    ProgressDialog progressDialog;
-    String course;
-    Boolean module;
+    protected ProgressDialog progressDialog;
+    protected String course;
+    protected Boolean module;
+    public static Boolean error;
     public ArrayList<String> courses = new ArrayList<String>();
     private HashMap<Integer, MarkDetails> map = new HashMap<Integer, MarkDetails>();
 
@@ -48,6 +48,7 @@ public class GetCourses extends AsyncTask <Void, Void, Void> {
 
     @Override
     protected void onPreExecute() {
+        error = true;
         progressDialog = new ProgressDialog(mContext);
         progressDialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
         progressDialog.setMessage("Загрузка ...");
@@ -75,17 +76,19 @@ public class GetCourses extends AsyncTask <Void, Void, Void> {
 
             if (httpResponse != null) {
                 InputStream in = httpResponse.getEntity().getContent();
-                str = Utils.convertStreamToString(in);
+                String str = Utils.convertStreamToString(in);
                 JSONArray jsonArray = new JSONArray(str);
                 //если всё хорошо и курсы вернулись,
                 //то получаем оценки
                 if (getDataFromJSON(jsonArray))
                     map = DownloadMarksHelper.DownloadHelperAssign(mContext, courses, module);
-            }
+            } //if response...
+            else error = false;
 
         }
         catch (Exception e) {
             e.printStackTrace(System.out);
+            error = true;
         }
 
         return null;  //To change body of implemented methods use File | Settings | File Templates.
@@ -113,11 +116,12 @@ public class GetCourses extends AsyncTask <Void, Void, Void> {
                     courses.add(Integer.toString(jsonArray.getJSONObject(i).getInt("id")));
                 ++i;
             }   //while...
-            return true;
+            return error;
         }
         catch (JSONException jsonE){
             jsonE.printStackTrace(System.out);
-            return false;
+            error = false;
+            return error;
         }
         catch (Exception e){
             e.printStackTrace(System.out);

@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<RelativeLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:paddingLeft="16dp"
+        android:paddingRight="16dp">
+    <ImageButton
+            android:layout_width="48dp"
+            android:layout_height="48dp"
+            android:id="@+id/refreshButton"
+            android:adjustViewBounds="false"
+            android:layout_centerHorizontal="true" android:layout_alignParentTop="true"
+            android:layout_marginTop="35dp" android:src="@android:drawable/stat_notify_sync"
+            android:padding="8dp"/>
+    <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Не удалось загрузить информацию. Нажмите, чтобы повторить."
+            android:id="@+id/textView"
+            android:textSize="18sp"
+            android:layout_centerHorizontal="true" android:layout_below="@+id/refreshButton"
+            android:padding="4dp"/>
+</RelativeLayout>

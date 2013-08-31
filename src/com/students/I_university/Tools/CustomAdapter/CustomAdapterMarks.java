@@ -23,6 +23,7 @@ public class CustomAdapterMarks extends ArrayAdapter<String> {
     int layout;
     int layoutSubj;
     int layoutMarks;
+//    Boolean noMarks;
 
     public CustomAdapterMarks(int layout, int Lsubj, int Lmark, String[] course, String[] mark, Context c){
         super(c, layout, course);
@@ -31,6 +32,7 @@ public class CustomAdapterMarks extends ArrayAdapter<String> {
         this.layoutMarks = Lmark;
         this.course = course;
         this.mark = mark;
+//        check(course, mark);
         this.mContext = c;
     }
 
@@ -67,4 +69,15 @@ public class CustomAdapterMarks extends ArrayAdapter<String> {
                 this.course = course;
         }
     }
+
+//    private void check (String[] subjs, String[] marks){
+//        if (noMarks){
+//            this.course = subjs;
+//            this.mark = marks;
+//        }
+//        else {
+//            this.course = new String[] {"Нет оценок"};
+//            this.mark = new String[] {" "};
+//        }
+//    }
 }

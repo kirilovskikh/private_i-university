@@ -6,6 +6,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
+import android.widget.ImageButton;
 import android.widget.ListView;
 import com.actionbarsherlock.app.SherlockFragment;
 import com.students.I_university.Tools.CustomAdapter.CustomAdapterMarks;
@@ -29,37 +30,66 @@ public class AllMarksList extends SherlockFragment implements CallBackMarks {
     ListView lvMain;
     CustomAdapterMarks customAdapterMarks;
     private HashMap<Integer, MarkDetails> map;
+    AllMarksList c;
 
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.main_marks, null);
 
-        lvMain = (ListView) view.findViewById(R.id.lvMain);
-        lvMain.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                Intent intent = new Intent(getSherlockActivity(), MarksActivity.class);
-                intent.putExtra("name", map.get(position).getCourseName());
-                intent.putExtra("courseID", map.get(position).getId());
-                startActivity(intent);
-                //To change body of implemented methods use File | Settings | File Templates.
-            }
-        });
-
+        View view;
+        c = this;
         GetCourses getCourses = new GetCourses(getSherlockActivity(), false, null);
         getCourses.returnMarks = this;
         getCourses.execute();
 
+        if (!getCourses.error) {
+
+            view = inflater.inflate(R.layout.empty_listview, null);
+            ImageButton imageButton = (ImageButton) view.findViewById(R.id.refreshButton);
+            imageButton.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    GetCourses getCourses = new GetCourses(getSherlockActivity(), true, null);
+                    getCourses.returnMarks = c;
+                    getCourses.execute();
+                    //To change body of implemented methods use File | Settings | File Templates.
+                }
+            });
+
+        }
+        else{
+            view = inflater.inflate(R.layout.main_marks, null);
+
+            lvMain = (ListView) view.findViewById(R.id.lvMain);
+            lvMain.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                @Override
+                public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                    Intent intent = new Intent(getSherlockActivity(), MarksActivity.class);
+                    intent.putExtra("name", map.get(position).getCourseName());
+                    intent.putExtra("courseID", map.get(position).getId());
+                    startActivity(intent);
+                    //To change body of implemented methods use File | Settings | File Templates.
+                }
+            });
+        }
         return view;
+
     }
 
     @Override
     public void returnMarks(HashMap<Integer, MarkDetails> map) {
         this.map = map;
-        String[] subjs = getFromMap(map, false);
-        String[] marks = getFromMap(map, true);
+        if (map.size()==0) {
+            String[] subjs = new String[] {"Нет оценок"};
+            String[] marks = new String[] {" "};
+            customAdapterMarks = new CustomAdapterMarks(R.layout.main_marks_listview_item, R.id.subject, R.id.mark,
+                    subjs, marks, getSherlockActivity());
+        }
+        else{
+            String[] subjs = getFromMap(map, false);
+            String[] marks = getFromMap(map, true);
+            customAdapterMarks = new CustomAdapterMarks(R.layout.main_marks_listview_item, R.id.subject, R.id.mark,
+                    subjs, marks, getSherlockActivity());
+        }
 
-        customAdapterMarks = new CustomAdapterMarks(R.layout.main_marks_listview_item, R.id.subject, R.id.mark,
-                subjs, marks, getSherlockActivity());
         lvMain.setAdapter(customAdapterMarks);
     }
 

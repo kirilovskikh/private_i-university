@@ -82,16 +82,19 @@ public class DownloadMarksHelper {
                 else
                     mark = Float.toString(res / i);
                 return mark;
-            }
+            } //if response...
+            else GetCourses.error = false;
 
         } catch (IOException e) {
             e.printStackTrace();
             //To change body of catch statement use File | Settings | File Templates.
         } catch (JSONException e) {
+            GetCourses.error = true;
             e.printStackTrace();
             //To change body of catch statement use File | Settings | File Templates.
         }
 
+        GetCourses.error = false;
         return mark;
     }
 
@@ -145,16 +148,19 @@ public class DownloadMarksHelper {
                     ++i;
                 } //while course...
                 return hashMap;
-            }
+            } //if response...
+            else GetCourses.error = false;
 
         } catch (IOException e) {
             e.printStackTrace();
             //To change body of catch statement use File | Settings | File Templates.
         } catch (JSONException e) {
             e.printStackTrace();
+            GetCourses.error = true;
             //To change body of catch statement use File | Settings | File Templates.
         }
 
+        GetCourses.error = false;
         return hashMap;
     }
 
