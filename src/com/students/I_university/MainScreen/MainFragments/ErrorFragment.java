@@ -11,7 +11,7 @@ import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 import com.actionbarsherlock.app.SherlockFragment;
-import com.example.actionbarsherlock.MyActivity;
+//import com.example.actionbarsherlock.MyActivity;
 import com.students.I_university.MainScreen.SlidingMenu.MainActivity;
 import com.students.I_university.R;
 import com.students.I_university.Tools.LogD;

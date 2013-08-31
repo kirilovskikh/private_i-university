@@ -9,8 +9,12 @@ import android.widget.*;
 import com.actionbarsherlock.app.SherlockActivity;
 import com.actionbarsherlock.view.MenuItem;
 import com.actionbarsherlock.view.MenuInflater;
+import com.students.I_university.MainScreen.MainFragments.ErrorFragment;
+import com.students.I_university.MainScreen.SlidingMenu.MainActivity;
 import com.students.I_university.Marks.MarksActivity;
 import com.students.I_university.R;
+import com.students.I_university.Tools.TypeFragment;
+import com.students.I_university.Tools.Utils;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -83,6 +87,12 @@ public class CourseActivity extends SherlockActivity implements IReturnResult<To
 
     @Override
     public void returnResult(List<TopicClass> topics) {
+
+        if (topics == null) {
+            Toast.makeText(mContext, "Проблемы с сетью", Toast.LENGTH_SHORT).show();
+            return;
+        }
+
         TOPICS = topics;
 
         ListView listView = (ListView)findViewById(R.id.listView);
