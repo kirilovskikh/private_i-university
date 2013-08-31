@@ -12,6 +12,6 @@ public class TypeFragment {
     public static int CourseFragment = 0;
     public static int ContactsFragment = 1;
     public static int MessageFragment = 2;
-    public static int AllMerksFragment = 3;
+    public static int AllMarksFragment = 3;
 
 }

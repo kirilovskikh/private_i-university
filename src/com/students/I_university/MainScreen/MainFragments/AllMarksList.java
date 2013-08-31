@@ -9,12 +9,15 @@ import android.widget.AdapterView;
 import android.widget.ImageButton;
 import android.widget.ListView;
 import com.actionbarsherlock.app.SherlockFragment;
+import com.students.I_university.MainScreen.SlidingMenu.MainActivity;
 import com.students.I_university.Tools.CustomAdapter.CustomAdapterMarks;
 import com.students.I_university.Marks.MarkDetails;
 import com.students.I_university.Marks.CallBackMarks;
 import com.students.I_university.Marks.GetCourses;
 import com.students.I_university.Marks.MarksActivity;
 import com.students.I_university.R;
+import com.students.I_university.Tools.TypeFragment;
+import com.students.I_university.Tools.Utils;
 
 import java.util.HashMap;
 
@@ -30,7 +33,8 @@ public class AllMarksList extends SherlockFragment implements CallBackMarks {
     ListView lvMain;
     CustomAdapterMarks customAdapterMarks;
     private HashMap<Integer, MarkDetails> map;
-    AllMarksList c;
+    private AllMarksList c;
+    private MainActivity activity;
 
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
@@ -76,6 +80,14 @@ public class AllMarksList extends SherlockFragment implements CallBackMarks {
 
     @Override
     public void returnMarks(HashMap<Integer, MarkDetails> map) {
+        if (map == null) {
+            ErrorFragment fragment = new ErrorFragment();
+            fragment.setTypeFragment(TypeFragment.AllMarksFragment);
+
+            Utils.changeFragment(activity, this, fragment);
+            return;
+        }
+
         this.map = map;
         if (map.size()==0) {
             String[] subjs = new String[] {"Нет оценок"};
