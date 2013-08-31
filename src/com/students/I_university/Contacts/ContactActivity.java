@@ -138,8 +138,10 @@ public class ContactActivity extends SherlockActivity implements CallReturnDownl
 
     @Override
     public void returnResult(HashMap<Integer, ContactInfo> map) {
-        if (map == null)
+        if (map == null) {
+            Toast.makeText(mContext, "Ошибка при загрузке", Toast.LENGTH_SHORT).show();
             return;
+        }
 
         this.map = map;
         ContactInfo contactInfo = map.get(0);
