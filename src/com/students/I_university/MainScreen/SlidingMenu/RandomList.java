@@ -12,8 +12,6 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import com.actionbarsherlock.app.SherlockListFragment;
-import com.students.I_university.Authorization.AuthorizationActivity;
-import com.students.I_university.Authorization.Authorize;
 import com.students.I_university.MainScreen.MainFragments.*;
 import com.students.I_university.R;
 
@@ -62,10 +60,6 @@ public class RandomList extends SherlockListFragment{
             case 4:
                 Intent intent = new Intent(getSherlockActivity(), PreferenceActivity.class);
                 startActivity(intent);
-                break;
-
-            default:
-                newFragment = new other();
                 break;
         }
 

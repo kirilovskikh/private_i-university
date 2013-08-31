@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<RelativeLayout
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent" xmlns:android="http://schemas.android.com/apk/res/android">
+    <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Проблемы с сетью"
+            android:id="@+id/textView"
+            android:layout_centerHorizontal="true" android:layout_above="@+id/button"
+            android:textAppearance="@android:style/TextAppearance.Large" android:paddingBottom="8dp"/>
+    <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Повторить"
+            android:id="@+id/button"
+            android:layout_centerHorizontal="true" android:layout_centerVertical="true"/>
+</RelativeLayout>

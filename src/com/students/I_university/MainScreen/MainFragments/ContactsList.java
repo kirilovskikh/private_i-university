@@ -2,6 +2,9 @@ package com.students.I_university.MainScreen.MainFragments;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,10 +15,13 @@ import com.students.I_university.Contacts.AsyncTaskGetContacts;
 import com.students.I_university.Contacts.CallReturnDownload;
 
 import com.students.I_university.Contacts.ContactActivity;
-import com.students.I_university.Tools.CustomAdapter.CustomAdapterContactsListView;
 
 import com.students.I_university.Contacts.ContactInfo;
+import com.students.I_university.MainScreen.SlidingMenu.MainActivity;
 import com.students.I_university.R;
+import com.students.I_university.Tools.CustomAdapter.CustomAdapterContactsListView;
+import com.students.I_university.Tools.TypeFragment;
+import com.students.I_university.Tools.Utils;
 
 import java.util.HashMap;
 
@@ -31,11 +37,13 @@ public class ContactsList extends SherlockFragment implements CallReturnDownload
 
     private ListView listView;
     private HashMap<Integer, ContactInfo> map;
+    private MainActivity activity;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.listview_layout, null);
 
+        activity = (MainActivity)getActivity();
         listView = (ListView) view.findViewById(R.id.listView);
 
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -63,12 +71,22 @@ public class ContactsList extends SherlockFragment implements CallReturnDownload
 
     @Override
     public void returnResult(HashMap<Integer, ContactInfo> map) {
+        if (map == null) {
+            ErrorFragment fragment = new ErrorFragment();
+            fragment.setTypeFragment(TypeFragment.ContactsFragment);
+
+            Utils.changeFragment(activity, this, fragment);
+            return;
+        }
+
         this.map = map;
         String[] name = getNameFromMap(map);
 
         CustomAdapterContactsListView arrayAdapter = new CustomAdapterContactsListView(getSherlockActivity(), name, map);
         listView.setAdapter(arrayAdapter);
+
     }
+
 
     private String[] getNameFromMap(HashMap<Integer, ContactInfo> map) {
         String[] name = new String[map.size()];

@@ -3,7 +3,14 @@ package com.students.I_university.Tools;
 import android.content.Context;
 import android.content.SharedPreferences;
 
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
 import com.students.I_university.Authorization.AuthorizationActivity;
+import com.students.I_university.MainScreen.SlidingMenu.MainActivity;
+import com.students.I_university.R;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -40,6 +47,8 @@ public class Utils {
         return sb.toString();
     }
 
+    /* -=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=- */
+
     public static String getToken (Context context) {
         if (AuthorizationActivity.preferences != null)
             return AuthorizationActivity.preferences.getString("iutoken", null);
@@ -47,6 +56,8 @@ public class Utils {
         SharedPreferences preferences = context.getSharedPreferences("Settings", context.MODE_PRIVATE);
         return preferences.getString("iutoken", "");
     }
+
+    /* -=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=- */
 
     public static String getUserID (Context context) {
         if (AuthorizationActivity.preferences != null)
@@ -56,8 +67,40 @@ public class Utils {
         return preferences.getString("userID", "");
     }
 
+    /* -=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=- */
+
     public static String getUrlFunction () {
         return "http://university.shiva.vps-private.net/webservice/rest/server.php?";
+    }
+
+    /* -=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=- */
+
+//    private static void switchContent(Fragment fragment){
+//        MainActivity ma = (MainActivity)fragment.getActivity();
+//        ma.switchContent(fragment);
+//    }
+
+    public static void changeFragment (MainActivity mainActivity, Fragment oldFragment, Fragment newFragment) {
+        if (mainActivity != null)
+            mainActivity.switchContent(newFragment);
+
+        FragmentManager fragmentManager = oldFragment.getFragmentManager();
+        FragmentTransaction transaction = fragmentManager.beginTransaction();
+
+        transaction.replace(R.id.content_frame, newFragment);
+        transaction.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE);
+        transaction.commit();
+    }
+
+    /* -=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=- */
+
+    public static boolean isOnline(Context mContext) {
+        ConnectivityManager cm = (ConnectivityManager) mContext.getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo netInfo = cm.getActiveNetworkInfo();
+        if (netInfo != null && netInfo.isConnectedOrConnecting()) {
+            return true;
+        }
+        return false;
     }
 
 }

@@ -29,7 +29,7 @@ import java.util.List;
  * Time: 15:47
  * To change this template use File | Settings | File Templates.
  */
-public class AsyncTaskGetContacts extends AsyncTask <Void, Void, Void> {
+public class AsyncTaskGetContacts extends AsyncTask <Void, Void, HashMap<Integer, ContactInfo>> {
 
     private Context mContext;
     private ProgressDialog progressDialog;
@@ -55,7 +55,10 @@ public class AsyncTaskGetContacts extends AsyncTask <Void, Void, Void> {
     }
 
     @Override
-    protected Void doInBackground(Void... voids) {
+    protected HashMap<Integer, ContactInfo> doInBackground(Void... voids) {
+
+        if (!Utils.isOnline(mContext))
+            return null;
 
         String token = Utils.getToken(mContext);
         String url = Utils.getUrlFunction();
@@ -75,6 +78,7 @@ public class AsyncTaskGetContacts extends AsyncTask <Void, Void, Void> {
                 InputStream in = httpResponse.getEntity().getContent();
                 String str = Utils.convertStreamToString(in);
                 errorFlag = parseJson(new JSONObject(str));
+                return map;
             }
 
         } catch (IOException e) {
@@ -87,11 +91,11 @@ public class AsyncTaskGetContacts extends AsyncTask <Void, Void, Void> {
     }
 
     @Override
-    protected void onPostExecute(Void aVoid) {
-        super.onPostExecute(aVoid);    //To change body of overridden methods use File | Settings | File Templates.
+    protected void onPostExecute(HashMap<Integer, ContactInfo> mMap) {
+        super.onPostExecute(mMap);    //To change body of overridden methods use File | Settings | File Templates.
         progressDialog.dismiss();
 
-        returnDownload.returnResult(map);
+        returnDownload.returnResult(mMap);
     }
 
     /* -=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=- */
