@@ -4,6 +4,7 @@ import android.app.ProgressDialog;
 import android.content.Context;
 import android.os.AsyncTask;
 import android.widget.Toast;
+import com.students.I_university.Tools.Utils;
 import org.apache.http.HttpResponse;
 import org.apache.http.NameValuePair;
 import org.apache.http.client.HttpClient;
@@ -45,9 +46,12 @@ public class AsyncTaskGetCourses extends AsyncTask<Void, Void, Void>
 
     @Override
     protected Void doInBackground(Void... voids) {
-        String url = "http://university.shiva.vps-private.net/webservice/rest/server.php?";
-        String token = "41cbec83166cba95867cb195335c6e5c";
-        int userid = 5;
+        //String url = "http://university.shiva.vps-private.net/webservice/rest/server.php?";
+        String url = Utils.getUrlFunction();
+        //String token = "41cbec83166cba95867cb195335c6e5c";
+        String token = Utils.getToken(mContext);
+        //int userid = 5;
+        String userid = Utils.getUserID(mContext);
         try {
             //Организуем соединение
             HttpClient httpClient = new DefaultHttpClient();
@@ -57,7 +61,7 @@ public class AsyncTaskGetCourses extends AsyncTask<Void, Void, Void>
             List<NameValuePair> list = new ArrayList<NameValuePair>();
             list.add(new BasicNameValuePair("wstoken", token));
             list.add(new BasicNameValuePair("wsfunction", "moodle_enrol_get_users_courses"));
-            list.add(new BasicNameValuePair("userid", Integer.toString(userid)));
+            list.add(new BasicNameValuePair("userid", userid));
             list.add(new BasicNameValuePair("moodlewsrestformat", "json"));
 
             //Отправляем запрос, получаем ответ
