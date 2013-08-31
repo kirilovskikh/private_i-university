@@ -114,7 +114,7 @@ public class ContactActivity extends SherlockActivity implements CallReturnDownl
         subMenu.add(0, 1, 0, "Поделиться");
 
         com.actionbarsherlock.view.MenuItem menuItem = subMenu.getItem();
-        menuItem.setIcon(R.drawable.abs__ic_menu_moreoverflow_normal_holo_dark).setShowAsAction(android.view.MenuItem.SHOW_AS_ACTION_ALWAYS);
+        menuItem.setIcon(R.drawable.abs__ic_menu_moreoverflow_normal_holo_light).setShowAsAction(android.view.MenuItem.SHOW_AS_ACTION_ALWAYS);
 
         return super.onCreateOptionsMenu(menu);    //To change body of overridden methods use File | Settings | File Templates.
     }
