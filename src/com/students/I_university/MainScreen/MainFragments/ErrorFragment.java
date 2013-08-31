@@ -8,11 +8,13 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.TextView;
 import android.widget.Toast;
 import com.actionbarsherlock.app.SherlockFragment;
 import com.example.actionbarsherlock.MyActivity;
 import com.students.I_university.MainScreen.SlidingMenu.MainActivity;
 import com.students.I_university.R;
+import com.students.I_university.Tools.LogD;
 import com.students.I_university.Tools.TypeFragment;
 import com.students.I_university.Tools.Utils;
 
@@ -23,10 +25,12 @@ import com.students.I_university.Tools.Utils;
  * Time: 1:03
  * To change this template use File | Settings | File Templates.
  */
+
 public class ErrorFragment extends SherlockFragment{
 
     private int typeFragment;
     private MainActivity activity;
+    private String errorMessasge;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -44,7 +48,10 @@ public class ErrorFragment extends SherlockFragment{
 
         activity = (MainActivity)getActivity();
 
+        TextView textView = (TextView) view.findViewById(R.id.textView);
         Button button = (Button) view.findViewById(R.id.button);
+
+        setTextError(textView);
         button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -53,7 +60,6 @@ public class ErrorFragment extends SherlockFragment{
         });
 
         return view;
-
     }
 
     /* -=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=- */
@@ -83,10 +89,25 @@ public class ErrorFragment extends SherlockFragment{
 
     /* -=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=- */
 
+    public void setTextError (String string) {
+        errorMessasge = string;
+    }
+
+    /* -=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=- */
+
     @Override
     public void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);    //To change body of overridden methods use File | Settings | File Templates.
         outState.putInt("id", typeFragment);
+    }
+
+    /* -=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=- */
+
+    private void setTextError (TextView textView) {
+        if (errorMessasge == null)
+            return;
+
+        textView.setText(errorMessasge);
     }
 
 }
