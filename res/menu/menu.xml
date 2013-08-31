@@ -6,5 +6,12 @@
             android:id="@+id/grades"
             android:orderInCategory="100"
             android:showAsAction="always"
+
             android:title="Оценки"/>
+    <!--<item
+            android:id="@+id/action_settings"
+            android:title="Settings">
+    android:icon="@drawable/number"
+    </item>-->
+
 </menu>
