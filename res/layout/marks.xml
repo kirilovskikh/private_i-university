@@ -47,7 +47,7 @@
                         android:textColor="#ff33b5e5"
                         android:text="Итоговая оценка"
                         android:layout_weight="1"
-                        android:textAppearance="?android:textAppearanceLarge"
+                        android:textSize="24sp"
                         android:padding="4dp"
                         android:id="@+id/resTitle"/>
 
@@ -57,7 +57,7 @@
                         android:textColor="#ff33b5e5"
                         android:text="0.00"
                         android:gravity="right"
-                        android:textAppearance="?android:textAppearanceLarge"
+                        android:textSize="24sp"
                         android:padding="4dp"
                         android:layout_weight="1"
                         android:id="@+id/res"/>

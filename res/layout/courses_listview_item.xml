@@ -10,6 +10,6 @@
             android:text="New Text"
             android:id="@+id/coursesTextView"
             android:layout_gravity="center"
-            android:textSize="22dip"
+            android:textSize="22sp"
             android:padding="4dp"/>
 </LinearLayout>
