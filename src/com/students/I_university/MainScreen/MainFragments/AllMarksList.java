@@ -33,50 +33,30 @@ public class AllMarksList extends SherlockFragment implements CallBackMarks {
     ListView lvMain;
     CustomAdapterMarks customAdapterMarks;
     private HashMap<Integer, MarkDetails> map;
-    private AllMarksList c;
-    private MainActivity activity;
 
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
         getSherlockActivity().getSupportActionBar().setTitle(" Оценки");
-        c = this;
+
+        View view = inflater.inflate(R.layout.main_marks, null);
+
+        lvMain = (ListView) view.findViewById(R.id.lvMain);
+        lvMain.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+             @Override
+             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+               Intent intent = new Intent(getSherlockActivity(), MarksActivity.class);
+               intent.putExtra("name", map.get(position).getCourseName());
+               intent.putExtra("courseID", map.get(position).getId());
+               startActivity(intent);
+               //To change body of implemented methods use File | Settings | File Templates.
+             }
+        });
+
         GetCourses getCourses = new GetCourses(getSherlockActivity(), false, null);
         getCourses.returnMarks = this;
         getCourses.execute();
 
-        if (!getCourses.error || !Utils.isOnline(getSherlockActivity())) {
-
-            View view = inflater.inflate(R.layout.empty_listview, null);
-            ImageButton imageButton = (ImageButton) view.findViewById(R.id.refreshButton);
-            imageButton.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    GetCourses getCourses = new GetCourses(getSherlockActivity(), true, null);
-                    getCourses.returnMarks = c;
-                    getCourses.execute();
-                    //To change body of implemented methods use File | Settings | File Templates.
-                }
-            });
-            return view;
-
-        }
-        else{
-            View view = inflater.inflate(R.layout.main_marks, null);
-
-            lvMain = (ListView) view.findViewById(R.id.lvMain);
-            lvMain.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-                @Override
-                public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                    Intent intent = new Intent(getSherlockActivity(), MarksActivity.class);
-                    intent.putExtra("name", map.get(position).getCourseName());
-                    intent.putExtra("courseID", map.get(position).getId());
-                    startActivity(intent);
-                    //To change body of implemented methods use File | Settings | File Templates.
-                }
-            });
-
-            return view;
-        }
+        return view;
     }
 
     @Override
@@ -84,8 +64,9 @@ public class AllMarksList extends SherlockFragment implements CallBackMarks {
         if (map == null) {
             ErrorFragment fragment = new ErrorFragment();
             fragment.setTypeFragment(TypeFragment.AllMarksFragment);
+            fragment.setTextError("Не удалось загрузить информацию. Повторите.");
 
-            Utils.changeFragment(activity, this, fragment);
+            Utils.changeFragment((MainActivity)getActivity(), this, fragment);
             return;
         }
 
@@ -110,8 +91,10 @@ public class AllMarksList extends SherlockFragment implements CallBackMarks {
         String[] name = new String[map.size()];
 
         for(int i = 0; i < map.size(); ++i) {
-            if (marks) name[i] = map.get(i).getMark();
-            else name[i] = map.get(i).getCourseName();
+            if (marks)
+                name[i] = map.get(i).getMark();
+            else
+                name[i] = map.get(i).getCourseName();
         }
         return name;  //To change body of created methods use File | Settings | File Templates.
     }

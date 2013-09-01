@@ -57,30 +57,34 @@ public class DownloadMarksHelper {
 
                 JSONArray jsonArray = jsonObject.getJSONArray("assignments");
                 int i=0;
-                int j=0;
                 //если несколько модулей в курсе,
                 //за которые выставляются оценки
-                while (i<jsonArray.length()) {
-                    JSONArray array = jsonArray.getJSONObject(i).getJSONArray("grades");
-                    //ищем оценку пользователя в модуле
-                    while (j<array.length()){
-                        try {
-                            if (Integer.toString(array.getJSONObject(j).getInt("userid")).equals(Utils.getUserID(mContext))){
-                                mark = array.getJSONObject(j).getString("grade");
+                if (jsonArray.length()==0)
+                    mark = "---";
+                else {
+                    while (i<jsonArray.length()) {
+                        int j=0;
+                        JSONArray array = jsonArray.getJSONObject(i).getJSONArray("grades");
+                        //ищем оценку пользователя в модуле
+                        while (j<array.length()){
+                            try {
+                                if (Integer.toString(array.getJSONObject(j).getInt("userid")).equals(Utils.getUserID(mContext))){
+                                    mark = array.getJSONObject(j).getString("grade");
+                                }
                             }
-                        }
-                        catch (JSONException e){
-                            mark = "N";
-                        }
-                        ++j;
-                    } //while grades...
-                    res += Float.parseFloat(mark.substring(0,5));
-                    ++i;
-                } //while assignments...
-                if (modules)
-                    mark = mark.substring(0,5);
-                else
-                    mark = Float.toString(res / i);
+                            catch (JSONException e){
+                                mark = "N";
+                            }
+                            ++j;
+                        } //while grades...
+                        res += Float.parseFloat(mark.substring(0,5));
+                        ++i;
+                    } //while assignments...
+                    if (modules)
+                        mark = mark.substring(0,5);
+                    else
+                        mark = Float.toString(res / i);
+                }
                 return mark;
             } //if response...
             else GetCourses.error = false;
@@ -126,15 +130,21 @@ public class DownloadMarksHelper {
                 JSONObject jsonObject = new JSONObject(str);
                 JSONArray jsonArray = jsonObject.getJSONArray("courses");
                 int i=0;
-                int j=0;
                 //проходим по всем курсам пользователя
                 while (i<jsonArray.length()){
+                    int j=0;
                     int id = jsonArray.getJSONObject(i).getInt("id");
                     if (!modules)
                         courseName = jsonArray.getJSONObject(i).getString("fullname");
                     JSONArray array = jsonArray.getJSONObject(i).getJSONArray("assignments");
                     //проходим по всем заданиям в курсе,
                     //за которые можно поставить оценку
+                    if (array.length()==0){
+                        if (modules)
+                           courseName = "Нет оценок";
+                        MarkDetails contactInfo = new MarkDetails(id, courseName, "---", "-1");
+                        hashMap.put(i, contactInfo);
+                    }  /////
                     while (j<array.length()) {
                         if (modules)
                             courseName = array.getJSONObject(j).getString("name");
