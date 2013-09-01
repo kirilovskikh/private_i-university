@@ -40,7 +40,7 @@ public class MessengerList extends SherlockFragment {
 
     MoodleRequestListMessage listMassager = new MoodleRequestListMessage(getActivity());
 
-    this.getSherlockActivity().getActionBar().setTitle("Сообщения");
+    this.getSherlockActivity().getSupportActionBar().setTitle("Сообщения");
 
     listMassager.addParam("wstoken", preferences.getString("iutoken",""));
     listMassager.addParam("wsfunction", wsfunction);
