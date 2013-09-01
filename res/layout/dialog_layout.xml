@@ -6,14 +6,14 @@
         xmlns:android="http://schemas.android.com/apk/res/android">
 
     <!--<ListView-->
-            <!--android:layout_width="wrap_content"-->
-            <!--android:layout_height="wrap_content"-->
-            <!--android:id="@+id/messageList"-->
-            <!--android:layout_alignParentLeft="true"-->
-            <!--android:layout_above="@+id/messageTextInput"-->
-            <!--android:layout_below="@+id/userProfile"-->
-            <!--android:stackFromBottom="true"-->
-            <!--android:textFilterEnabled="false" />-->
+    <!--android:layout_width="wrap_content"-->
+    <!--android:layout_height="wrap_content"-->
+    <!--android:id="@+id/messageList"-->
+    <!--android:layout_alignParentLeft="true"-->
+    <!--android:layout_above="@+id/messageTextInput"-->
+    <!--android:layout_below="@+id/userProfile"-->
+    <!--android:stackFromBottom="true"-->
+    <!--android:textFilterEnabled="false" />-->
     <com.handmark.pulltorefresh.library.PullToRefreshListView
             xmlns:ptr="http://schemas.android.com/apk/res-auto"
             android:layout_width="wrap_content"
@@ -25,7 +25,9 @@
             ptr:ptrMode="pullFromEnd"
             android:layout_alignParentRight="true"
             android:layout_above="@+id/messageTextInput"
-            android:layout_alignParentTop="true"/>
+            android:layout_alignParentTop="true"
+            android:paddingLeft="8dp"
+            android:paddingRight="8dp"/>
 
     <EditText
             android:layout_width="wrap_content"
@@ -43,7 +45,7 @@
             android:layout_width="50dp"
             android:layout_height="50dp"
             android:id="@+id/sendMessageButton"
-            android:src="@android:drawable/sym_action_chat"
+            android:src="@drawable/abs__ic_cab_done_holo_dark"
             android:background="@color/abs__background_holo_dark"
             android:layout_alignParentBottom="true"
             android:layout_alignParentRight="true"

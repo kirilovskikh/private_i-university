@@ -9,24 +9,37 @@
 
 
     <ImageView
-                android:layout_width="48dp"
-                android:layout_height="48dp"
-                android:id="@+id/imageView"
-                android:src="@drawable/face_icon"
-                android:layout_gravity="center_horizontal|top" android:paddingLeft="8dp" android:paddingRight="8dp"/>
+            android:layout_width="48dp"
+            android:layout_height="48dp"
+            android:id="@+id/imageView"
+            android:src="@drawable/face_icon"
+            android:layout_gravity="center_horizontal|top"
+            />
     <LinearLayout
             android:orientation="vertical"
             android:layout_width="fill_parent"
-            android:layout_height="fill_parent" android:paddingLeft="8dp">
+            android:layout_height="wrap_content" android:paddingLeft="8dp">
         <LinearLayout
-                android:orientation="vertical"
+                android:orientation="horizontal"
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content" android:paddingBottom="4dp">
+
             <TextView
-                    android:layout_width="fill_parent"
+                    android:layout_width="wrap_content"
                     android:layout_height="fill_parent"
                     android:text="New Text"
-                    android:id="@+id/name" android:paddingLeft="4dp" android:paddingRight="4dp"/>
+                    android:id="@+id/name"
+                    android:paddingRight="4dp"
+                    android:layout_weight="0.3"/>
+
+            <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="fill_parent"
+                    android:text="5.07.2013"
+                    android:id="@+id/date"
+                    android:layout_weight="0.7"
+                    android:gravity="right"
+                    android:layout_gravity="right|center_vertical"/>
         </LinearLayout>
         <LinearLayout
                 android:orientation="horizontal"
@@ -37,15 +50,8 @@
                     android:layout_width="fill_parent"
                     android:layout_height="wrap_content"
                     android:text="New Text"
-                    android:id="@+id/sms" android:layout_weight="0.3" android:paddingLeft="4dp"
+                    android:id="@+id/sms" android:layout_weight="0.3"
                     android:paddingRight="4dp"/>
-            <TextView
-                    android:layout_width="fill_parent"
-                    android:layout_height="wrap_content"
-                    android:text="5.07.2013"
-                    android:id="@+id/date"
-                    android:layout_weight="0.7"
-                    android:gravity="right"/>
         </LinearLayout>
     </LinearLayout>
 

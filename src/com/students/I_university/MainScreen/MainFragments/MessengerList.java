@@ -99,5 +99,4 @@ public class MessengerList extends SherlockFragment {
     }
     return view;
   }
-
 }
