@@ -12,14 +12,12 @@ import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.Toast;
 import com.actionbarsherlock.app.SherlockFragment;
-import com.students.I_university.Messages.MoodleCallback;
 import com.students.I_university.Tools.CustomAdapter.CustomAdapterDialogs;
 import com.students.I_university.Messages.DialogActivity;
 import com.students.I_university.Messages.ListMessage;
 import com.students.I_university.Messages.Image;
 import com.students.I_university.Messages.MoodleRequestListMessage;
 import com.students.I_university.R;
-import com.students.I_university.Tools.Utils;
 
 import java.util.ArrayList;
 
@@ -33,70 +31,72 @@ import java.util.ArrayList;
 public class MessengerList extends SherlockFragment {
     public Image image = new Image();
     private ArrayList<ListMessage> str;
-    private Context context;
-    private ListView kontaktList;
-    private MoodleRequestListMessage listMassager;
 
 @Override
  public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
     View view = inflater.inflate(R.layout.listview_layout, null);
     String wsfunction = "local_iuniversity_recent_messages";
-    this.kontaktList = (ListView) view.findViewById(R.id.listView);
-    this.context = this.getSherlockActivity();
-    this.listMassager = new MoodleRequestListMessage(context);
+    SharedPreferences preferences = getActivity().getSharedPreferences("Settings", Context.MODE_PRIVATE);
 
-    this.getSherlockActivity().getSupportActionBar().setTitle("Сообщения");
+    MoodleRequestListMessage listMassager = new MoodleRequestListMessage(getActivity());
 
+    this.getSherlockActivity().getActionBar().setTitle("Сообщения");
 
-    listMassager.addParam("wstoken", Utils.getToken(context));
+    listMassager.addParam("wstoken", preferences.getString("iutoken",""));
     listMassager.addParam("wsfunction", wsfunction);
-    listMassager.setMoodleCallback(new MoodleCallback() {
-        @Override
-        public void callBackRun() {
-                //listMassager.get();
-                if(listMassager.isSuccess())
-                {
-                    str = listMassager.getMessage();
-                    if(str != null) {
-//                   for(int i = 0; i < str.size(); i++)
-//                       str.get(i).bitmap = image.userImage;
+    ListView kontaktList = (ListView) view.findViewById(R.id.listView);
 
-                        kontaktList.setAdapter(new CustomAdapterDialogs(getActivity().getBaseContext(), R.layout.sms, str));
-                        kontaktList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-                            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                                int userID = Integer.valueOf(str.get(position).id);
-                                String fullname = str.get(position).username;
-                                Intent intent = new Intent(getSherlockActivity(), DialogActivity.class);
-                                intent.putExtra("userName", fullname );
-                                intent.putExtra("userId", userID );
-                                startActivity(intent);
-                            }
-                        });
-                    }
-                    else Toast.makeText(
-                            getActivity().getApplicationContext(),
-                            listMassager.getErrorMessage(),
-                            Toast.LENGTH_LONG
-                    ).show();
+       try {
 
-                }
-                else Toast.makeText(
-                        getActivity().getApplicationContext(),
+           listMassager.execute();
+           listMassager.get();
+
+
+           if(listMassager.isSuccess())
+           {
+               str = listMassager.getMessage();
+               if(str != null) {
+                   for(int i = 0; i < str.size(); i++)
+                       str.get(i).bitmap = image.userImage;
+
+                   kontaktList.setAdapter(new CustomAdapterDialogs(getActivity().getBaseContext(), R.layout.sms, str));
+               }
+               else Toast.makeText(
+                       getActivity().getApplicationContext(),
+                       listMassager.getErrorMessage(),
+                       Toast.LENGTH_LONG
+               ).show();
+
+           }
+           else Toast.makeText(
+                   getActivity().getApplicationContext(),
                    /*listMassager.getErrorMessage(),*/
-                        "Данные о контактах не получены",
-                        Toast.LENGTH_LONG
-                ).show();
-        }
-    });
+                   "Данные о контактах не получены",
+                   Toast.LENGTH_LONG
+           ).show();
 
-    try {
-        listMassager.execute();
-    }
-    catch (Exception e) {
-            String s = "exp";
-            Log.e("MyApp", e.getMessage());
+           kontaktList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+               public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                   int userID = Integer.valueOf(str.get(position).id);
+                   String fullname = str.get(position).username;
+                   Intent intent = new Intent(getSherlockActivity(), DialogActivity.class);
+                   intent.putExtra("userName", fullname );
+                   intent.putExtra("userId", userID );
+                   startActivity(intent);
+               }
+           });
+           return view;
 
-    }
-    return view;
+
+       }
+       catch (Exception e) {
+          String s = "exp";
+           Log.e("MyApp", e.getMessage());
+
+       }
+
+
+      return null;
   }
+
 }

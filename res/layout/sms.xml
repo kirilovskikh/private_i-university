@@ -40,7 +40,6 @@
                     android:layout_height="wrap_content"
                     android:text="New Text"
                     android:id="@+id/sms" android:layout_weight="0.3"
-                    
                     />
             <TextView
                     android:layout_width="fill_parent"
