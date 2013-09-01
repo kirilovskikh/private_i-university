@@ -31,7 +31,7 @@ public class CoursesList extends SherlockFragment implements IReturnResult<Cours
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
     {
         //Заголовок окна
-        getSherlockActivity().getSupportActionBar().setTitle("Список курсов");
+        getSherlockActivity().getSupportActionBar().setTitle(" Список курсов");
         //Запускаем второй поток на загрузку Списка Курсов
         AsyncTaskGetCourses myThread;
         myThread = new AsyncTaskGetCourses(getActivity());
