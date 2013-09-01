@@ -3,8 +3,7 @@ package com.students.I_university.Tools;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.AsyncTask;
-import android.util.LruCache;
-import android.widget.ImageView;
+import android.support.v4.util.LruCache;
 
 import com.students.I_university.Messages.MoodleCallback;
 

@@ -47,12 +47,15 @@ public class CustomAdapterDialogs extends ArrayAdapter<ListMessage> {
          ListMessage message = messages.get(position);
         ImageView avatar = (ImageView)v.findViewById(R.id.imageView);
         name.setText(message.username);
-        sms.setText(message.sms.substring(0, 25) + "...");
+
+        if(message.sms.length() > 25)
+            sms.setText(message.sms.substring(0, 24) + "...");
+        else
+            sms.setText(message.sms.toString());
 
         date.setText(message.GetCreateTime());
         downloadImage = new AsyncTaskDownloadImage(avatar);
         downloadImage.execute(message.imageURL);
         return v;
-
     }
 }

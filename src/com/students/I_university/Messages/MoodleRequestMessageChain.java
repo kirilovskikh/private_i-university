@@ -2,7 +2,7 @@ package com.students.I_university.Messages;
 
 import android.content.Context;
 import android.graphics.Bitmap;
-import android.util.LruCache;
+import android.support.v4.util.LruCache;
 
 import org.json.JSONArray;
 

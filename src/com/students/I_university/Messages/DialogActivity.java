@@ -5,7 +5,7 @@ import android.app.AlertDialog;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.util.LruCache;
+import android.support.v4.util.LruCache;
 import android.graphics.Bitmap;
 import android.view.View;
 import android.widget.*;
@@ -39,7 +39,7 @@ public class DialogActivity extends SherlockActivity {
     CustomAdapterMessageChain adapterMessageChain;
     PullToRefreshListView contactList;
     String userName;
-    LruCache<String, Bitmap> cache;
+    android.support.v4.util.LruCache<String, Bitmap> cache;
     int userID;
 
     @Override
@@ -117,7 +117,7 @@ public class DialogActivity extends SherlockActivity {
     public void showMessage(String text) {
         AlertDialog dialog;
         alert.setTitle("Attention!");
-        if(!text.isEmpty()) alert.setMessage(text);
+        if(text.length() == 0) alert.setMessage(text);
         dialog = alert.create();
         dialog.show();
     }
