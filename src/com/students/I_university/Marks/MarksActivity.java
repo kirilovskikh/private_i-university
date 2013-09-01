@@ -32,8 +32,8 @@ public class MarksActivity extends SherlockActivity implements CallBackMarks {
 
         setContentView(R.layout.marks);
 
-        getActionBar().setDisplayHomeAsUpEnabled(true);
-        getActionBar().setTitle(" "+getIntent().getExtras().getString("name"));
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setTitle(" "+getIntent().getExtras().getString("name"));
 
         lvMain = (ListView) findViewById(R.id.listView);
 
