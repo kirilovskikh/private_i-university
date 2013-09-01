@@ -45,8 +45,8 @@
             android:layout_width="50dp"
             android:layout_height="50dp"
             android:id="@+id/sendMessageButton"
-            android:src="@drawable/abs__ic_cab_done_holo_dark"
-            android:background="@color/abs__background_holo_dark"
+            android:src="@drawable/abs__ic_cab_done_holo_light"
+            android:background="@color/abs__background_holo_light"
             android:layout_alignParentBottom="true"
             android:layout_alignParentRight="true"
             android:layout_below="@+id/pullToRefresh"/>
