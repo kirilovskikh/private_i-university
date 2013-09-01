@@ -56,7 +56,6 @@ public class ContactsList extends SherlockFragment implements CallReturnDownload
 
                 int userId = map.get(i).getId();
                 String fullname = map.get(i).getFullName();
-
                 Intent intent = new Intent(getSherlockActivity(), ContactActivity.class);
                 intent.putExtra("userId", userId);
                 intent.putExtra("fullname", fullname);

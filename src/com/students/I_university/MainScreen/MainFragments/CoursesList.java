@@ -47,7 +47,6 @@ public class CoursesList extends SherlockFragment implements IReturnResult<Cours
         if (courses == null) {
             ErrorFragment fragment = new ErrorFragment();
             fragment.setTypeFragment(TypeFragment.CourseFragment);
-
             Utils.changeFragment((MainActivity)getActivity(), this, fragment);
             return;
         }

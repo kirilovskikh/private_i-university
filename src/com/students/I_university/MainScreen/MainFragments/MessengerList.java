@@ -83,7 +83,6 @@ public class MessengerList extends SherlockFragment {
                            Utils.changeFragment((MainActivity)getActivity(), activity, fragment);
                            return;
                        }
-
                    }
                    else {
                        ErrorFragment fragment = new ErrorFragment();

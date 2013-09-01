@@ -9,7 +9,6 @@
         android:longClickable="false"
         android:gravity="center_vertical">
 
-
     <LinearLayout
             android:orientation="vertical"
             android:layout_width="0dp"
