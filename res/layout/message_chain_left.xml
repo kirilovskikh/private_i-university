@@ -51,7 +51,7 @@
                     android:gravity="center_vertical|right"
                     android:layout_above="@+id/text"
                     android:layout_toRightOf="@+id/imageView"
-                    android:textSize="10dp"
+                    android:textSize="10sp"
                     android:textIsSelectable="false"
                     android:paddingLeft="4dp"/>
         </LinearLayout>
@@ -64,7 +64,7 @@
                 android:layout_below="@+id/imageView"
                 android:layout_alignParentLeft="true"
                 android:gravity="left"
-                android:textSize="14dp"
+                android:textSize="14sp"
                 android:paddingTop="8dp"/>
 
     </RelativeLayout>

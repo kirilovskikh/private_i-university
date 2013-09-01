@@ -2,18 +2,21 @@
 
 <RelativeLayout
         android:layout_width="fill_parent"
-        android:layout_height="fill_parent" xmlns:android="http://schemas.android.com/apk/res/android">
+        android:layout_height="fill_parent" xmlns:android="http://schemas.android.com/apk/res/android"
+        android:paddingTop="16dp"
+        android:paddingBottom="16dp">
     <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Проблемы с сетью"
             android:id="@+id/textView"
             android:layout_centerHorizontal="true" android:layout_above="@+id/button"
-            android:textAppearance="@android:style/TextAppearance.Large" android:paddingBottom="8dp"/>
+            android:textAppearance="@android:style/TextAppearance.Large" android:padding="4dp"/>
     <Button
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Повторить"
             android:id="@+id/button"
+            android:padding="4dp"
             android:layout_centerHorizontal="true" android:layout_centerVertical="true"/>
 </RelativeLayout>

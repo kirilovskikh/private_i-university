@@ -11,5 +11,5 @@
             android:id="@+id/coursesTextView"
             android:layout_gravity="center"
             android:textSize="22dip"
-            android:paddingTop="4dp" android:paddingBottom="4dp"/>
+            android:padding="4dp"/>
 </LinearLayout>

@@ -9,7 +9,9 @@
     <LinearLayout
             android:orientation="horizontal"
             android:layout_width="fill_parent"
-            android:layout_height="wrap_content" android:paddingBottom="8dp" android:weightSum="1">
+            android:layout_height="wrap_content"
+            android:paddingTop="4dp"
+            android:paddingBottom="4dp" android:weightSum="1">
         <LinearLayout
                 android:orientation="vertical"
                 android:layout_width="wrap_content"
@@ -46,7 +48,9 @@
     <LinearLayout
             android:orientation="horizontal"
             android:layout_width="fill_parent"
-            android:layout_height="wrap_content" android:paddingBottom="8dp">
+            android:layout_height="wrap_content"
+            android:paddingTop="4dp"
+            android:paddingBottom="4dp">
         <ListView
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
