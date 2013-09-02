@@ -66,9 +66,9 @@ public class MarksActivity extends SherlockActivity implements CallBackMarks {
         this.map = map;
         TextView result = (TextView) findViewById(R.id.res);
         if (map.size()==0) {
-            result.setText("---");
+            result.setText("0.0");
             String[] subjs = new String[] {"Нет оценок"};
-            String[] marks = new String[] {" "};
+            String[] marks = new String[] {"---"};
             customAdapterMarks = new CustomAdapterMarks(R.layout.main_marks_listview_item, R.id.subject, R.id.mark,
                     subjs, marks, this);
 
@@ -83,7 +83,10 @@ public class MarksActivity extends SherlockActivity implements CallBackMarks {
                    res += Float.parseFloat(marks[i]);
             }
             res = res/(marks.length);
-            result.setText(Float.toString(res));
+            if (res!=0)
+                result.setText(Float.toString(res).substring(0,5));
+            else
+                result.setText(Float.toString(res));
             customAdapterMarks = new CustomAdapterMarks(R.layout.main_marks_listview_item, R.id.subject, R.id.mark,
                     subjs, marks, this);
         }

@@ -31,7 +31,6 @@ public class DownloadMarksHelper {
 
     public static String DownloadHelperMarks (Context mContext, String id, Boolean modules) {
         String mark = "---";
-        float res = 0;
 
         try {
 
@@ -77,34 +76,28 @@ public class DownloadMarksHelper {
                             }
                             ++j;
                         } //while grades...
-                        res += Float.parseFloat(mark.substring(0,5));
                         ++i;
                     } //while assignments...
-                    if (modules)
-                        mark = mark.substring(0,5);
-                    else
-                        mark = Float.toString(res / i);
-                }
+                    mark = mark.substring(0,5);
+                } //ifelse...
                 return mark;
             } //if response...
-            else GetCourses.error = false;
 
         } catch (IOException e) {
             e.printStackTrace();
             //To change body of catch statement use File | Settings | File Templates.
         } catch (JSONException e) {
-            GetCourses.error = true;
             e.printStackTrace();
             //To change body of catch statement use File | Settings | File Templates.
         }
 
-        GetCourses.error = false;
         return mark;
     }
 
 
     public static HashMap<Integer, MarkDetails> DownloadHelperAssign (Context mContext, List<String> ids, Boolean modules) {
         HashMap<Integer, MarkDetails> hashMap = new HashMap<Integer, MarkDetails>();
+        float res = 0;
 
         try {
             HttpClient httpClient = new DefaultHttpClient();
@@ -144,33 +137,37 @@ public class DownloadMarksHelper {
                            courseName = "Нет оценок";
                         MarkDetails contactInfo = new MarkDetails(id, courseName, "---", "-1");
                         hashMap.put(i, contactInfo);
-                    }  /////
+                    }
                     while (j<array.length()) {
                         if (modules)
                             courseName = array.getJSONObject(j).getString("name");
                         String mark;
                         String assign = array.getJSONObject(j).getString("id");
                         mark = DownloadHelperMarks(mContext, assign, modules);
+                        if (!mark.equals("---"))
+                            res += Float.parseFloat(mark);
+                        if (!modules && (j+1)==array.length())
+                            mark = Float.toString(res / (j+1)).substring(0,5);
                         MarkDetails contactInfo = new MarkDetails(id, courseName, mark, assign);
-                        hashMap.put(i, contactInfo);
+                        if (modules)
+                            hashMap.put(j, contactInfo);
+                        else
+                            hashMap.put(i, contactInfo);
                         ++j;
                     } //while assignment...
                     ++i;
                 } //while course...
                 return hashMap;
             } //if response...
-            else GetCourses.error = false;
 
         } catch (IOException e) {
             e.printStackTrace();
             //To change body of catch statement use File | Settings | File Templates.
         } catch (JSONException e) {
             e.printStackTrace();
-            GetCourses.error = true;
             //To change body of catch statement use File | Settings | File Templates.
         }
 
-        GetCourses.error = false;
         return hashMap;
     }
 
