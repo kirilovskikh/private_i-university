@@ -25,4 +25,5 @@
               android:text="This is text2"
               android:padding="4dp"
             />
+
 </LinearLayout>

@@ -127,35 +127,25 @@ public class DialogActivity extends SherlockActivity {
         moodleRequestMessageChain.setMoodleCallback( new MoodleCallback() {
             @Override
             public void callBackRun() {
-                contactList.onRefreshComplete();
                 if(moodleRequestMessageChain.isSuccess())
                 {
                     messages = moodleRequestMessageChain.getMessageChain();
                     if(messages != null)
                     {
-                        if(adapterMessageChain == null)
-                        {
-                            adapterMessageChain = new CustomAdapterMessageChain(
-                                    context,
-                                    R.layout.message_chain_left,
-                                    R.layout.message_chain_right,
-                                    messages,
-                                    cache
-                            );
-
-                            contactList.getRefreshableView().setAdapter(adapterMessageChain);
-                            //contactList.getRefreshableView().setSelection(adapterMessageChain.getCount() - 1);
-
-                            getBitmaps();
-
-                        }
-                        else adapterMessageChain.notifyDataSetChanged();
+                        adapterMessageChain = new CustomAdapterMessageChain(
+                                context,
+                                R.layout.message_chain_left,
+                                R.layout.message_chain_right,
+                                messages,
+                                cache
+                        );
+                        contactList.setAdapter(adapterMessageChain);
+                        if(cache.size() == 0) getBitmaps();
                     }
-                    //else showMessage("Нет переписки с указанным пользователем.");
                     else showMessage(moodleRequestMessageChain.getErrorMessage());
                 }
                 else showMessage("Нет данных о переписке с указанным пользователем.");
-                //else showMessage(moodleRequestMessageChain.getErrorMessage());
+                contactList.onRefreshComplete();
             }
         });
         try
