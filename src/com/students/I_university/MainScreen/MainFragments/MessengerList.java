@@ -77,7 +77,7 @@ public class MessengerList extends SherlockFragment {
                        }
                        else {
                            ErrorFragment fragment = new ErrorFragment();
-                           fragment.setTypeFragment(TypeFragment.AllMarksFragment);
+                           fragment.setTypeFragment(TypeFragment.MessageFragment);
                            fragment.setTextError(listMassager.getErrorMessage());
 
                            Utils.changeFragment((MainActivity)getActivity(), activity, fragment);
