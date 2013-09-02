@@ -61,7 +61,7 @@ public class DialogActivity extends SherlockActivity {
         this.userName = getIntent().getExtras().getString("userName");
         this.cache = new LruCache<String, Bitmap>(3);
 
-        getSupportActionBar().setTitle(this.userName);
+        getSupportActionBar().setTitle(" " + this.userName);
         sendMessageButton.setOnClickListener(
                 new View.OnClickListener() {
                     @Override
