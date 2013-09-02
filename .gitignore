@@ -5,3 +5,7 @@
 /iUniversity.iml
 /*.iml
 /moodle_plugin
+
+/gen/com/students/I_university/BuildConfig.java
+/gen/com/students/I_university/Manifest.java
+/gen/com/students/I_university/R.java
