@@ -42,7 +42,7 @@ public class TopicActivity extends SherlockActivity {
 
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setHomeButtonEnabled(true);
-        getSupportActionBar().setTitle(Topic.Name);
+        getSupportActionBar().setTitle(" " + Topic.Name);
 
         ListView listView = (ListView)findViewById(R.id.list);
         ListAdapter listAdapter = new ListAdapter(this, R.layout.main, Topic.ELEMENTS);

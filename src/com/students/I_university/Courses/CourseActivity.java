@@ -9,6 +9,7 @@ import android.widget.*;
 import com.actionbarsherlock.app.SherlockActivity;
 import com.actionbarsherlock.view.MenuItem;
 import com.actionbarsherlock.view.MenuInflater;
+import com.students.I_university.MainScreen.MainFragments.CoursesList;
 import com.students.I_university.MainScreen.MainFragments.ErrorFragment;
 import com.students.I_university.MainScreen.SlidingMenu.MainActivity;
 import com.students.I_university.Marks.MarksActivity;
@@ -47,11 +48,12 @@ public class CourseActivity extends SherlockActivity implements IReturnResult<To
         setContentView(R.layout.listview_layout);            //говорим что запускать форму main.xml
 
         courseID = getIntent().getExtras().getInt("courseID", -1);
-        courseName = getIntent().getExtras().getString("courseName", "---");
+        //courseName = getIntent().getExtras().getString("name", "---");
+        courseName = CoursesList.courseName;
 
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setHomeButtonEnabled(true);
-        getSupportActionBar().setTitle(courseName);
+        getSupportActionBar().setTitle(" " + courseName);
 
         mContext = this;
         myThread = new AsyncTaskGetTopics(mContext);
