@@ -57,7 +57,7 @@ public class ContactActivity extends SherlockActivity implements CallReturnDownl
         userId = getIntent().getExtras().getInt("userId");
         fullname = getIntent().getExtras().getString("fullname");
 
-        getSupportActionBar().setTitle(fullname);
+        getSupportActionBar().setTitle(" " + fullname);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         listView = (ListView) findViewById(R.id.listView);
