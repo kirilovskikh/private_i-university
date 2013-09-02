@@ -43,7 +43,7 @@ public class ContactsList extends SherlockFragment implements CallReturnDownload
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.listview_layout, null);
 
-        getSherlockActivity().getSupportActionBar().setTitle("Контакты");
+        getSherlockActivity().getSupportActionBar().setTitle(" Контакты");
         activity = (MainActivity)getActivity();
         listView = (ListView) view.findViewById(R.id.listView);
         this.getSherlockActivity().setTitle("Контакты");
@@ -56,7 +56,6 @@ public class ContactsList extends SherlockFragment implements CallReturnDownload
 
                 int userId = map.get(i).getId();
                 String fullname = map.get(i).getFullName();
-
                 Intent intent = new Intent(getSherlockActivity(), ContactActivity.class);
                 intent.putExtra("userId", userId);
                 intent.putExtra("fullname", fullname);

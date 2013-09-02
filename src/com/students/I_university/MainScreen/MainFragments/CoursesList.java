@@ -25,13 +25,14 @@ public class CoursesList extends SherlockFragment implements IReturnResult<Cours
     //private Context mContext;
 
     private List<CourseClass> COURSES = new ArrayList<CourseClass>();
+    static public String courseName;
 
     public static SharedPreferences prefs;
 
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
     {
         //Заголовок окна
-        getSherlockActivity().getSupportActionBar().setTitle("Список курсов");
+        getSherlockActivity().getSupportActionBar().setTitle(" Список курсов");
         //Запускаем второй поток на загрузку Списка Курсов
         AsyncTaskGetCourses myThread;
         myThread = new AsyncTaskGetCourses(getActivity());
@@ -47,7 +48,6 @@ public class CoursesList extends SherlockFragment implements IReturnResult<Cours
         if (courses == null) {
             ErrorFragment fragment = new ErrorFragment();
             fragment.setTypeFragment(TypeFragment.CourseFragment);
-
             Utils.changeFragment((MainActivity)getActivity(), this, fragment);
             return;
         }
@@ -69,11 +69,11 @@ public class CoursesList extends SherlockFragment implements IReturnResult<Cours
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l)
             {
                 int courseID = COURSES.get(i).ID;
-                String courseName = COURSES.get(i).Name;
+                courseName = COURSES.get(i).Name;
 
                 Intent intent = new Intent(getSherlockActivity(), CourseActivity.class);
                 intent.putExtra("courseID", courseID);
-                intent.putExtra("courseName", courseName);
+                //intent.putExtra("name", courseName);
                 startActivity(intent);
             }
         });
