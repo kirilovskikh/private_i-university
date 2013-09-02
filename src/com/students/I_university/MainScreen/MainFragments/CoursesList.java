@@ -25,6 +25,7 @@ public class CoursesList extends SherlockFragment implements IReturnResult<Cours
     //private Context mContext;
 
     private List<CourseClass> COURSES = new ArrayList<CourseClass>();
+    static public String courseName;
 
     public static SharedPreferences prefs;
 
@@ -68,11 +69,11 @@ public class CoursesList extends SherlockFragment implements IReturnResult<Cours
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l)
             {
                 int courseID = COURSES.get(i).ID;
-                String courseName = COURSES.get(i).Name;
+                courseName = COURSES.get(i).Name;
 
                 Intent intent = new Intent(getSherlockActivity(), CourseActivity.class);
                 intent.putExtra("courseID", courseID);
-                intent.putExtra("courseName", courseName);
+                //intent.putExtra("name", courseName);
                 startActivity(intent);
             }
         });
