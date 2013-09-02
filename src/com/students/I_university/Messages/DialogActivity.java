@@ -83,7 +83,7 @@ public class DialogActivity extends SherlockActivity {
     protected void onStart() {
         super.onStart();
         getMessages();
-        contactList.demo();
+        //contactList.demo();
     }
 
     @Override
